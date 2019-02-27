@@ -22,6 +22,11 @@ public class SeatingChartInterface {
     }
 
     @JavascriptInterface
+    public String tooltipInfo(String object) {
+        return config.tooltipInfo.apply(new Gson().fromJson(object, SeatsioObject.class));
+    }
+
+    @JavascriptInterface
     public String formatPrice(float price) {
         return config.priceFormatter.apply(price);
     }
