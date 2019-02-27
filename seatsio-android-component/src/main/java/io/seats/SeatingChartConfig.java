@@ -4,12 +4,15 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
+
+import static java.util.Arrays.asList;
+import static java.util.Arrays.stream;
+import static java.util.stream.Collectors.toList;
 
 public class SeatingChartConfig {
 
@@ -24,7 +27,7 @@ public class SeatingChartConfig {
     @Expose
     public Boolean objectWithoutCategorySelectable;
     @Expose
-    public List<String> selectedObjects;
+    public List<SelectedObject> selectedObjects;
 
     public Consumer<SeatsioObject> onObjectSelected;
     public Runnable onChartRendered;
@@ -48,7 +51,7 @@ public class SeatingChartConfig {
     }
 
     public SeatingChartConfig withPricing(SeatingChartPricing... pricing) {
-        this.pricing = Arrays.asList(pricing);
+        this.pricing = asList(pricing);
         return this;
     }
 
@@ -78,7 +81,14 @@ public class SeatingChartConfig {
     }
 
     public SeatingChartConfig withSelectedObjects(String... selectedObjects) {
-        this.selectedObjects = Arrays.asList(selectedObjects);
+        this.selectedObjects = stream(selectedObjects)
+                .map(SelectedObject::new)
+                .collect(toList());
+        return this;
+    }
+
+    public SeatingChartConfig withSelectedObjects(SelectedObject... selectedObjects) {
+        this.selectedObjects = asList(selectedObjects);
         return this;
     }
 
@@ -87,9 +97,17 @@ public class SeatingChartConfig {
         String configAsJson = gson.toJson(this);
         String configAsJsonWithoutLastChar = configAsJson.substring(0, configAsJson.length() - 1);
 
-        configAsJsonWithoutLastChar += ", onObjectSelected: object => Native.onObjectSelected(JSON.stringify(object))";
-        configAsJsonWithoutLastChar += ", onChartRendered: object => Native.onChartRendered()";
-        configAsJsonWithoutLastChar += ", priceFormatter: price => Native.formatPrice(price)";
+        if (onObjectSelected != null) {
+            configAsJsonWithoutLastChar += ", onObjectSelected: object => Native.onObjectSelected(JSON.stringify(object))";
+        }
+
+        if (onChartRendered != null) {
+            configAsJsonWithoutLastChar += ", onChartRendered: object => Native.onChartRendered()";
+        }
+
+        if (priceFormatter != null) {
+            configAsJsonWithoutLastChar += ", priceFormatter: price => Native.formatPrice(price)";
+        }
 
         configAsJson = configAsJsonWithoutLastChar + "}";
         return configAsJson;

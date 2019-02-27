@@ -3,10 +3,7 @@ package test;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import io.seats.SeatingChart;
-import io.seats.SeatingChartConfig;
-import io.seats.SeatingChartTicketTypePricing;
-import io.seats.SeatingChartTicketTypesPricing;
+import io.seats.*;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
                 ))
                 .withOnObjectSelected(object -> Log.i(MainActivity.class.toString(), object.id))
                 .withPriceFormatter(price -> price + "€")
-                .withSelectedObjects("A-1", "A-2");
+                .withSelectedObjects(new SelectedObject("General Admission", "a", 3));
         setContentView(new SeatingChart(config, getApplicationContext()));
     }
 
