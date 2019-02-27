@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -107,9 +108,17 @@ public class SeatingChartConfig {
     @Expose
     public String chart;
 
-    public Consumer<SeatsioObject> onObjectSelected;
+    public BiConsumer<SeatsioObject, TicketType> onObjectSelected;
+    public BiConsumer<SeatsioObject, TicketType> onObjectDeselected;
+    public Consumer<SeatsioObject> onObjectClicked;
+    public BiConsumer<List<SeatsioObject>, Boolean> onBestAvailableSelected;
+    public Runnable onBestAvailableSelectionFailed;
+    public Runnable onSelectionValid;
+    public Consumer<List<SelectionValidatorType>> onSelectionInvalid;
+    public Consumer<SeatsioObject> onSelectedObjectBooked;
     public Function<SeatsioObject, String> tooltipInfo;
     public Runnable onChartRendered;
+    public Runnable onChartRenderingFailed;
     public Function<Float, String> priceFormatter;
 
     public SeatingChartConfig setPublicKey(String publicKey) {
@@ -134,8 +143,43 @@ public class SeatingChartConfig {
         return this;
     }
 
-    public SeatingChartConfig setOnObjectSelected(Consumer<SeatsioObject> onObjectSelected) {
+    public SeatingChartConfig setOnObjectSelected(BiConsumer<SeatsioObject, TicketType> onObjectSelected) {
         this.onObjectSelected = onObjectSelected;
+        return this;
+    }
+
+    public SeatingChartConfig setOnObjectDeselected(BiConsumer<SeatsioObject, TicketType> onObjectDeselected) {
+        this.onObjectDeselected = onObjectDeselected;
+        return this;
+    }
+
+    public SeatingChartConfig setOnObjectClicked(Consumer<SeatsioObject> onObjectClicked) {
+        this.onObjectClicked = onObjectClicked;
+        return this;
+    }
+
+    public SeatingChartConfig setOnBestAvailableSelected(BiConsumer<List<SeatsioObject>, Boolean> onBestAvailableSelected) {
+        this.onBestAvailableSelected = onBestAvailableSelected;
+        return this;
+    }
+
+    public SeatingChartConfig setOnBestAvailableSelectionFailed(Runnable onBestAvailableSelectionFailed) {
+        this.onBestAvailableSelectionFailed = onBestAvailableSelectionFailed;
+        return this;
+    }
+
+    public SeatingChartConfig setOnSelectionValid(Runnable onSelectionValid) {
+        this.onSelectionValid = onSelectionValid;
+        return this;
+    }
+
+    public SeatingChartConfig setOnSelectionInvalid(Consumer<List<SelectionValidatorType>> onSelectionInvalid) {
+        this.onSelectionInvalid = onSelectionInvalid;
+        return this;
+    }
+
+    public SeatingChartConfig setOnSelectedObjectBooked(Consumer<SeatsioObject> onSelectedObjectBooked) {
+        this.onSelectedObjectBooked = onSelectedObjectBooked;
         return this;
     }
 
@@ -146,6 +190,11 @@ public class SeatingChartConfig {
 
     public SeatingChartConfig setOnChartRendered(Runnable onChartRendered) {
         this.onChartRendered = onChartRendered;
+        return this;
+    }
+
+    public SeatingChartConfig setOnChartRenderingFailed(Runnable onChartRenderingFailed) {
+        this.onChartRenderingFailed = onChartRenderingFailed;
         return this;
     }
 
@@ -302,7 +351,35 @@ public class SeatingChartConfig {
         String configAsJsonWithoutLastChar = configAsJson.substring(0, configAsJson.length() - 1);
 
         if (onObjectSelected != null) {
-            configAsJsonWithoutLastChar += ", onObjectSelected: object => Native.onObjectSelected(JSON.stringify(object))";
+            configAsJsonWithoutLastChar += ", onObjectSelected: (object, ticketType) => Native.onObjectSelected(JSON.stringify(object), JSON.stringify(ticketType))";
+        }
+
+        if (onObjectDeselected != null) {
+            configAsJsonWithoutLastChar += ", onObjectDeselected: (object, ticketType) => Native.onObjectDeselected(JSON.stringify(object), JSON.stringify(ticketType))";
+        }
+
+        if (onObjectClicked != null) {
+            configAsJsonWithoutLastChar += ", onObjectClicked: object => Native.onObjectClicked(JSON.stringify(object))";
+        }
+
+        if (onBestAvailableSelected != null) {
+            configAsJsonWithoutLastChar += ", onBestAvailableSelected: (objects, nextToEachOther) => Native.onBestAvailableSelected(JSON.stringify(objects), nextToEachOther)";
+        }
+
+        if (onBestAvailableSelectionFailed != null) {
+            configAsJsonWithoutLastChar += ", onBestAvailableSelectionFailed: () => Native.onBestAvailableSelectionFailed()";
+        }
+
+        if (onSelectionValid != null) {
+            configAsJsonWithoutLastChar += ", onSelectionValid: () => Native.onSelectionValid()";
+        }
+
+        if (onSelectionInvalid != null) {
+            configAsJsonWithoutLastChar += ", onSelectionInvalid: (violations) => Native.onSelectionInvalid(JSON.stringify(violations))";
+        }
+
+        if (onSelectedObjectBooked != null) {
+            configAsJsonWithoutLastChar += ", onSelectedObjectBooked: object => Native.onSelectedObjectBooked(JSON.stringify(object))";
         }
 
         if (tooltipInfo != null) {
@@ -311,6 +388,10 @@ public class SeatingChartConfig {
 
         if (onChartRendered != null) {
             configAsJsonWithoutLastChar += ", onChartRendered: object => Native.onChartRendered()";
+        }
+
+        if (onChartRendered != null) {
+            configAsJsonWithoutLastChar += ", onChartRenderingFailed: object => Native.onChartRenderingFailed()";
         }
 
         if (priceFormatter != null) {
