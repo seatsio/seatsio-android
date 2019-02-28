@@ -120,6 +120,27 @@ public class SeatingChartConfig {
     @Expose
     public Boolean regenerateHoldToken;
 
+    @Expose
+    public String objectLabel;
+
+    @Expose
+    public String objectIcon;
+
+    @Expose
+    public String isObjectVisible;
+
+    @Expose
+    public String canGASelectionBeIncreased;
+
+    @Expose
+    public String objectColor;
+
+    @Expose
+    public String sectionColor;
+
+    @Expose
+    public Map<String, ?> extraConfig;
+
     public BiConsumer<SeatsioObject, TicketType> onObjectSelected;
     public BiConsumer<SeatsioObject, TicketType> onObjectDeselected;
     public Consumer<SeatsioObject> onObjectClicked;
@@ -401,6 +422,41 @@ public class SeatingChartConfig {
         return this;
     }
 
+    public SeatingChartConfig setObjectLabel(String objectLabel) {
+        this.objectLabel = objectLabel;
+        return this;
+    }
+
+    public SeatingChartConfig setObjectIcon(String objectIcon) {
+        this.objectIcon = objectIcon;
+        return this;
+    }
+
+    public SeatingChartConfig setIsObjectVisible(String isObjectVisible) {
+        this.isObjectVisible = isObjectVisible;
+        return this;
+    }
+
+    public SeatingChartConfig setCanGASelectionBeIncreased(String canGASelectionBeIncreased) {
+        this.canGASelectionBeIncreased = canGASelectionBeIncreased;
+        return this;
+    }
+
+    public SeatingChartConfig setObjectColor(String objectColor) {
+        this.objectColor = objectColor;
+        return this;
+    }
+
+    public SeatingChartConfig setSectionColor(String sectionColor) {
+        this.sectionColor = sectionColor;
+        return this;
+    }
+
+    public SeatingChartConfig setExtraConfig(Map<String, ?> extraConfig) {
+        this.extraConfig = extraConfig;
+        return this;
+    }
+
     public String toJson() {
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         String configAsJson = gson.toJson(this);
@@ -468,6 +524,30 @@ public class SeatingChartConfig {
 
         if (priceFormatter != null) {
             configAsJsonWithoutLastChar += ", priceFormatter: price => Native.formatPrice(price)";
+        }
+
+        if (objectLabel != null) {
+            configAsJsonWithoutLastChar += ", objectLabel: " + objectLabel;
+        }
+
+        if (objectIcon != null) {
+            configAsJsonWithoutLastChar += ", objectIcon: " + objectIcon;
+        }
+
+        if (isObjectVisible != null) {
+            configAsJsonWithoutLastChar += ", isObjectVisible: " + isObjectVisible;
+        }
+
+        if (canGASelectionBeIncreased != null) {
+            configAsJsonWithoutLastChar += ", canGASelectionBeIncreased: " + canGASelectionBeIncreased;
+        }
+
+        if (objectColor != null) {
+            configAsJsonWithoutLastChar += ", objectColor: " + objectColor;
+        }
+
+        if (sectionColor != null) {
+            configAsJsonWithoutLastChar += ", sectionColor: " + sectionColor;
         }
 
         configAsJson = configAsJsonWithoutLastChar + "}";

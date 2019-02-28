@@ -21,9 +21,11 @@ public class MainActivity extends AppCompatActivity {
         Map<String, String> objectCategories = new LinkedHashMap<>();
         messages.put("A-1", "R");
         messages.put("A-2", "R");
+        Map<String, String> extraConfig = new LinkedHashMap<>();
+        extraConfig.put("color", "blue");
         SeatingChartConfig config = new SeatingChartConfig()
                 .setPublicKey("publicDemoKey")
-                .setEvent("smallTheatreEvent1")
+                .setEvent("oaklandArenaEvent")
                 .setOnObjectSelected((object, ticketType) -> Log.i(MainActivity.class.toString(), "Selected " + object.id + " TT " + ticketType.ticketType))
                 .setOnObjectDeselected((object, ticketType) -> Log.i(MainActivity.class.toString(), "Deselected " + object.id + " TT " + ticketType.ticketType))
                 .setOnObjectClicked(object -> Log.i(MainActivity.class.toString(), "Clicked " + object.id))
@@ -58,7 +60,9 @@ public class MainActivity extends AppCompatActivity {
                 .setOnHoldSucceeded((objects, ticketTypes) -> Log.i(MainActivity.class.toString(), "Hold succeeded " + objects))
                 .setOnHoldFailed((objects, ticketTypes) -> Log.i(MainActivity.class.toString(), "Hold failed " + objects))
                 .setOnReleaseHoldSucceeded((objects, ticketTypes) -> Log.i(MainActivity.class.toString(), "Release hold succeeded " + objects))
-                .setOnReleaseHoldFailed((objects, ticketTypes) -> Log.i(MainActivity.class.toString(), "Release hold failed " + objects));
+                .setOnReleaseHoldFailed((objects, ticketTypes) -> Log.i(MainActivity.class.toString(), "Release hold failed " + objects))
+                .setSectionColor("(section, dflt, extraConfig) => extraConfig.color")
+                .setExtraConfig(extraConfig);
         setContentView(new SeatingChart(config, getApplicationContext()));
     }
 
