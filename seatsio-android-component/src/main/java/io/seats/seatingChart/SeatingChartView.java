@@ -94,4 +94,7 @@ public class SeatingChartView extends SeatsioWebView {
         );
     }
 
+    public void changeConfig(ConfigChange configChange) {
+        evaluateJavascript("chart.changeConfig(" + new Gson().toJson(configChange) + ")", null);
+    }
 }

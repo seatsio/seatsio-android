@@ -3,13 +3,11 @@ package test;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import io.seats.seatingChart.PricingForCategory;
-import io.seats.seatingChart.SeatingChartConfig;
-import io.seats.seatingChart.SeatingChartView;
-import io.seats.seatingChart.SimplePricing;
+import io.seats.seatingChart.*;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static io.seats.seatingChart.SelectionValidator.consecutiveSeats;
 import static io.seats.seatingChart.SelectionValidator.noOrphanSeats;
@@ -26,6 +24,7 @@ public class ShowSeatingChartActivity extends AppCompatActivity {
         messages.put("A-2", "R");
         Map<String, String> extraConfig = new LinkedHashMap<>();
         extraConfig.put("color", "blue");
+        AtomicBoolean changed = new AtomicBoolean(false);
         SeatingChartConfig config = new SeatingChartConfig()
                 .setPublicKey("publicDemoKey")
                 .setEvent("smallTheatreEvent1")
@@ -44,6 +43,10 @@ public class ShowSeatingChartActivity extends AppCompatActivity {
                             () -> Log.i(ShowSeatingChartActivity.class.toString(), "not found"));
                     chart.listCategories(categories -> Log.i(ShowSeatingChartActivity.class.toString(), categories.toString()));
                     chart.getHoldToken(holdToken -> Log.i(ShowSeatingChartActivity.class.toString(), holdToken));
+                    if (!changed.get()) {
+                        changed.set(true);
+                        chart.changeConfig(new ConfigChange().setExtraConfig(extraConfig).setObjectColor("(object, dflt, extraConfig) => extraConfig.color"));
+                    }
                 })
                 .setOnChartRenderingFailed((chart) -> Log.i(ShowSeatingChartActivity.class.toString(), "nonono"))
                 .setPricing(new PricingForCategory("2", new SimplePricing(34)))
@@ -59,9 +62,7 @@ public class ShowSeatingChartActivity extends AppCompatActivity {
                 .setOnHoldSucceeded((objects, ticketTypes) -> Log.i(ShowSeatingChartActivity.class.toString(), "Hold succeeded " + objects))
                 .setOnHoldFailed((objects, ticketTypes) -> Log.i(ShowSeatingChartActivity.class.toString(), "Hold failed " + objects))
                 .setOnReleaseHoldSucceeded((objects, ticketTypes) -> Log.i(ShowSeatingChartActivity.class.toString(), "Release hold succeeded " + objects))
-                .setOnReleaseHoldFailed((objects, ticketTypes) -> Log.i(ShowSeatingChartActivity.class.toString(), "Release hold failed " + objects))
-                .setSectionColor("(section, dflt, extraConfig) => extraConfig.color")
-                .setExtraConfig(extraConfig);
+                .setOnReleaseHoldFailed((objects, ticketTypes) -> Log.i(ShowSeatingChartActivity.class.toString(), "Release hold failed " + objects));
         setContentView(new SeatingChartView(config, getApplicationContext()));
     }
 
