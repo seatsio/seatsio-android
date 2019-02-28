@@ -1,5 +1,6 @@
 package io.seats;
 
+import android.util.Log;
 import android.webkit.JavascriptInterface;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -10,9 +11,11 @@ import java.util.List;
 public class SeatingChartInterface {
 
     private final SeatingChartConfig config;
+    private final SeatingChart seatingChart;
 
-    public SeatingChartInterface(SeatingChartConfig config) {
+    public SeatingChartInterface(SeatingChartConfig config, SeatingChart seatingChart) {
         this.config = config;
+        this.seatingChart = seatingChart;
     }
 
     @JavascriptInterface
@@ -70,12 +73,12 @@ public class SeatingChartInterface {
 
     @JavascriptInterface
     public void onChartRendered() {
-        config.onChartRendered.run();
+        seatingChart.post(() -> config.onChartRendered.accept(seatingChart));
     }
 
     @JavascriptInterface
     public void onChartRenderingFailed() {
-        config.onChartRenderingFailed.run();
+        config.onChartRenderingFailed.accept(seatingChart);
     }
 
     @JavascriptInterface
@@ -86,5 +89,15 @@ public class SeatingChartInterface {
     @JavascriptInterface
     public String formatPrice(float price) {
         return config.priceFormatter.apply(price);
+    }
+
+    @JavascriptInterface
+    public void asyncCallSuccess(String result, String requestId) {
+        seatingChart.onAsyncCallSuccess(result, requestId);
+    }
+
+    @JavascriptInterface
+    public void asyncCallError(String requestId) {
+        seatingChart.onAsyncCallError(requestId);
     }
 }

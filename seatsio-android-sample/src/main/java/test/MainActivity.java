@@ -5,14 +5,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import io.seats.*;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
-import static io.seats.SeatShape.STAR;
 import static io.seats.SelectionValidator.consecutiveSeats;
 import static io.seats.SelectionValidator.noOrphanSeats;
-import static java.util.stream.Collectors.toList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,15 +34,21 @@ public class MainActivity extends AppCompatActivity {
                 .setOnSelectionValid(() -> Log.i(MainActivity.class.toString(), "Selection valid"))
                 .setOnSelectionInvalid((violations) -> Log.i(MainActivity.class.toString(), "Selection invalid " + violations))
                 .setOnSelectedObjectBooked(object -> Log.i(MainActivity.class.toString(), "Booked " + object.id))
-                .setOnChartRendered(() -> Log.i(MainActivity.class.toString(), "yesyesyes"))
-                .setOnChartRenderingFailed(() -> Log.i(MainActivity.class.toString(), "nonono"))
+                .setOnChartRendered((chart) -> {
+                    chart.listSelectedObjects(objects -> Log.i(MainActivity.class.toString(), objects.toString()));
+                    chart.findObject("Adfsqs\"'fd-1",
+                            object -> Log.i(MainActivity.class.toString(), object.toString()),
+                            () -> Log.i(MainActivity.class.toString(), "not found"));
+                    chart.listCategories(categories -> Log.i(MainActivity.class.toString(), categories.toString()));
+                    chart.getHoldToken(holdToken -> Log.i(MainActivity.class.toString(), holdToken));
+                })
+                .setOnChartRenderingFailed((chart) -> Log.i(MainActivity.class.toString(), "nonono"))
                 .setPricing(new SeatingChartTicketTypesPricing("2",
                         new SeatingChartTicketTypePricing(43, "a", "Adult"),
                         new SeatingChartTicketTypePricing(53, "child")
                 ))
                 .setPriceFormatter(price -> price + "€")
                 .setMessages(messages)
-                .setSelectBestAvailable(new BestAvailable().setNumberForTicketType("a", 1000))
                 .setShowRowLines(true)
                 .setShowLegend(true)
                 .setLegend(new Legend().setHideNonSelectableCategories(true).setHidePricing(true))

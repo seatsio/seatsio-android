@@ -117,8 +117,8 @@ public class SeatingChartConfig {
     public Consumer<List<SelectionValidatorType>> onSelectionInvalid;
     public Consumer<SeatsioObject> onSelectedObjectBooked;
     public Function<SeatsioObject, String> tooltipInfo;
-    public Runnable onChartRendered;
-    public Runnable onChartRenderingFailed;
+    public Consumer<SeatingChart> onChartRendered;
+    public Consumer<SeatingChart> onChartRenderingFailed;
     public Function<Float, String> priceFormatter;
 
     public SeatingChartConfig setPublicKey(String publicKey) {
@@ -188,12 +188,12 @@ public class SeatingChartConfig {
         return this;
     }
 
-    public SeatingChartConfig setOnChartRendered(Runnable onChartRendered) {
+    public SeatingChartConfig setOnChartRendered(Consumer<SeatingChart> onChartRendered) {
         this.onChartRendered = onChartRendered;
         return this;
     }
 
-    public SeatingChartConfig setOnChartRenderingFailed(Runnable onChartRenderingFailed) {
+    public SeatingChartConfig setOnChartRenderingFailed(Consumer<SeatingChart> onChartRenderingFailed) {
         this.onChartRenderingFailed = onChartRenderingFailed;
         return this;
     }
