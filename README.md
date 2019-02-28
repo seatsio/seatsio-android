@@ -4,7 +4,7 @@
 
 ## Introduction
 
-seatsio-android allows rendering regular seats.io seating charts or the event manager inside an Android application.
+seatsio-android allows rendering seats.io seating charts or the event manager inside an Android application.
 
 ## Installation
 
