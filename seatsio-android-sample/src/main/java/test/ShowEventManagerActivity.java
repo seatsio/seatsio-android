@@ -2,8 +2,8 @@ package test;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import io.seats.eventManager.EventManager;
 import io.seats.eventManager.EventManagerConfig;
+import io.seats.eventManager.EventManagerView;
 
 import static io.seats.eventManager.EventManagerMode.MANAGE_OBJECT_STATUSES;
 
@@ -17,7 +17,7 @@ public class ShowEventManagerActivity extends AppCompatActivity {
                 .setEvent("smallTheatreEvent1")
                 .setMode(MANAGE_OBJECT_STATUSES)
                 .setLanguage("nl");
-        setContentView(new EventManager(config, getApplicationContext()));
+        setContentView(new EventManagerView(config, getApplicationContext()));
     }
 
 }

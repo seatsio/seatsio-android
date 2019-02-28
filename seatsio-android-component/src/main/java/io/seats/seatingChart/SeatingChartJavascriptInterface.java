@@ -8,7 +8,7 @@ import io.seats.SeatsioJavascriptInterface;
 import java.lang.reflect.Type;
 import java.util.List;
 
-public class SeatingChartInterface extends SeatsioJavascriptInterface {
+public class SeatingChartJavascriptInterface extends SeatsioJavascriptInterface {
 
     private SeatingChartConfig config;
 
@@ -18,7 +18,7 @@ public class SeatingChartInterface extends SeatsioJavascriptInterface {
     private static final Type TICKET_TYPE_LIST_TYPE = new TypeToken<List<TicketType>>() {
     }.getType();
 
-    SeatingChartInterface(SeatingChartConfig config) {
+    SeatingChartJavascriptInterface(SeatingChartConfig config) {
         this.config = config;
     }
 
@@ -109,12 +109,12 @@ public class SeatingChartInterface extends SeatsioJavascriptInterface {
 
     @JavascriptInterface
     public void onChartRendered() {
-        seatsioWebView.post(() -> config.onChartRendered.accept((SeatingChart) seatsioWebView));
+        seatsioWebView.post(() -> config.onChartRendered.accept((SeatingChartView) seatsioWebView));
     }
 
     @JavascriptInterface
     public void onChartRenderingFailed() {
-        config.onChartRenderingFailed.accept((SeatingChart) seatsioWebView);
+        config.onChartRenderingFailed.accept((SeatingChartView) seatsioWebView);
     }
 
     @JavascriptInterface

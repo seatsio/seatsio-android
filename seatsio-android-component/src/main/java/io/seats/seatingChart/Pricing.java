@@ -2,12 +2,12 @@ package io.seats.seatingChart;
 
 import com.google.gson.annotations.Expose;
 
-abstract public class SeatingChartPricing {
+abstract public class Pricing {
 
     @Expose
     public String category;
 
-    SeatingChartPricing(String category) {
+    Pricing(String category) {
         this.category = category;
     }
 }

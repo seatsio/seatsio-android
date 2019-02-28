@@ -11,27 +11,27 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class SeatingChart extends SeatsioWebView {
+public class SeatingChartView extends SeatsioWebView {
 
     private final SeatingChartConfig config;
 
-    public SeatingChart(SeatingChartConfig config, Context context) {
-        super(config.toJson(), new SeatingChartInterface(config), context);
+    public SeatingChartView(SeatingChartConfig config, Context context) {
+        super(config.toJson(), new SeatingChartJavascriptInterface(config), context);
         this.config = config;
     }
 
-    public SeatingChart(SeatingChartConfig config, Context context, @Nullable AttributeSet attrs) {
-        super(config.toJson(), new SeatingChartInterface(config), context, attrs);
+    public SeatingChartView(SeatingChartConfig config, Context context, @Nullable AttributeSet attrs) {
+        super(config.toJson(), new SeatingChartJavascriptInterface(config), context, attrs);
         this.config = config;
     }
 
-    public SeatingChart(SeatingChartConfig config, Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        super(config.toJson(), new SeatingChartInterface(config), context, attrs, defStyleAttr);
+    public SeatingChartView(SeatingChartConfig config, Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(config.toJson(), new SeatingChartJavascriptInterface(config), context, attrs, defStyleAttr);
         this.config = config;
     }
 
-    public SeatingChart(SeatingChartConfig config, Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(config.toJson(), new SeatingChartInterface(config), context, attrs, defStyleAttr, defStyleRes);
+    public SeatingChartView(SeatingChartConfig config, Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(config.toJson(), new SeatingChartJavascriptInterface(config), context, attrs, defStyleAttr, defStyleRes);
         this.config = config;
     }
 

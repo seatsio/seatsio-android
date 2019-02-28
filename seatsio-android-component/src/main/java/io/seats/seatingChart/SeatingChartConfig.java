@@ -26,7 +26,7 @@ public class SeatingChartConfig {
     public Collection<String> events;
 
     @Expose
-    private List<SeatingChartPricing> pricing;
+    private List<Pricing> pricing;
 
     @Expose
     public Boolean objectWithoutPricingSelectable;
@@ -154,8 +154,8 @@ public class SeatingChartConfig {
     public Consumer<List<SelectionValidatorType>> onSelectionInvalid;
     public Consumer<SeatsioObject> onSelectedObjectBooked;
     public Function<SeatsioObject, String> tooltipInfo;
-    public Consumer<SeatingChart> onChartRendered;
-    public Consumer<SeatingChart> onChartRenderingFailed;
+    public Consumer<SeatingChartView> onChartRendered;
+    public Consumer<SeatingChartView> onChartRenderingFailed;
     public Function<Float, String> priceFormatter;
 
     public SeatingChartConfig setPublicKey(String publicKey) {
@@ -175,7 +175,7 @@ public class SeatingChartConfig {
         return this;
     }
 
-    public SeatingChartConfig setPricing(SeatingChartPricing... pricing) {
+    public SeatingChartConfig setPricing(Pricing... pricing) {
         this.pricing = asList(pricing);
         return this;
     }
@@ -245,12 +245,12 @@ public class SeatingChartConfig {
         return this;
     }
 
-    public SeatingChartConfig setOnChartRendered(Consumer<SeatingChart> onChartRendered) {
+    public SeatingChartConfig setOnChartRendered(Consumer<SeatingChartView> onChartRendered) {
         this.onChartRendered = onChartRendered;
         return this;
     }
 
-    public SeatingChartConfig setOnChartRenderingFailed(Consumer<SeatingChart> onChartRenderingFailed) {
+    public SeatingChartConfig setOnChartRenderingFailed(Consumer<SeatingChartView> onChartRenderingFailed) {
         this.onChartRenderingFailed = onChartRenderingFailed;
         return this;
     }

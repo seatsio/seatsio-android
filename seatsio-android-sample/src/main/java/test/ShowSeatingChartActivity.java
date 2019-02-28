@@ -43,9 +43,9 @@ public class ShowSeatingChartActivity extends AppCompatActivity {
                     chart.getHoldToken(holdToken -> Log.i(ShowSeatingChartActivity.class.toString(), holdToken));
                 })
                 .setOnChartRenderingFailed((chart) -> Log.i(ShowSeatingChartActivity.class.toString(), "nonono"))
-                .setPricing(new SeatingChartTicketTypesPricing("2",
-                        new SeatingChartTicketTypePricing(43, "a", "Adult"),
-                        new SeatingChartTicketTypePricing(53, "child")
+                .setPricing(new TicketTypesPricing("2",
+                        new TicketTypePricing(43, "a", "Adult"),
+                        new TicketTypePricing(53, "child")
                 ))
                 .setPriceFormatter(price -> price + "€")
                 .setMessages(messages)
@@ -63,7 +63,7 @@ public class ShowSeatingChartActivity extends AppCompatActivity {
                 .setOnReleaseHoldFailed((objects, ticketTypes) -> Log.i(ShowSeatingChartActivity.class.toString(), "Release hold failed " + objects))
                 .setSectionColor("(section, dflt, extraConfig) => extraConfig.color")
                 .setExtraConfig(extraConfig);
-        setContentView(new SeatingChart(config, getApplicationContext()));
+        setContentView(new SeatingChartView(config, getApplicationContext()));
     }
 
 }
