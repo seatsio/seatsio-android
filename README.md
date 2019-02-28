@@ -13,7 +13,8 @@ allprojects {
     ...
     maven { url 'https://jitpack.io' }
   }
-}
+}`
+``
 
 Then you can refer to seatsio-android as a regular package:
 
@@ -22,16 +23,15 @@ Then you can refer to seatsio-android as a regular package:
 dependencies {
   implementation 'com.github.seatsio:seatsio-android:1'
 }
+``
 
 ## Android SDK version
 
-seatsio-android supports the Android SDK version 24 and upwards (which corresponds to Android 7 - Nougat)
+Android SDK version 24 and upwards is supported (which corresponds to Android 7 - Nougat)
 
 ## Usage
 
-seatsio-android offers 2 views: `SeatingChartView` and `EventManagerView`. Those are WebViews, which need internet access.
-
-Make sure you add the following permission to `AndroidManifest.xml`
+seatsio-android offers 2 custom views: `SeatingChartView` and `EventManagerView`. Those are WebViews, which need internet access. Make sure you add the following permission to `AndroidManifest.xml`
 
 ```xml
 <manifest ...>
@@ -51,11 +51,14 @@ All configuration parameters are documented at https://docs.seats.io/docs/render
 
 ```java
 // this code should be inside an Activity
-SeatingChartConfig config = new SeatingChartConfig()
-  .setPublicKey("<yourPublicKey>")
-  .setEvent("<yourEventKey>");
-  
-setContentView(new SeatingChartView(config, getApplicationContext()));
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+  SeatingChartConfig config = new SeatingChartConfig()
+    .setPublicKey("<yourPublicKey>")
+    .setEvent("<yourEventKey>");
+      
+  setContentView(new SeatingChartView(config, getApplicationContext()));
+}
 ```
 
 #### Passing in simple pricing
@@ -85,10 +88,10 @@ SeatingChartConfig config = new SeatingChartConfig()
         new TicketTypePricing(40, "Child"),
         new TicketTypePricing(50, "Adult")
       )),
-      new PricingForCategory("Balcony",
-        new TicketTypesPricing(
-          new TicketTypePricing(60, "Child"),
-          new TicketTypePricing(70, "Adult")
+    new PricingForCategory("Balcony",
+      new TicketTypesPricing(
+        new TicketTypePricing(60, "Child"),
+        new TicketTypePricing(70, "Adult")
    )))
   .setPriceFormatter(price -> price + "€");
   
@@ -107,17 +110,31 @@ SeatingChartConfig config = new SeatingChartConfig()
 setContentView(new SeatingChartView(config, getApplicationContext()));
 ```
 
+#### Show object labels
+
+```java
+SeatingChartConfig config = new SeatingChartConfig()
+  .setPublicKey("<yourPublicKey>")
+  .setEvent("<yourEventKey>")
+  .setObjectLabel("object => object.labels.own"); // must be a valid Javascript function
+
+setContentView(new SeatingChartView(config, getApplicationContext()));
+```
+
 ### Event manager
 
 ```java
 // this code should be inside an Activity
-EventManagerConfig config = new EventManagerConfig()
-  .setSecretKey("<yourSecretKey>")
-  .setEvent("<yourEventKey>")
-  .setMode(MANAGE_OBJECT_STATUSES)
-  .setLanguage("nl");
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+  EventManagerConfig config = new EventManagerConfig()
+    .setSecretKey("<yourSecretKey>")
+    .setEvent("<yourEventKey>")
+    .setMode(MANAGE_OBJECT_STATUSES)
+    .setLanguage("nl");
   
-setContentView(new EventManagerView(config, getApplicationContext()));
+  setContentView(new EventManagerView(config, getApplicationContext()));
+}
 ```
 
 Documentation for the event manager is available at https://docs.seats.io/docs/event-manager
