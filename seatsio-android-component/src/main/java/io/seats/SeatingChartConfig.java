@@ -108,10 +108,26 @@ public class SeatingChartConfig {
     @Expose
     public String chart;
 
+    @Expose
+    public Boolean holdOnSelect;
+
+    @Expose
+    public Boolean holdOnSelectForGAs;
+
+    @Expose
+    public String holdToken;
+
+    @Expose
+    public Boolean regenerateHoldToken;
+
     public BiConsumer<SeatsioObject, TicketType> onObjectSelected;
     public BiConsumer<SeatsioObject, TicketType> onObjectDeselected;
     public Consumer<SeatsioObject> onObjectClicked;
     public BiConsumer<List<SeatsioObject>, Boolean> onBestAvailableSelected;
+    public BiConsumer<List<SeatsioObject>, List<TicketType>> onHoldSucceeded;
+    public BiConsumer<List<SeatsioObject>, List<TicketType>> onHoldFailed;
+    public BiConsumer<List<SeatsioObject>, List<TicketType>> onReleaseHoldSucceeded;
+    public BiConsumer<List<SeatsioObject>, List<TicketType>> onReleaseHoldFailed;
     public Runnable onBestAvailableSelectionFailed;
     public Runnable onSelectionValid;
     public Consumer<List<SelectionValidatorType>> onSelectionInvalid;
@@ -165,6 +181,26 @@ public class SeatingChartConfig {
 
     public SeatingChartConfig setOnBestAvailableSelectionFailed(Runnable onBestAvailableSelectionFailed) {
         this.onBestAvailableSelectionFailed = onBestAvailableSelectionFailed;
+        return this;
+    }
+
+    public SeatingChartConfig setOnHoldSucceeded(BiConsumer<List<SeatsioObject>, List<TicketType>> onHoldSucceeded) {
+        this.onHoldSucceeded = onHoldSucceeded;
+        return this;
+    }
+
+    public SeatingChartConfig setOnHoldFailed(BiConsumer<List<SeatsioObject>, List<TicketType>> onHoldFailed) {
+        this.onHoldFailed = onHoldFailed;
+        return this;
+    }
+
+    public SeatingChartConfig setOnReleaseHoldSucceeded(BiConsumer<List<SeatsioObject>, List<TicketType>> onReleaseHoldSucceeded) {
+        this.onReleaseHoldSucceeded = onReleaseHoldSucceeded;
+        return this;
+    }
+
+    public SeatingChartConfig setOnReleaseHoldFailed(BiConsumer<List<SeatsioObject>, List<TicketType>> onReleaseHoldFailed) {
+        this.onReleaseHoldFailed = onReleaseHoldFailed;
         return this;
     }
 
@@ -345,6 +381,26 @@ public class SeatingChartConfig {
         return this;
     }
 
+    public SeatingChartConfig setHoldOnSelect(boolean holdOnSelect) {
+        this.holdOnSelect = holdOnSelect;
+        return this;
+    }
+
+    public SeatingChartConfig setHoldOnSelectForGAs(boolean holdOnSelectForGAs) {
+        this.holdOnSelectForGAs = holdOnSelectForGAs;
+        return this;
+    }
+
+    public SeatingChartConfig setHoldToken(String holdToken) {
+        this.holdToken = holdToken;
+        return this;
+    }
+
+    public SeatingChartConfig setRegenerateHoldToken(boolean regenerateHoldToken) {
+        this.regenerateHoldToken = regenerateHoldToken;
+        return this;
+    }
+
     public String toJson() {
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         String configAsJson = gson.toJson(this);
@@ -368,6 +424,22 @@ public class SeatingChartConfig {
 
         if (onBestAvailableSelectionFailed != null) {
             configAsJsonWithoutLastChar += ", onBestAvailableSelectionFailed: () => Native.onBestAvailableSelectionFailed()";
+        }
+
+        if (onHoldSucceeded != null) {
+            configAsJsonWithoutLastChar += ", onHoldSucceeded: (objects, ticketTypes) => Native.onHoldSucceeded(JSON.stringify(objects), JSON.stringify(ticketTypes))";
+        }
+
+        if (onHoldFailed != null) {
+            configAsJsonWithoutLastChar += ", onHoldFailed: (objects, ticketTypes) => Native.onHoldFailed(JSON.stringify(objects), JSON.stringify(ticketTypes))";
+        }
+
+        if (onReleaseHoldSucceeded != null) {
+            configAsJsonWithoutLastChar += ", onReleaseHoldSucceeded: (objects, ticketTypes) => Native.onReleaseHoldSucceeded(JSON.stringify(objects), JSON.stringify(ticketTypes))";
+        }
+
+        if (onReleaseHoldFailed != null) {
+            configAsJsonWithoutLastChar += ", onReleaseHoldFailed: (objects, ticketTypes) => Native.onReleaseHoldFailed(JSON.stringify(objects), JSON.stringify(ticketTypes))";
         }
 
         if (onSelectionValid != null) {

@@ -1,6 +1,5 @@
 package io.seats;
 
-import android.util.Log;
 import android.webkit.JavascriptInterface;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -12,6 +11,10 @@ public class SeatingChartInterface {
 
     private final SeatingChartConfig config;
     private final SeatingChart seatingChart;
+    private static final Type OBJECT_LIST_TYPE = new TypeToken<List<SeatsioObject>>() {
+    }.getType();
+    private static final Type TICKET_TYPE_LIST_TYPE = new TypeToken<List<TicketType>>() {
+    }.getType();
 
     public SeatingChartInterface(SeatingChartConfig config, SeatingChart seatingChart) {
         this.config = config;
@@ -52,6 +55,38 @@ public class SeatingChartInterface {
     @JavascriptInterface
     public void onBestAvailableSelectionFailed() {
         config.onBestAvailableSelectionFailed.run();
+    }
+
+    @JavascriptInterface
+    public void onHoldSucceeded(String objects, String ticketTypes) {
+        config.onHoldSucceeded.accept(
+                new Gson().fromJson(objects, OBJECT_LIST_TYPE),
+                new Gson().fromJson(ticketTypes, TICKET_TYPE_LIST_TYPE)
+        );
+    }
+
+    @JavascriptInterface
+    public void onHoldFailed(String objects, String ticketTypes) {
+        config.onHoldFailed.accept(
+                new Gson().fromJson(objects, OBJECT_LIST_TYPE),
+                new Gson().fromJson(ticketTypes, TICKET_TYPE_LIST_TYPE)
+        );
+    }
+
+    @JavascriptInterface
+    public void onReleaseHoldSucceeded(String objects, String ticketTypes) {
+        config.onReleaseHoldSucceeded.accept(
+                new Gson().fromJson(objects, OBJECT_LIST_TYPE),
+                new Gson().fromJson(ticketTypes, TICKET_TYPE_LIST_TYPE)
+        );
+    }
+
+    @JavascriptInterface
+    public void onReleaseHoldFailed(String objects, String ticketTypes) {
+        config.onReleaseHoldFailed.accept(
+                new Gson().fromJson(objects, OBJECT_LIST_TYPE),
+                new Gson().fromJson(ticketTypes, TICKET_TYPE_LIST_TYPE)
+        );
     }
 
     @JavascriptInterface

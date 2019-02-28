@@ -5,9 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import io.seats.*;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import static io.seats.SelectionValidator.consecutiveSeats;
@@ -54,7 +52,13 @@ public class MainActivity extends AppCompatActivity {
                 .setLegend(new Legend().setHideNonSelectableCategories(true).setHidePricing(true))
                 .setShowActiveSectionTooltip(false)
                 .setShowViewFromYourSeat(false)
-                .setSelectionValidators(noOrphanSeats(), consecutiveSeats());
+                .setSelectionValidators(noOrphanSeats(), consecutiveSeats())
+                .setHoldOnSelect(true)
+                .setHoldOnSelectForGAs(true)
+                .setOnHoldSucceeded((objects, ticketTypes) -> Log.i(MainActivity.class.toString(), "Hold succeeded " + objects))
+                .setOnHoldFailed((objects, ticketTypes) -> Log.i(MainActivity.class.toString(), "Hold failed " + objects))
+                .setOnReleaseHoldSucceeded((objects, ticketTypes) -> Log.i(MainActivity.class.toString(), "Release hold succeeded " + objects))
+                .setOnReleaseHoldFailed((objects, ticketTypes) -> Log.i(MainActivity.class.toString(), "Release hold failed " + objects));
         setContentView(new SeatingChart(config, getApplicationContext()));
     }
 
