@@ -14,13 +14,13 @@ public class BestAvailable {
     public Integer number;
 
     @Expose
-    private List<String> category;
+    public List<String> category;
 
     @Expose
-    private Boolean clearSelection;
+    public Boolean clearSelection;
 
     @Expose
-    private Map<String, Integer> ticketTypes;
+    public Map<String, Integer> ticketTypes;
 
     public BestAvailable setNumber(int number) {
         this.number = number;

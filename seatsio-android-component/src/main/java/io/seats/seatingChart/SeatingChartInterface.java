@@ -18,7 +18,7 @@ public class SeatingChartInterface extends SeatsioJavascriptInterface {
     private static final Type TICKET_TYPE_LIST_TYPE = new TypeToken<List<TicketType>>() {
     }.getType();
 
-    public SeatingChartInterface(SeatingChartConfig config) {
+    SeatingChartInterface(SeatingChartConfig config) {
         this.config = config;
     }
 
