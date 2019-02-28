@@ -43,7 +43,7 @@ abstract public class SeatsioWebView extends WebView {
     private String createSrc(String configJson) {
         return "<html>" +
                 "<head>" +
-                "<script src=\"https://cdn-staging.seatsio.net/chart.js\"></script>" +
+                "<script src=\"https://cdn.seatsio.net/chart.js\"></script>" +
                 "</head>" +
                 "<body style=\"margin: 0; padding: 0\">" +
                 "<div id=\"chart\" style=\"width: 100%; height: 100%;\"></div>" +
