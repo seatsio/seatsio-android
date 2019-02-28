@@ -1,6 +1,10 @@
-# seatsio-android, the official Seats.io Android library
+# seatsio-android, the official seats.io Android library
 
 [![](https://jitpack.io/v/seatsio/seatsio-android.svg)](https://jitpack.io/#seatsio/seatsio-android)
+
+## Introduction
+
+seatsio-android allows rendering regular seats.io seating charts or the event manager inside an Android application.
 
 ## Installing seatsio-android
 
@@ -23,7 +27,7 @@ Then you can refer to seatsio-android as a regular package:
 dependencies {
   implementation 'com.github.seatsio:seatsio-android:1'
 }
-```
+``
 
 ## Android SDK version
 
