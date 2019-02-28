@@ -7,8 +7,7 @@ public class SimplePricing extends Pricing {
     @Expose
     public float price;
 
-    public SimplePricing(String category, float price) {
-        super(category);
+    public SimplePricing(float price) {
         this.price = price;
     }
 }

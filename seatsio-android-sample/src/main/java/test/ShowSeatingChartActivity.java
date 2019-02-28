@@ -3,7 +3,10 @@ package test;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import io.seats.seatingChart.*;
+import io.seats.seatingChart.PricingForCategory;
+import io.seats.seatingChart.SeatingChartConfig;
+import io.seats.seatingChart.SeatingChartView;
+import io.seats.seatingChart.SimplePricing;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -26,8 +29,8 @@ public class ShowSeatingChartActivity extends AppCompatActivity {
         SeatingChartConfig config = new SeatingChartConfig()
                 .setPublicKey("publicDemoKey")
                 .setEvent("smallTheatreEvent1")
-                .setOnObjectSelected((object, ticketType) -> Log.i(ShowSeatingChartActivity.class.toString(), "Selected " + object.id + " TT " + ticketType.ticketType))
-                .setOnObjectDeselected((object, ticketType) -> Log.i(ShowSeatingChartActivity.class.toString(), "Deselected " + object.id + " TT " + ticketType.ticketType))
+                .setOnObjectSelected((object, ticketType) -> Log.i(ShowSeatingChartActivity.class.toString(), "Selected " + object.id + " TT " + ticketType))
+                .setOnObjectDeselected((object, ticketType) -> Log.i(ShowSeatingChartActivity.class.toString(), "Deselected " + object.id + " TT " + ticketType))
                 .setOnObjectClicked(object -> Log.i(ShowSeatingChartActivity.class.toString(), "Clicked " + object.id))
                 .setOnBestAvailableSelected((objects, nextToEachOther) -> Log.i(ShowSeatingChartActivity.class.toString(), "Best available selected " + nextToEachOther))
                 .setOnBestAvailableSelectionFailed(() -> Log.i(ShowSeatingChartActivity.class.toString(), "Best available failed"))
@@ -43,15 +46,11 @@ public class ShowSeatingChartActivity extends AppCompatActivity {
                     chart.getHoldToken(holdToken -> Log.i(ShowSeatingChartActivity.class.toString(), holdToken));
                 })
                 .setOnChartRenderingFailed((chart) -> Log.i(ShowSeatingChartActivity.class.toString(), "nonono"))
-                .setPricing(new TicketTypesPricing("2",
-                        new TicketTypePricing(43, "a", "Adult"),
-                        new TicketTypePricing(53, "child")
-                ))
+                .setPricing(new PricingForCategory("2", new SimplePricing(34)))
                 .setPriceFormatter(price -> price + "€")
                 .setMessages(messages)
                 .setShowRowLines(true)
                 .setShowLegend(true)
-                .setLegend(new Legend().setHideNonSelectableCategories(true).setHidePricing(true))
                 .setShowActiveSectionTooltip(false)
                 .setShowViewFromYourSeat(false)
                 .setSelectionValidators(noOrphanSeats(), consecutiveSeats())

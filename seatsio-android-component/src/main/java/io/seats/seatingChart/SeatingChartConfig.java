@@ -26,7 +26,7 @@ public class SeatingChartConfig {
     public Collection<String> events;
 
     @Expose
-    private List<Pricing> pricing;
+    private List<PricingForCategory> pricing;
 
     @Expose
     public Boolean objectWithoutPricingSelectable;
@@ -175,7 +175,7 @@ public class SeatingChartConfig {
         return this;
     }
 
-    public SeatingChartConfig setPricing(Pricing... pricing) {
+    public SeatingChartConfig setPricing(PricingForCategory... pricing) {
         this.pricing = asList(pricing);
         return this;
     }
@@ -458,7 +458,11 @@ public class SeatingChartConfig {
     }
 
     public String toJson() {
-        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+        Gson gson = new GsonBuilder()
+                .excludeFieldsWithoutExposeAnnotation()
+                .registerTypeAdapter(PricingForCategory.class, new PricingForCategory.PricingForCategorySerializer())
+                .create();
+
         String configAsJson = gson.toJson(this);
         String configAsJsonWithoutLastChar = configAsJson.substring(0, configAsJson.length() - 1);
 

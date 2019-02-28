@@ -10,8 +10,7 @@ public class TicketTypesPricing extends Pricing {
     @Expose
     public final List<TicketTypePricing> ticketTypes;
 
-    public TicketTypesPricing(String category, TicketTypePricing... ticketTypes) {
-        super(category);
+    public TicketTypesPricing(TicketTypePricing... ticketTypes) {
         this.ticketTypes = Arrays.asList(ticketTypes);
     }
 }
