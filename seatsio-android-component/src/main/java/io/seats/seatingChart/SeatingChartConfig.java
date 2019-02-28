@@ -463,11 +463,11 @@ public class SeatingChartConfig {
         String configAsJsonWithoutLastChar = configAsJson.substring(0, configAsJson.length() - 1);
 
         if (onObjectSelected != null) {
-            configAsJsonWithoutLastChar += ", onObjectSelected: (object, ticketType) => Native.onObjectSelected(JSON.stringify(object), JSON.stringify(ticketType))";
+            configAsJsonWithoutLastChar += ", onObjectSelected: (object, ticketType) => Native.onObjectSelected(JSON.stringify(object), ticketType ? JSON.stringify(ticketType) : null)";
         }
 
         if (onObjectDeselected != null) {
-            configAsJsonWithoutLastChar += ", onObjectDeselected: (object, ticketType) => Native.onObjectDeselected(JSON.stringify(object), JSON.stringify(ticketType))";
+            configAsJsonWithoutLastChar += ", onObjectDeselected: (object, ticketType) => Native.onObjectDeselected(JSON.stringify(object), ticketType ? JSON.stringify(ticketType) : null)";
         }
 
         if (onObjectClicked != null) {
