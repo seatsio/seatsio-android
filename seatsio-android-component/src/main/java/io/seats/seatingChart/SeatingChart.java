@@ -1,10 +1,11 @@
-package io.seats;
+package io.seats.seatingChart;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import io.seats.SeatsioWebView;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -15,28 +16,23 @@ public class SeatingChart extends SeatsioWebView {
     private final SeatingChartConfig config;
 
     public SeatingChart(SeatingChartConfig config, Context context) {
-        super(config.toJson(), context);
+        super(config.toJson(), new SeatingChartInterface(config), context);
         this.config = config;
     }
 
     public SeatingChart(SeatingChartConfig config, Context context, @Nullable AttributeSet attrs) {
-        super(config.toJson(), context, attrs);
+        super(config.toJson(), new SeatingChartInterface(config), context, attrs);
         this.config = config;
     }
 
     public SeatingChart(SeatingChartConfig config, Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        super(config.toJson(), context, attrs, defStyleAttr);
+        super(config.toJson(), new SeatingChartInterface(config), context, attrs, defStyleAttr);
         this.config = config;
     }
 
     public SeatingChart(SeatingChartConfig config, Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(config.toJson(), context, attrs, defStyleAttr, defStyleRes);
+        super(config.toJson(), new SeatingChartInterface(config), context, attrs, defStyleAttr, defStyleRes);
         this.config = config;
-    }
-
-    @Override
-    Object seatingChartInterface() {
-        return new SeatingChartInterface(config, this);
     }
 
     public void getHoldToken(Consumer<String> callback) {
@@ -96,14 +92,6 @@ public class SeatingChart extends SeatsioWebView {
                 object -> successCallback.run(),
                 errorCallback
         );
-    }
-
-    void onAsyncCallSuccess(String result, String requestId) {
-        asyncRequests.onSuccess(result, requestId);
-    }
-
-    void onAsyncCallError(String requestId) {
-        asyncRequests.onError(requestId);
     }
 
 }

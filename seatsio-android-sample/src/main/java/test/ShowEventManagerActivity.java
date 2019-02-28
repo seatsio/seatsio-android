@@ -2,15 +2,10 @@ package test;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import io.seats.*;
+import io.seats.eventManager.EventManager;
+import io.seats.eventManager.EventManagerConfig;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-import static io.seats.EventManagerMode.MANAGE_OBJECT_STATUSES;
-import static io.seats.SelectionValidator.consecutiveSeats;
-import static io.seats.SelectionValidator.noOrphanSeats;
+import static io.seats.eventManager.EventManagerMode.MANAGE_OBJECT_STATUSES;
 
 public class ShowEventManagerActivity extends AppCompatActivity {
 

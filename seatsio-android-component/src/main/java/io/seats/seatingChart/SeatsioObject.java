@@ -1,4 +1,4 @@
-package io.seats;
+package io.seats.seatingChart;
 
 import java.util.List;
 import java.util.Map;

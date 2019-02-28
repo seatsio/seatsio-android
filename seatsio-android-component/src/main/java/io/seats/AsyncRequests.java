@@ -14,7 +14,7 @@ public class AsyncRequests {
         this.seatsioWebView = seatsioWebView;
     }
 
-    void doRequest(String function, Consumer<String> successCallback) {
+    public void doRequest(String function, Consumer<String> successCallback) {
         String requestId = UUID.randomUUID().toString();
         asyncRequests.put(requestId, new AsyncRequest(successCallback));
         String js = "chart." + function + "(" +
@@ -23,7 +23,7 @@ public class AsyncRequests {
         seatsioWebView.evaluateJavascript(js, null);
     }
 
-    void doRequest(String function, String param, Consumer<String> successCallback, Runnable errorCallback) {
+    public void doRequest(String function, String param, Consumer<String> successCallback, Runnable errorCallback) {
         String requestId = UUID.randomUUID().toString();
         asyncRequests.put(requestId, new AsyncRequest(successCallback, errorCallback));
         String js = "chart." + function + "(" +
@@ -34,7 +34,7 @@ public class AsyncRequests {
         seatsioWebView.evaluateJavascript(js, null);
     }
 
-    void doRequest(String function, Consumer<String> successCallback, Runnable errorCallback) {
+    public void doRequest(String function, Consumer<String> successCallback, Runnable errorCallback) {
         String requestId = UUID.randomUUID().toString();
         asyncRequests.put(requestId, new AsyncRequest(successCallback, errorCallback));
         String js = "chart." + function + "(" +
@@ -48,12 +48,12 @@ public class AsyncRequests {
         return s.replaceAll("'", "\\\\'");
     }
 
-    void onSuccess(String result, String requestId) {
+    public void onSuccess(String result, String requestId) {
         AsyncRequest asyncRequest = asyncRequests.remove(requestId);
         asyncRequest.successCallback.accept(result);
     }
 
-    void onError(String requestId) {
+    public void onError(String requestId) {
         AsyncRequest asyncRequest = asyncRequests.remove(requestId);
         asyncRequest.errorCallback.run();
     }

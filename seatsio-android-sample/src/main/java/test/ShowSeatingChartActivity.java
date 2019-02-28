@@ -3,13 +3,13 @@ package test;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import io.seats.*;
+import io.seats.seatingChart.*;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static io.seats.SelectionValidator.consecutiveSeats;
-import static io.seats.SelectionValidator.noOrphanSeats;
+import static io.seats.seatingChart.SelectionValidator.consecutiveSeats;
+import static io.seats.seatingChart.SelectionValidator.noOrphanSeats;
 
 public class ShowSeatingChartActivity extends AppCompatActivity {
 
@@ -25,7 +25,7 @@ public class ShowSeatingChartActivity extends AppCompatActivity {
         extraConfig.put("color", "blue");
         SeatingChartConfig config = new SeatingChartConfig()
                 .setPublicKey("publicDemoKey")
-                .setEvent("afdq")
+                .setEvent("smallTheatreEvent1")
                 .setOnObjectSelected((object, ticketType) -> Log.i(ShowSeatingChartActivity.class.toString(), "Selected " + object.id + " TT " + ticketType.ticketType))
                 .setOnObjectDeselected((object, ticketType) -> Log.i(ShowSeatingChartActivity.class.toString(), "Deselected " + object.id + " TT " + ticketType.ticketType))
                 .setOnObjectClicked(object -> Log.i(ShowSeatingChartActivity.class.toString(), "Clicked " + object.id))

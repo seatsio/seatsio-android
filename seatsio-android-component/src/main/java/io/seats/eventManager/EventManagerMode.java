@@ -1,4 +1,4 @@
-package io.seats;
+package io.seats.eventManager;
 
 import com.google.gson.annotations.SerializedName;
 

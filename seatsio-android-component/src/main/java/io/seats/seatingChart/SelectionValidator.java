@@ -1,9 +1,9 @@
-package io.seats;
+package io.seats.seatingChart;
 
 import com.google.gson.annotations.Expose;
 
-import static io.seats.SelectionValidatorType.CONSECUTIVE_SEATS;
-import static io.seats.SelectionValidatorType.NO_ORPHAN_SEATS;
+import static io.seats.seatingChart.SelectionValidatorType.CONSECUTIVE_SEATS;
+import static io.seats.seatingChart.SelectionValidatorType.NO_ORPHAN_SEATS;
 
 public class SelectionValidator {
 

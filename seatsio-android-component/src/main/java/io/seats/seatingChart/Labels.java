@@ -1,4 +1,4 @@
-package io.seats;
+package io.seats.seatingChart;
 
 public class Labels {
 

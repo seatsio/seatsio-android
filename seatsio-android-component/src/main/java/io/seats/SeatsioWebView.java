@@ -6,40 +6,39 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.webkit.WebView;
 
-abstract class SeatsioWebView extends WebView {
+abstract public class SeatsioWebView extends WebView {
 
     protected AsyncRequests asyncRequests = new AsyncRequests(this);
 
-    public SeatsioWebView(String configJson, Context context) {
+    public SeatsioWebView(String configJson, SeatsioJavascriptInterface javascriptInterface, Context context) {
         super(context);
-        init(configJson);
+        init(configJson, javascriptInterface);
     }
 
-    public SeatsioWebView(String configJson, Context context, @Nullable AttributeSet attrs) {
+    public SeatsioWebView(String configJson, SeatsioJavascriptInterface javascriptInterface, Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        init(configJson);
+        init(configJson, javascriptInterface);
     }
 
-    public SeatsioWebView(String configJson, Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public SeatsioWebView(String configJson, SeatsioJavascriptInterface javascriptInterface, Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(configJson);
+        init(configJson, javascriptInterface);
     }
 
-    public SeatsioWebView(String configJson, Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public SeatsioWebView(String configJson, SeatsioJavascriptInterface javascriptInterface, Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        init(configJson);
+        init(configJson, javascriptInterface);
     }
 
     @SuppressLint("JavascriptInterface")
-    void init(String configJson) {
+    void init(String configJson, SeatsioJavascriptInterface javascriptInterface) {
         getSettings().setJavaScriptEnabled(true);
         getSettings().setDomStorageEnabled(true);
-        addJavascriptInterface(seatingChartInterface(), "Native");
+        javascriptInterface.init(this);
+        addJavascriptInterface(javascriptInterface, "Native");
         WebView.setWebContentsDebuggingEnabled(true);
         loadData(createSrc(configJson), "text/html", "UTF-8");
     }
-
-    abstract Object seatingChartInterface();
 
     private String createSrc(String configJson) {
         return "<html>" +
@@ -55,5 +54,13 @@ abstract class SeatsioWebView extends WebView {
                 "</script>" +
                 "</body>" +
                 "</html>";
+    }
+
+    public void onAsyncCallSuccess(String result, String requestId) {
+        asyncRequests.onSuccess(result, requestId);
+    }
+
+    public void onAsyncCallError(String requestId) {
+        asyncRequests.onError(requestId);
     }
 }

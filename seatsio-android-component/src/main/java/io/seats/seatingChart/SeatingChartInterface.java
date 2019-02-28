@@ -1,16 +1,16 @@
-package io.seats;
+package io.seats.seatingChart;
 
 import android.webkit.JavascriptInterface;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import io.seats.SeatsioJavascriptInterface;
 
 import java.lang.reflect.Type;
 import java.util.List;
 
-public class SeatingChartInterface {
+public class SeatingChartInterface extends SeatsioJavascriptInterface {
 
-    private final SeatingChartConfig config;
-    private final SeatingChart seatingChart;
+    private SeatingChartConfig config;
 
     private static final Type OBJECT_LIST_TYPE = new TypeToken<List<SeatsioObject>>() {
     }.getType();
@@ -18,9 +18,8 @@ public class SeatingChartInterface {
     private static final Type TICKET_TYPE_LIST_TYPE = new TypeToken<List<TicketType>>() {
     }.getType();
 
-    public SeatingChartInterface(SeatingChartConfig config, SeatingChart seatingChart) {
+    public SeatingChartInterface(SeatingChartConfig config) {
         this.config = config;
-        this.seatingChart = seatingChart;
     }
 
     @JavascriptInterface
@@ -110,12 +109,12 @@ public class SeatingChartInterface {
 
     @JavascriptInterface
     public void onChartRendered() {
-        seatingChart.post(() -> config.onChartRendered.accept(seatingChart));
+        seatsioWebView.post(() -> config.onChartRendered.accept((SeatingChart) seatsioWebView));
     }
 
     @JavascriptInterface
     public void onChartRenderingFailed() {
-        config.onChartRenderingFailed.accept(seatingChart);
+        config.onChartRenderingFailed.accept((SeatingChart) seatsioWebView);
     }
 
     @JavascriptInterface
@@ -130,11 +129,12 @@ public class SeatingChartInterface {
 
     @JavascriptInterface
     public void asyncCallSuccess(String result, String requestId) {
-        seatingChart.onAsyncCallSuccess(result, requestId);
+        seatsioWebView.onAsyncCallSuccess(result, requestId);
     }
 
     @JavascriptInterface
     public void asyncCallError(String requestId) {
-        seatingChart.onAsyncCallError(requestId);
+        seatsioWebView.onAsyncCallError(requestId);
     }
+
 }

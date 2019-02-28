@@ -1,4 +1,4 @@
-package io.seats;
+package io.seats.seatingChart;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
