@@ -114,7 +114,7 @@ SeatingChartConfig config = new SeatingChartConfig()
 setContentView(new SeatingChartView(config, getApplicationContext()));
 ```
 
-#### Show object labels
+#### Showing object labels
 
 ```java
 SeatingChartConfig config = new SeatingChartConfig()
