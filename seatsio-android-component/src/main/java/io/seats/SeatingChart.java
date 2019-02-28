@@ -3,7 +3,6 @@ package io.seats;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.webkit.WebView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -11,29 +10,33 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class SeatingChart extends WebView {
+public class SeatingChart extends SeatsioWebView {
 
-    private WebView webview;
-    private AsyncRequests asyncRequests = new AsyncRequests(this);
+    private final SeatingChartConfig config;
 
     public SeatingChart(SeatingChartConfig config, Context context) {
-        super(context);
-        init(config);
+        super(config.toJson(), context);
+        this.config = config;
     }
 
     public SeatingChart(SeatingChartConfig config, Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
-        init(config);
+        super(config.toJson(), context, attrs);
+        this.config = config;
     }
 
     public SeatingChart(SeatingChartConfig config, Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        init(config);
+        super(config.toJson(), context, attrs, defStyleAttr);
+        this.config = config;
     }
 
     public SeatingChart(SeatingChartConfig config, Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        init(config);
+        super(config.toJson(), context, attrs, defStyleAttr, defStyleRes);
+        this.config = config;
+    }
+
+    @Override
+    Object seatingChartInterface() {
+        return new SeatingChartInterface(config, this);
     }
 
     public void getHoldToken(Consumer<String> callback) {
@@ -93,30 +96,6 @@ public class SeatingChart extends WebView {
                 object -> successCallback.run(),
                 errorCallback
         );
-    }
-
-    private void init(SeatingChartConfig config) {
-        getSettings().setJavaScriptEnabled(true);
-        getSettings().setDomStorageEnabled(true);
-        addJavascriptInterface(new SeatingChartInterface(config, this), "Native");
-        WebView.setWebContentsDebuggingEnabled(true);
-        loadData(createSrc(config), "text/html", "UTF-8");
-    }
-
-    private String createSrc(SeatingChartConfig config) {
-        return "<html>" +
-                "<head>" +
-                "<script src=\"https://cdn-staging.seatsio.net/chart.js\"></script>" +
-                "</head>" +
-                "<body style=\"margin: 0; padding: 0\">" +
-                "<div id=\"chart\" style=\"width: 100%; height: 100%;\"></div>" +
-                "<script>" +
-                "function asyncCallSuccess(requestId) { return result => Native.asyncCallSuccess(JSON.stringify(result), requestId) }" +
-                "function asyncCallError(requestId) { return result => Native.asyncCallError(requestId) }" +
-                "let chart = new seatsio.SeatingChart(" + config.toJson() + ").render()" +
-                "</script>" +
-                "</body>" +
-                "</html>";
     }
 
     void onAsyncCallSuccess(String result, String requestId) {

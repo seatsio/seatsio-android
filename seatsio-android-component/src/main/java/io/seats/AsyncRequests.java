@@ -7,11 +7,11 @@ import java.util.function.Consumer;
 
 public class AsyncRequests {
 
-    private final SeatingChart seatingChart;
+    private final SeatsioWebView seatsioWebView;
     private Map<String, AsyncRequest> asyncRequests = new HashMap<>();
 
-    AsyncRequests(SeatingChart seatingChart) {
-        this.seatingChart = seatingChart;
+    AsyncRequests(SeatsioWebView seatsioWebView) {
+        this.seatsioWebView = seatsioWebView;
     }
 
     void doRequest(String function, Consumer<String> successCallback) {
@@ -20,7 +20,7 @@ public class AsyncRequests {
         String js = "chart." + function + "(" +
                 "asyncCallSuccess('" + requestId + "')" +
                 ")";
-        seatingChart.evaluateJavascript(js, null);
+        seatsioWebView.evaluateJavascript(js, null);
     }
 
     void doRequest(String function, String param, Consumer<String> successCallback, Runnable errorCallback) {
@@ -31,7 +31,7 @@ public class AsyncRequests {
                 ", asyncCallSuccess('" + requestId + "')" +
                 ", asyncCallError('" + requestId + "')" +
                 ")";
-        seatingChart.evaluateJavascript(js, null);
+        seatsioWebView.evaluateJavascript(js, null);
     }
 
     void doRequest(String function, Consumer<String> successCallback, Runnable errorCallback) {
@@ -41,7 +41,7 @@ public class AsyncRequests {
                 "asyncCallSuccess('" + requestId + "')" +
                 ", asyncCallError('" + requestId + "')" +
                 ")";
-        seatingChart.evaluateJavascript(js, null);
+        seatsioWebView.evaluateJavascript(js, null);
     }
 
     private static String escapeSingleQuotes(String s) {

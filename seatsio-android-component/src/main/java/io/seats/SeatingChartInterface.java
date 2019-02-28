@@ -11,8 +11,10 @@ public class SeatingChartInterface {
 
     private final SeatingChartConfig config;
     private final SeatingChart seatingChart;
+
     private static final Type OBJECT_LIST_TYPE = new TypeToken<List<SeatsioObject>>() {
     }.getType();
+
     private static final Type TICKET_TYPE_LIST_TYPE = new TypeToken<List<TicketType>>() {
     }.getType();
 
