@@ -1,2 +1,123 @@
-# seatsio-android
-WORK IN PROGRESS
+# seatsio-android, the official Seats.io Android library
+
+[![](https://jitpack.io/v/seatsio/seatsio-android.svg)](https://jitpack.io/#seatsio/seatsio-android)
+
+## Installing seatsio-android
+
+seatsio-android is available as a maven-style package. To use it, you must first add jitpack as a repository in build.gradle:
+
+```
+// build.gradle
+allprojects {
+  repositories {
+    ...
+    maven { url 'https://jitpack.io' }
+  }
+}
+
+Then you can refer to seatsio-android as a regular package:
+
+```
+// build.gradle
+dependencies {
+  implementation 'com.github.seatsio:seatsio-android:1'
+}
+
+## Android SDK version
+
+seatsio-android supports the Android SDK version 24 and upwards (which corresponds to Android 7 - Nougat)
+
+## Usage
+
+seatsio-android offers 2 views: `SeatingChartView` and `EventManagerView`. Those are WebViews, which need internet access.
+
+Make sure you add the following permission to `AndroidManifest.xml`
+
+```xml
+<manifest ...>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+</manifest>
+```
+
+## Examples
+
+### Regular charts
+
+All configuration parameters are documented at https://docs.seats.io/docs/renderer-embed-a-floor-plan
+
+#### Minimal
+
+```java
+// this code should be inside an Activity
+SeatingChartConfig config = new SeatingChartConfig()
+  .setPublicKey("<yourPublicKey>")
+  .setEvent("<yourEventKey>");
+  
+setContentView(new SeatingChartView(config, getApplicationContext()));
+```
+
+#### Passing in simple pricing
+
+```java
+SeatingChartConfig config = new SeatingChartConfig()
+  .setPublicKey("<yourPublicKey>")
+  .setEvent("<yourEventKey>");
+  .setPricing(
+          new PricingForCategory("Ground Floor", new SimplePricing(34)),
+          new PricingForCategory("Balcony", new SimplePricing(50))
+  )
+  .setPriceFormatter(price -> price + "€");
+  
+setContentView(new SeatingChartView(config, getApplicationContext()));
+```
+
+#### Passing in ticket types pricing
+
+```java
+SeatingChartConfig config = new SeatingChartConfig()
+  .setPublicKey("<yourPublicKey>")
+  .setEvent("<yourEventKey>");
+  .setPricing(
+    new PricingForCategory("Ground Floor",
+      new TicketTypesPricing(
+        new TicketTypePricing(40, "Child"),
+        new TicketTypePricing(50, "Adult")
+      )),
+      new PricingForCategory("Balcony",
+        new TicketTypesPricing(
+          new TicketTypePricing(60, "Child"),
+          new TicketTypePricing(70, "Adult")
+   )))
+  .setPriceFormatter(price -> price + "€");
+  
+setContentView(new SeatingChartView(config, getApplicationContext()));
+```
+
+#### Handling object selections and deselections
+
+```java
+SeatingChartConfig config = new SeatingChartConfig()
+  .setPublicKey("<yourPublicKey>")
+  .setEvent("<yourEventKey>")
+  .setOnObjectSelected((object, ticketType) -> /* do something */)
+  .setOnObjectDeselected((object, ticketType) -> /* do something */);
+
+setContentView(new SeatingChartView(config, getApplicationContext()));
+```
+
+### Event manager
+
+```java
+// this code should be inside an Activity
+EventManagerConfig config = new EventManagerConfig()
+  .setSecretKey("<yourSecretKey>")
+  .setEvent("<yourEventKey>")
+  .setMode(MANAGE_OBJECT_STATUSES)
+  .setLanguage("nl");
+  
+setContentView(new EventManagerView(config, getApplicationContext()));
+```
+
+Documentation for the event manager is available at https://docs.seats.io/docs/event-manager
