@@ -6,7 +6,7 @@
 
 seatsio-android allows rendering regular seats.io seating charts or the event manager inside an Android application.
 
-## Installing seatsio-android
+## Installation
 
 seatsio-android is available as a maven-style package. To use it, you must first add jitpack as a repository in build.gradle:
 
