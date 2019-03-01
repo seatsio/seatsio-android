@@ -55,6 +55,7 @@ All configuration parameters are documented at https://docs.seats.io/docs/render
 // this code should be inside an Activity
 @Override
 protected void onCreate(Bundle savedInstanceState) {
+  super.onCreate(savedInstanceState);
   SeatingChartConfig config = new SeatingChartConfig()
     .setPublicKey("<yourPublicKey>")
     .setEvent("<yourEventKey>");
@@ -129,6 +130,7 @@ setContentView(new SeatingChartView(config, getApplicationContext()));
 // this code should be inside an Activity
 @Override
 protected void onCreate(Bundle savedInstanceState) {
+  super.onCreate(savedInstanceState);
   EventManagerConfig config = new EventManagerConfig()
     .setSecretKey("<yourSecretKey>")
     .setEvent("<yourEventKey>")
