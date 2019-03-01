@@ -51,7 +51,7 @@ android {
         targetCompatibility 1.8
     }
 }
-``
+```
 
 ## Examples
 
