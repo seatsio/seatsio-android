@@ -43,6 +43,16 @@ seatsio-android offers 2 custom views: `SeatingChartView` and `EventManagerView`
 </manifest>
 ```
 
+Your build.gradle also needs to specify a targetCompatibility of 1.8 or highter:
+
+```
+android {
+    compileOptions {
+        targetCompatibility 1.8
+    }
+}
+```
+
 ## Examples
 
 ### Regular charts
