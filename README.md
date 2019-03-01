@@ -8,7 +8,7 @@ seatsio-android allows rendering seats.io seating charts or the event manager in
 
 ## Installation
 
-First add jitpack as a repository in build.gradle:
+First add jitpack as a repository in `build.gradle`:
 
 ```
 allprojects {
@@ -43,7 +43,7 @@ seatsio-android offers 2 custom views: `SeatingChartView` and `EventManagerView`
 </manifest>
 ```
 
-Your build.gradle also needs to specify a targetCompatibility of 1.8 or highter:
+Your `build.gradle` also needs to specify a `targetCompatibility` of 1.8 or higher:
 
 ```
 android {
@@ -51,7 +51,7 @@ android {
         targetCompatibility 1.8
     }
 }
-```
+``
 
 ## Examples
 
