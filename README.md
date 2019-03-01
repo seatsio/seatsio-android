@@ -10,6 +10,8 @@ Android SDK version 24 and upwards is supported (which corresponds to Android 7 
 
 ## Installation
 
+### Adding jitpack as a repository
+
 First add jitpack as a repository in `build.gradle`:
 
 ```
@@ -21,6 +23,8 @@ allprojects {
 }
 ```
 
+### Adding the seatsio-android dependency
+
 Then you can refer to seatsio-android as a regular package:
 
 ```
@@ -29,7 +33,7 @@ dependencies {
 }
 ```
 
-## Usage
+### Giving your app permission to access the internet
 
 seatsio-android offers 2 custom views: `SeatingChartView` and `EventManagerView`. Those are WebViews, which need internet access. Make sure you add the following permission to `AndroidManifest.xml`
 
@@ -40,6 +44,8 @@ seatsio-android offers 2 custom views: `SeatingChartView` and `EventManagerView`
 
 </manifest>
 ```
+
+### Setting a targetCompatibility of at least 1.8
 
 Your `build.gradle` also needs to specify a `targetCompatibility` of 1.8 or higher:
 
