@@ -6,6 +6,8 @@
 
 seatsio-android allows rendering seats.io seating charts or the event manager inside an Android application.
 
+Android SDK version 24 and upwards is supported (which corresponds to Android 7 - Nougat)
+
 ## Installation
 
 First add jitpack as a repository in `build.gradle`:
@@ -26,10 +28,6 @@ dependencies {
   implementation 'com.github.seatsio:seatsio-android:2'
 }
 ```
-
-## Android SDK version
-
-Android SDK version 24 and upwards is supported (which corresponds to Android 7 - Nougat)
 
 ## Usage
 
