@@ -29,6 +29,9 @@ public class SeatingChartConfig {
     private List<PricingForCategory> pricing;
 
     @Expose
+    public Integer numberOfPlacesToSelect;
+
+    @Expose
     public Boolean objectWithoutPricingSelectable;
 
     @Expose
@@ -177,6 +180,11 @@ public class SeatingChartConfig {
 
     public SeatingChartConfig setPricing(PricingForCategory... pricing) {
         this.pricing = asList(pricing);
+        return this;
+    }
+
+    public SeatingChartConfig setNumberOfPlacesToSelect(Integer numberOfPlacesToSelect) {
+        this.numberOfPlacesToSelect = numberOfPlacesToSelect;
         return this;
     }
 
