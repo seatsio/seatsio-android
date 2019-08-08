@@ -1,4 +1,4 @@
-# seatsio-android, the official seats.io Android library
+# Seatsio Android component
 
 [![](https://jitpack.io/v/seatsio/seatsio-android.svg)](https://jitpack.io/#seatsio/seatsio-android)
 
