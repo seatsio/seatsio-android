@@ -161,6 +161,9 @@ public class SeatingChartConfig {
     public Consumer<SeatingChartView> onChartRenderingFailed;
     public Function<Float, String> priceFormatter;
 
+    @Expose
+    public String _client = "android";
+
     public SeatingChartConfig setPublicKey(String publicKey) {
         this.publicKey = publicKey;
         return this;

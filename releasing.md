@@ -1,0 +1,3 @@
+- Update `versionCode` and `versionName` in `seatsio-android-component/build.gradle`
+- Update version number in README.md
+- Create release on github
