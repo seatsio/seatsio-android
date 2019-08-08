@@ -68,9 +68,6 @@ public class SeatingChartConfig {
     public BestAvailable selectBestAvailable;
 
     @Expose
-    public Boolean showRowLines;
-
-    @Expose
     public Boolean alwaysShowSectionContents;
 
     @Expose
@@ -340,11 +337,6 @@ public class SeatingChartConfig {
 
     public SeatingChartConfig setSelectBestAvailable(BestAvailable selectBestAvailable) {
         this.selectBestAvailable = selectBestAvailable;
-        return this;
-    }
-
-    public SeatingChartConfig setShowRowLines(boolean showRowLines) {
-        this.showRowLines = showRowLines;
         return this;
     }
 

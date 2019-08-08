@@ -52,7 +52,6 @@ public class ShowSeatingChartActivity extends AppCompatActivity {
                 .setPricing(new PricingForCategory("2", new SimplePricing(34)))
                 .setPriceFormatter(price -> price + "€")
                 .setMessages(messages)
-                .setShowRowLines(true)
                 .setShowLegend(true)
                 .setShowActiveSectionTooltip(false)
                 .setShowViewFromYourSeat(false)
