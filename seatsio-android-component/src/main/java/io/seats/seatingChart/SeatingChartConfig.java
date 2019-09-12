@@ -141,6 +141,9 @@ public class SeatingChartConfig {
     @Expose
     public Map<String, ?> extraConfig;
 
+    @Expose
+    public boolean showFullScreenButton = false;
+
     public BiConsumer<SeatsioObject, TicketType> onObjectSelected;
     public BiConsumer<SeatsioObject, TicketType> onObjectDeselected;
     public Consumer<SeatsioObject> onObjectClicked;
