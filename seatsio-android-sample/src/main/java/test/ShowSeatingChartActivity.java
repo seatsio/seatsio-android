@@ -56,7 +56,6 @@ public class ShowSeatingChartActivity extends AppCompatActivity {
                 .setShowActiveSectionTooltip(false)
                 .setShowViewFromYourSeat(false)
                 .setSelectionValidators(noOrphanSeats(), consecutiveSeats())
-                .setHoldOnSelect(true)
                 .setHoldOnSelectForGAs(true)
                 .setOnHoldSucceeded((objects, ticketTypes) -> Log.i(ShowSeatingChartActivity.class.toString(), "Hold succeeded " + objects))
                 .setOnHoldFailed((objects, ticketTypes) -> Log.i(ShowSeatingChartActivity.class.toString(), "Hold failed " + objects))
