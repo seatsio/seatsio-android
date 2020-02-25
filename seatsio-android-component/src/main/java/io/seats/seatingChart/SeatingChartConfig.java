@@ -115,6 +115,9 @@ public class SeatingChartConfig {
     public String holdToken;
 
     @Expose
+    public SeatingChartSession session;
+
+    @Expose
     public String objectLabel;
 
     @Expose
@@ -409,6 +412,11 @@ public class SeatingChartConfig {
 
     public SeatingChartConfig setHoldToken(String holdToken) {
         this.holdToken = holdToken;
+        return this;
+    }
+
+    public SeatingChartConfig setSession(SeatingChartSession session) {
+        this.session = session;
         return this;
     }
 
