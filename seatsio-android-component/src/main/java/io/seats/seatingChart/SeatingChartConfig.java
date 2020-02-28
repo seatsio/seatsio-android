@@ -109,16 +109,13 @@ public class SeatingChartConfig {
     public String chart;
 
     @Expose
-    public Boolean holdOnSelect;
-
-    @Expose
     public Boolean holdOnSelectForGAs;
 
     @Expose
     public String holdToken;
 
     @Expose
-    public Boolean regenerateHoldToken;
+    public SeatingChartSession session;
 
     @Expose
     public String objectLabel;
@@ -408,11 +405,6 @@ public class SeatingChartConfig {
         return this;
     }
 
-    public SeatingChartConfig setHoldOnSelect(boolean holdOnSelect) {
-        this.holdOnSelect = holdOnSelect;
-        return this;
-    }
-
     public SeatingChartConfig setHoldOnSelectForGAs(boolean holdOnSelectForGAs) {
         this.holdOnSelectForGAs = holdOnSelectForGAs;
         return this;
@@ -423,8 +415,8 @@ public class SeatingChartConfig {
         return this;
     }
 
-    public SeatingChartConfig setRegenerateHoldToken(boolean regenerateHoldToken) {
-        this.regenerateHoldToken = regenerateHoldToken;
+    public SeatingChartConfig setSession(SeatingChartSession session) {
+        this.session = session;
         return this;
     }
 
