@@ -127,6 +127,9 @@ public class SeatingChartConfig {
     public String isObjectVisible;
 
     @Expose
+    public String isObjectSelectable;
+
+    @Expose
     public String canGASelectionBeIncreased;
 
     @Expose
@@ -435,6 +438,11 @@ public class SeatingChartConfig {
         return this;
     }
 
+    public SeatingChartConfig setIsObjectSelectable(String isObjectSelectable) {
+        this.isObjectSelectable = isObjectSelectable;
+        return this;
+    }
+
     public SeatingChartConfig setCanGASelectionBeIncreased(String canGASelectionBeIncreased) {
         this.canGASelectionBeIncreased = canGASelectionBeIncreased;
         return this;
@@ -538,6 +546,10 @@ public class SeatingChartConfig {
 
         if (isObjectVisible != null) {
             configAsJsonWithoutLastChar += ", isObjectVisible: " + isObjectVisible;
+        }
+
+        if (isObjectSelectable != null) {
+            configAsJsonWithoutLastChar += ", isObjectSelectable: " + isObjectSelectable;
         }
 
         if (canGASelectionBeIncreased != null) {
