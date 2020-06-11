@@ -5,10 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -143,6 +140,9 @@ public class SeatingChartConfig {
 
     @Expose
     public boolean showFullScreenButton = false;
+
+    @Expose
+    public Collection<String> channels;
 
     public BiConsumer<SeatsioObject, TicketType> onObjectSelected;
     public BiConsumer<SeatsioObject, TicketType> onObjectDeselected;
@@ -460,6 +460,11 @@ public class SeatingChartConfig {
 
     public SeatingChartConfig setExtraConfig(Map<String, ?> extraConfig) {
         this.extraConfig = extraConfig;
+        return this;
+    }
+
+    public SeatingChartConfig setChannels(Collection<String> channelKeys) {
+        this.channels = channelKeys;
         return this;
     }
 
