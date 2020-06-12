@@ -3,14 +3,18 @@ apply plugin: 'com.github.dcendents.android-maven'
 
 group='com.github.seatsio'
 
+def majorVersion = 8
+def minorVersion = 1
+def patchVersion = 0
+
 android {
     buildToolsVersion "28.0.3"
     compileSdkVersion 28
     defaultConfig {
         minSdkVersion 24
         targetSdkVersion 28
-        versionCode 8
-        versionName "8.0"
+        versionCode majorVersion * 10000 + minorVersion * 100 + patchVersion
+        versionName "${majorVersion}.${minorVersion}.${patchVersion}"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
