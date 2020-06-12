@@ -1,3 +1,3 @@
-- Update `versionCode` and `versionName` in `seatsio-android-component/build.gradle`
+- Update `majorVersion`, `minorVersion` and/or `patchVersion` in `seatsio-android-component/build.gradle`
 - Update version number in README.md
 - Create release on github
