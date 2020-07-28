@@ -14,6 +14,7 @@ public class SeatsioObject {
     public String status;
     public Boolean forSale;
     public Boolean selectable;
+    public Boolean inSelectableChannel;
     public Boolean selected;
     public String selectedTicketType;
     public String objectType;
