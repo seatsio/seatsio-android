@@ -3,6 +3,9 @@ package io.seats.eventManager;
 import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
 
+import java.util.Collection;
+import java.util.HashSet;
+
 public class EventManagerConfig {
 
     @Expose
@@ -10,6 +13,9 @@ public class EventManagerConfig {
 
     @Expose
     public String event;
+
+    @Expose
+    public Collection<String> events;
 
     @Expose
     public EventManagerMode mode;
@@ -27,7 +33,14 @@ public class EventManagerConfig {
     }
 
     public EventManagerConfig setEvent(String event) {
-        this.event = event;
+        HashSet<String> events = new HashSet<>();
+        events.add(event);
+        this.events = events;
+        return this;
+    }
+
+    public EventManagerConfig setEvents(Collection<String> events) {
+        this.events = events;
         return this;
     }
 
