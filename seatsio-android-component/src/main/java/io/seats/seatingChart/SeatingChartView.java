@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import android.util.AttributeSet;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import io.seats.Region;
 import io.seats.SeatsioWebView;
 
 import java.lang.reflect.Type;
@@ -15,23 +16,23 @@ public class SeatingChartView extends SeatsioWebView {
 
     private final SeatingChartConfig config;
 
-    public SeatingChartView(SeatingChartConfig config, Context context) {
-        super(config.toJson(), new SeatingChartJavascriptInterface(config), context);
+    public SeatingChartView(Region region, SeatingChartConfig config, Context context) {
+        super(region, config.toJson(), new SeatingChartJavascriptInterface(config), context);
         this.config = config;
     }
 
-    public SeatingChartView(SeatingChartConfig config, Context context, @Nullable AttributeSet attrs) {
-        super(config.toJson(), new SeatingChartJavascriptInterface(config), context, attrs);
+    public SeatingChartView(Region region, SeatingChartConfig config, Context context, @Nullable AttributeSet attrs) {
+        super(region, config.toJson(), new SeatingChartJavascriptInterface(config), context, attrs);
         this.config = config;
     }
 
-    public SeatingChartView(SeatingChartConfig config, Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        super(config.toJson(), new SeatingChartJavascriptInterface(config), context, attrs, defStyleAttr);
+    public SeatingChartView(Region region, SeatingChartConfig config, Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(region, config.toJson(), new SeatingChartJavascriptInterface(config), context, attrs, defStyleAttr);
         this.config = config;
     }
 
-    public SeatingChartView(SeatingChartConfig config, Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(config.toJson(), new SeatingChartJavascriptInterface(config), context, attrs, defStyleAttr, defStyleRes);
+    public SeatingChartView(Region region, SeatingChartConfig config, Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(region, config.toJson(), new SeatingChartJavascriptInterface(config), context, attrs, defStyleAttr, defStyleRes);
         this.config = config;
     }
 

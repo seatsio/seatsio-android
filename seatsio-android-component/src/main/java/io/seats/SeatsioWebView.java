@@ -10,40 +10,40 @@ abstract public class SeatsioWebView extends WebView {
 
     protected AsyncRequests asyncRequests = new AsyncRequests(this);
 
-    public SeatsioWebView(String configJson, SeatsioJavascriptInterface javascriptInterface, Context context) {
+    public SeatsioWebView(Region region, String configJson, SeatsioJavascriptInterface javascriptInterface, Context context) {
         super(context);
-        init(configJson, javascriptInterface);
+        init(region, configJson, javascriptInterface);
     }
 
-    public SeatsioWebView(String configJson, SeatsioJavascriptInterface javascriptInterface, Context context, @Nullable AttributeSet attrs) {
+    public SeatsioWebView(Region region, String configJson, SeatsioJavascriptInterface javascriptInterface, Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        init(configJson, javascriptInterface);
+        init(region, configJson, javascriptInterface);
     }
 
-    public SeatsioWebView(String configJson, SeatsioJavascriptInterface javascriptInterface, Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public SeatsioWebView(Region region, String configJson, SeatsioJavascriptInterface javascriptInterface, Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(configJson, javascriptInterface);
+        init(region, configJson, javascriptInterface);
     }
 
-    public SeatsioWebView(String configJson, SeatsioJavascriptInterface javascriptInterface, Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public SeatsioWebView(Region region, String configJson, SeatsioJavascriptInterface javascriptInterface, Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        init(configJson, javascriptInterface);
+        init(region, configJson, javascriptInterface);
     }
 
     @SuppressLint("JavascriptInterface")
-    void init(String configJson, SeatsioJavascriptInterface javascriptInterface) {
+    void init(Region region, String configJson, SeatsioJavascriptInterface javascriptInterface) {
         getSettings().setJavaScriptEnabled(true);
         getSettings().setDomStorageEnabled(true);
         javascriptInterface.init(this);
         addJavascriptInterface(javascriptInterface, "Native");
         WebView.setWebContentsDebuggingEnabled(true);
-        loadData(createSrc(configJson), "text/html", "UTF-8");
+        loadData(createSrc(region.getUrl(), configJson), "text/html", "UTF-8");
     }
 
-    private String createSrc(String configJson) {
+    private String createSrc(String url, String configJson) {
         return "<html>" +
                 "<head>" +
-                "<script src=\"https://cdn.seatsio.net/chart.js\"></script>" +
+                "<script src=\"" + url + "/chart.js\"></script>" +
                 "</head>" +
                 "<body style=\"margin: 0; padding: 0\">" +
                 "<div id=\"chart\" style=\"width: 100%; height: 100%;\"></div>" +
