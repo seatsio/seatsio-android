@@ -68,6 +68,9 @@ public class SeatingChartConfig {
     public Boolean alwaysShowSectionContents;
 
     @Expose
+    public SeatingChartShowSectionContents showSectionContents;
+
+    @Expose
     public Boolean showLegend;
 
     @Expose
@@ -343,8 +346,14 @@ public class SeatingChartConfig {
         return this;
     }
 
+    @Deprecated
     public SeatingChartConfig setAlwaysShowSectionContents(boolean alwaysShowSectionContents) {
         this.alwaysShowSectionContents = alwaysShowSectionContents;
+        return this;
+    }
+
+    public SeatingChartConfig setShowSectionContents(SeatingChartShowSectionContents showSectionContents) {
+        this.showSectionContents = showSectionContents;
         return this;
     }
 
