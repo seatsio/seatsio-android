@@ -11,6 +11,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import static io.seats.Region.EU;
 import static io.seats.seatingChart.SeatingChartSession.START;
+import static io.seats.seatingChart.SeatingChartShowSectionContents.ALWAYS;
 import static io.seats.seatingChart.SelectionValidator.consecutiveSeats;
 import static io.seats.seatingChart.SelectionValidator.noOrphanSeats;
 
@@ -59,6 +60,7 @@ public class ShowSeatingChartActivity extends AppCompatActivity {
                 .setShowViewFromYourSeat(false)
                 .setSelectionValidators(noOrphanSeats(), consecutiveSeats())
                 .setHoldOnSelectForGAs(true)
+                .setShowSectionContents(ALWAYS)
                 .setSession(START)
                 .setOnHoldSucceeded((objects, ticketTypes) -> Log.i(ShowSeatingChartActivity.class.toString(), "Hold succeeded " + objects))
                 .setOnHoldFailed((objects, ticketTypes) -> Log.i(ShowSeatingChartActivity.class.toString(), "Hold failed " + objects))
