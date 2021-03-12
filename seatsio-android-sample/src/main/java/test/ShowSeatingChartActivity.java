@@ -9,6 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import static io.seats.Region.EU;
 import static io.seats.seatingChart.SeatingChartSession.START;
 import static io.seats.seatingChart.SeatingChartShowSectionContents.ALWAYS;
 import static io.seats.seatingChart.SelectionValidator.consecutiveSeats;
@@ -66,7 +67,7 @@ public class ShowSeatingChartActivity extends AppCompatActivity {
                 .setOnReleaseHoldSucceeded((objects, ticketTypes) -> Log.i(ShowSeatingChartActivity.class.toString(), "Release hold succeeded " + objects))
                 .setOnReleaseHoldFailed((objects, ticketTypes) -> Log.i(ShowSeatingChartActivity.class.toString(), "Release hold failed " + objects))
                 .setObjectLabel("object => object.labels.own");
-        setContentView(new SeatingChartView(config, getApplicationContext()));
+        setContentView(new SeatingChartView(EU, config, getApplicationContext()));
     }
 
 }

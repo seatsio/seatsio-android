@@ -29,7 +29,7 @@ Then you can refer to seatsio-android as a regular package:
 
 ```
 dependencies {
-  implementation 'com.github.seatsio:seatsio-android:8.4.0'
+  implementation 'com.github.seatsio:seatsio-android:9.0.0'
 }
 ```
 
@@ -74,7 +74,7 @@ protected void onCreate(Bundle savedInstanceState) {
     .setPublicKey("<yourPublicKey>")
     .setEvent("<yourEventKey>");
       
-  setContentView(new SeatingChartView(config, getApplicationContext()));
+  setContentView(new SeatingChartView(Region.EU, config, getApplicationContext()));
 }
 ```
 
@@ -90,7 +90,7 @@ SeatingChartConfig config = new SeatingChartConfig()
   )
   .setPriceFormatter(price -> price + "€");
   
-setContentView(new SeatingChartView(config, getApplicationContext()));
+setContentView(new SeatingChartView(Region.EU, config, getApplicationContext()));
 ```
 
 #### Passing in ticket types pricing
@@ -112,7 +112,7 @@ SeatingChartConfig config = new SeatingChartConfig()
    )))
   .setPriceFormatter(price -> price + "€");
   
-setContentView(new SeatingChartView(config, getApplicationContext()));
+setContentView(new SeatingChartView(Region.EU, config, getApplicationContext()));
 ```
 
 #### Handling object selections and deselections
@@ -124,7 +124,7 @@ SeatingChartConfig config = new SeatingChartConfig()
   .setOnObjectSelected((object, ticketType) -> /* do something */)
   .setOnObjectDeselected((object, ticketType) -> /* do something */);
 
-setContentView(new SeatingChartView(config, getApplicationContext()));
+setContentView(new SeatingChartView(Region.EU, config, getApplicationContext()));
 ```
 
 #### Showing object labels
@@ -135,7 +135,7 @@ SeatingChartConfig config = new SeatingChartConfig()
   .setEvent("<yourEventKey>")
   .setObjectLabel("object => object.labels.own"); // must be a valid Javascript function
 
-setContentView(new SeatingChartView(config, getApplicationContext()));
+setContentView(new SeatingChartView(Region.EU, config, getApplicationContext()));
 ```
 
 ### Event manager
@@ -151,7 +151,7 @@ protected void onCreate(Bundle savedInstanceState) {
     .setMode(MANAGE_OBJECT_STATUSES)
     .setLanguage("nl");
   
-  setContentView(new EventManagerView(config, getApplicationContext()));
+  setContentView(new EventManagerView(Region.EU, config, getApplicationContext()));
 }
 ```
 

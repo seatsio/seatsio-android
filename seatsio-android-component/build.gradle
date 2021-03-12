@@ -3,8 +3,8 @@ apply plugin: 'com.github.dcendents.android-maven'
 
 group='com.github.seatsio'
 
-def majorVersion = 8
-def minorVersion = 4
+def majorVersion = 9
+def minorVersion = 0
 def patchVersion = 0
 
 android {
