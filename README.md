@@ -78,7 +78,7 @@ protected void onCreate(Bundle savedInstanceState) {
 }
 ```
 
-#### Passing in simple pricing
+#### Simple pricing
 
 ```java
 SeatingChartConfig config = new SeatingChartConfig()
@@ -93,7 +93,7 @@ SeatingChartConfig config = new SeatingChartConfig()
 setContentView(new SeatingChartView(Region.EU, config, getApplicationContext()));
 ```
 
-#### Passing in ticket types pricing
+#### Multi-level pricing (ticket types)
 
 ```java
 SeatingChartConfig config = new SeatingChartConfig()
@@ -115,6 +115,23 @@ SeatingChartConfig config = new SeatingChartConfig()
 setContentView(new SeatingChartView(Region.EU, config, getApplicationContext()));
 ```
 
+#### Creating a session to hold seats
+
+```java
+SeatingChartConfig config = new SeatingChartConfig()
+  .setPublicKey("<yourPublicKey>")
+  .setEvent("<yourEventKey>")
+  .setSession(START);
+SeatingChartView chart = new SeatingChartView(Region.EU, config, getApplicationContext())
+        
+setContentView(chart);
+
+// after chart has rendered
+chart.getHoldToken(holdToken -> {
+  // do something with the hold token
+})
+```
+
 #### Handling object selections and deselections
 
 ```java
@@ -125,6 +142,22 @@ SeatingChartConfig config = new SeatingChartConfig()
   .setOnObjectDeselected((object, ticketType) -> /* do something */);
 
 setContentView(new SeatingChartView(Region.EU, config, getApplicationContext()));
+```
+
+#### listSelectedObjects
+
+```java
+SeatingChartConfig config = new SeatingChartConfig()
+  .setPublicKey("<yourPublicKey>")
+  .setEvent("<yourEventKey>");
+SeatingChartView chart = new SeatingChartView(Region.EU, config, getApplicationContext())
+        
+setContentView(chart);
+
+// after chart has rendered
+chart.listSelectedObjects(objects -> {
+  // do something with the list of objects
+})
 ```
 
 #### Showing object labels
