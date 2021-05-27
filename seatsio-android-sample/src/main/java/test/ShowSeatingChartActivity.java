@@ -22,7 +22,6 @@ public class ShowSeatingChartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Map<String, String> messages = new LinkedHashMap<>();
         messages.put("A", "lolzor");
-        Map<String, String> objectCategories = new LinkedHashMap<>();
         messages.put("A-1", "R");
         messages.put("A-2", "R");
         Map<String, String> extraConfig = new LinkedHashMap<>();
@@ -31,6 +30,7 @@ public class ShowSeatingChartActivity extends AppCompatActivity {
         SeatingChartConfig config = new SeatingChartConfig()
                 .setPublicKey("publicDemoKey")
                 .setEvent("smallTheatreEvent1")
+                .setSelectedObjects("A-9")
                 .setOnObjectSelected((object, ticketType) -> Log.i(ShowSeatingChartActivity.class.toString(), "Selected " + object.id + " TT " + ticketType))
                 .setOnObjectDeselected((object, ticketType) -> Log.i(ShowSeatingChartActivity.class.toString(), "Deselected " + object.id + " TT " + ticketType))
                 .setOnObjectClicked(object -> Log.i(ShowSeatingChartActivity.class.toString(), "Clicked " + object.id))
@@ -50,6 +50,16 @@ public class ShowSeatingChartActivity extends AppCompatActivity {
                         changed.set(true);
                         chart.changeConfig(new ConfigChange().setExtraConfig(extraConfig).setObjectColor("(object, dflt, extraConfig) => extraConfig.color"));
                     }
+                    chart.findObject("A-7", object -> {
+                        /*
+                        object.select();
+                        object.deselect();
+                        object.pulse();
+                        object.unpulse();
+                         */
+                        object.isInChannel("bc122555-5d25-96ae-12b9-f6356b9e6226", result -> Log.i(ShowSeatingChartActivity.class.toString(), result.toString()));
+                        object.isInChannel("NO_CHANNEL", result -> Log.i(ShowSeatingChartActivity.class.toString(), result.toString()));
+                    }, null);
                 })
                 .setOnChartRenderingFailed((chart) -> Log.i(ShowSeatingChartActivity.class.toString(), "nonono"))
                 .setPricing(new PricingForCategory("2", new SimplePricing(34)))

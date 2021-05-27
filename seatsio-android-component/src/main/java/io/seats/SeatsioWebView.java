@@ -8,7 +8,7 @@ import android.webkit.WebView;
 
 abstract public class SeatsioWebView extends WebView {
 
-    protected AsyncRequests asyncRequests = new AsyncRequests(this);
+    protected Caller caller = new Caller(this);
 
     public SeatsioWebView(Region region, String configJson, SeatsioJavascriptInterface javascriptInterface, Context context) {
         super(context);
@@ -30,7 +30,7 @@ abstract public class SeatsioWebView extends WebView {
         init(region, configJson, javascriptInterface);
     }
 
-    @SuppressLint("JavascriptInterface")
+    @SuppressLint({"JavascriptInterface", "SetJavaScriptEnabled"})
     void init(Region region, String configJson, SeatsioJavascriptInterface javascriptInterface) {
         getSettings().setJavaScriptEnabled(true);
         getSettings().setDomStorageEnabled(true);
@@ -57,10 +57,10 @@ abstract public class SeatsioWebView extends WebView {
     }
 
     public void onAsyncCallSuccess(String result, String requestId) {
-        asyncRequests.onSuccess(result, requestId);
+        caller.onSuccess(result, requestId);
     }
 
     public void onAsyncCallError(String requestId) {
-        asyncRequests.onError(requestId);
+        caller.onError(requestId);
     }
 }
