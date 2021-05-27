@@ -144,7 +144,7 @@ SeatingChartConfig config = new SeatingChartConfig()
 setContentView(new SeatingChartView(Region.EU, config, getApplicationContext()));
 ```
 
-#### listSelectedObjects
+#### chart.listSelectedObjects()
 
 ```java
 SeatingChartConfig config = new SeatingChartConfig()
@@ -161,7 +161,7 @@ SeatingChartView chart = new SeatingChartView(Region.EU, config, getApplicationC
 setContentView(chart);
 ```
 
-#### methods on objects in the chart
+#### Methods on seats (and other selectable objects)
 
 ```java
 SeatingChartConfig config = new SeatingChartConfig()
