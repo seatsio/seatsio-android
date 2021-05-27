@@ -121,15 +121,15 @@ setContentView(new SeatingChartView(Region.EU, config, getApplicationContext()))
 SeatingChartConfig config = new SeatingChartConfig()
   .setPublicKey("<yourPublicKey>")
   .setEvent("<yourEventKey>")
-  .setSession(START);
+  .setSession(START)
+  .setOnChartRendered((chart) -> {
+    chart.getHoldToken(holdToken -> {
+      // do something with the hold token
+    })
+  });
 SeatingChartView chart = new SeatingChartView(Region.EU, config, getApplicationContext())
         
 setContentView(chart);
-
-// after chart has rendered
-chart.getHoldToken(holdToken -> {
-  // do something with the hold token
-})
 ```
 
 #### Handling object selections and deselections
@@ -149,15 +149,34 @@ setContentView(new SeatingChartView(Region.EU, config, getApplicationContext()))
 ```java
 SeatingChartConfig config = new SeatingChartConfig()
   .setPublicKey("<yourPublicKey>")
-  .setEvent("<yourEventKey>");
+  .setEvent("<yourEventKey>")
+  .setSession(START)
+  .setOnChartRendered((chart) -> {
+    chart.listSelectedObjects(objects -> {
+      // do something with the list of objects
+    })
+  });
 SeatingChartView chart = new SeatingChartView(Region.EU, config, getApplicationContext())
         
 setContentView(chart);
+```
 
-// after chart has rendered
-chart.listSelectedObjects(objects -> {
-  // do something with the list of objects
-})
+#### methods on objects in the chart
+
+```java
+SeatingChartConfig config = new SeatingChartConfig()
+  .setPublicKey("<yourPublicKey>")
+  .setEvent("<yourEventKey>")
+  .setSession(START)
+  .setOnChartRendered((chart) -> {
+    chart.findObject("A-1", object -> {
+      object.select(); // or object.deselect(), object.pulse(), ...
+      object.isInChannel("NO_CHANNEL", result -> Log.i("aTag", "In channel NO_CHANNEL? " + result));
+    })
+  });
+SeatingChartView chart = new SeatingChartView(Region.EU, config, getApplicationContext())
+        
+setContentView(chart);
 ```
 
 #### Showing object labels
