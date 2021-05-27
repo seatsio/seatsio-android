@@ -169,10 +169,8 @@ SeatingChartConfig config = new SeatingChartConfig()
   .setEvent("<yourEventKey>")
   .setSession(START)
   .setOnChartRendered((chart) -> {
-    chart.findObject("A-1", object -> {
-      object.select(); // or object.deselect(), object.pulse(), ...
-      object.isInChannel("NO_CHANNEL", result -> Log.i("aTag", "In channel NO_CHANNEL? " + result));
-    })
+    chart.selectObject("K-3"); // or chart.deselectObject("K-3"), chart.pulseObject("K-3"), ...
+    chart.isObjectInChannel("K-3", "NO_CHANNEL", result -> Log.i("aTag", "In channel NO_CHANNEL? " + result));
   });
 SeatingChartView chart = new SeatingChartView(Region.EU, config, getApplicationContext())
         

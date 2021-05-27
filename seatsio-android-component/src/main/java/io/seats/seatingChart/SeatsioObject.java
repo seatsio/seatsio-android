@@ -33,13 +33,6 @@ public class SeatsioObject {
     public List<Category> selectableCategories;
     public Boolean isInteractive;
 
-    private SeatingChartView chart;
-
-    public SeatsioObject init(SeatingChartView chart) {
-        this.chart = chart;
-        return this;
-    }
-
     public boolean isSimplePricing() {
         return pricing instanceof SimplePricing;
     }
@@ -52,31 +45,4 @@ public class SeatsioObject {
         return (TicketTypesPricing) pricing;
     }
 
-    public void select() {
-        chart.selectObject(label);
-    }
-
-    public void deselect() {
-        chart.deselectObject(label);
-    }
-
-    public void select(String ticketType) {
-        chart.selectObject(label, ticketType);
-    }
-
-    public void deselect(String ticketType) {
-        chart.deselectObject(label, ticketType);
-    }
-
-    public void pulse() {
-        chart.pulseObject(label);
-    }
-
-    public void unpulse() {
-        chart.unpulseObject(label);
-    }
-
-    public void isInChannel(String channel, Consumer<Boolean> callback) {
-        chart.isObjectInChannel(label, channel, callback);
-    }
 }

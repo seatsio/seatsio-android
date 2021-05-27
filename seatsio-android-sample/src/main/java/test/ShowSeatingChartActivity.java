@@ -1,8 +1,11 @@
 package test;
 
 import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.util.Log;
+
 import io.seats.seatingChart.*;
 
 import java.util.LinkedHashMap;
@@ -50,16 +53,8 @@ public class ShowSeatingChartActivity extends AppCompatActivity {
                         changed.set(true);
                         chart.changeConfig(new ConfigChange().setExtraConfig(extraConfig).setObjectColor("(object, dflt, extraConfig) => extraConfig.color"));
                     }
-                    chart.findObject("A-7", object -> {
-                        /*
-                        object.select();
-                        object.deselect();
-                        object.pulse();
-                        object.unpulse();
-                         */
-                        object.isInChannel("bc122555-5d25-96ae-12b9-f6356b9e6226", result -> Log.i(ShowSeatingChartActivity.class.toString(), result.toString()));
-                        object.isInChannel("NO_CHANNEL", result -> Log.i(ShowSeatingChartActivity.class.toString(), result.toString()));
-                    }, null);
+                    chart.isObjectInChannel("A-1", "bc122555-5d25-96ae-12b9-f6356b9e6226", result -> Log.i(ShowSeatingChartActivity.class.toString(), result.toString()));
+                    chart.isObjectInChannel("kljmkljm", "NO_CHANNEL", result -> Log.i(ShowSeatingChartActivity.class.toString(), result.toString()));
                 })
                 .setOnChartRenderingFailed((chart) -> Log.i(ShowSeatingChartActivity.class.toString(), "nonono"))
                 .setPricing(new PricingForCategory("2", new SimplePricing(34)))

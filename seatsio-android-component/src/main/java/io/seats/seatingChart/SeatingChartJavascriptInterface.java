@@ -143,16 +143,13 @@ public class SeatingChartJavascriptInterface extends SeatsioJavascriptInterface 
     }
 
     private SeatsioObject toSeatsObject(String object) {
-        return GSON.fromJson(object, SeatsioObject.class).init((SeatingChartView) seatsioWebView);
+        return GSON.fromJson(object, SeatsioObject.class);
     }
 
     private List<SeatsioObject> toSeatsObjects(String objects) {
         Type listType = new TypeToken<List<SeatsioObject>>() {
         }.getType();
 
-        List<SeatsioObject> seatsioObjects = GSON.fromJson(objects, listType);
-        seatsioObjects.forEach(object -> object.init((SeatingChartView) seatsioWebView));
-
-        return seatsioObjects;
+        return GSON.fromJson(objects, listType);
     }
 }

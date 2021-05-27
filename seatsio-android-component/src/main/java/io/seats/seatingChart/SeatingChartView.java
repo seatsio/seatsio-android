@@ -100,7 +100,7 @@ public class SeatingChartView extends SeatsioWebView {
                     Type listType = new TypeToken<List<SeatsioObject>>() {
                     }.getType();
                     List<SeatsioObject> seatsioObjects = GSON.fromJson(objects, listType);
-                    callback.accept(setChart(seatsioObjects));
+                    callback.accept(seatsioObjects);
                 }
         );
     }
@@ -121,7 +121,7 @@ public class SeatingChartView extends SeatsioWebView {
                 "chart.findObject(" + GSON.toJson(label) + ")",
                 object -> {
                     SeatsioObject seatsioObject = GSON.fromJson(object, SeatsioObject.class);
-                    successCallback.accept(seatsioObject.init(this));
+                    successCallback.accept(seatsioObject);
                 },
                 errorCallback
         );
@@ -139,8 +139,4 @@ public class SeatingChartView extends SeatsioWebView {
         caller.call("chart.changeConfig(" + new Gson().toJson(configChange) + ")");
     }
 
-    private List<SeatsioObject> setChart(List<SeatsioObject> objects) {
-        objects.forEach(object -> object.init(this));
-        return objects;
-    }
 }
