@@ -29,7 +29,7 @@ Then you can refer to seatsio-android as a regular package:
 
 ```
 dependencies {
-  implementation 'com.github.seatsio:seatsio-android:9.1.0'
+  implementation 'com.github.seatsio:seatsio-android:9.2.0'
 }
 ```
 
@@ -150,10 +150,25 @@ setContentView(new SeatingChartView(Region.EU, config, getApplicationContext()))
 SeatingChartConfig config = new SeatingChartConfig()
   .setPublicKey("<yourPublicKey>")
   .setEvent("<yourEventKey>")
-  .setSession(START)
   .setOnChartRendered((chart) -> {
     chart.listSelectedObjects(objects -> {
       // do something with the list of objects
+    })
+  });
+SeatingChartView chart = new SeatingChartView(Region.EU, config, getApplicationContext())
+        
+setContentView(chart);
+```
+
+#### chart.getReportBySelectability()
+
+```java
+SeatingChartConfig config = new SeatingChartConfig()
+  .setPublicKey("<yourPublicKey>")
+  .setEvent("<yourEventKey>")
+  .setOnChartRendered((chart) -> {
+    chart.getReportBySelectability(report -> {
+      // do something with the report
     })
   });
 SeatingChartView chart = new SeatingChartView(Region.EU, config, getApplicationContext())

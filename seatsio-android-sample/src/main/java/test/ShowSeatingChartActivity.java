@@ -44,6 +44,7 @@ public class ShowSeatingChartActivity extends AppCompatActivity {
                 .setOnSelectedObjectBooked(object -> Log.i(ShowSeatingChartActivity.class.toString(), "Booked " + object.id))
                 .setOnChartRendered((chart) -> {
                     chart.listSelectedObjects(objects -> Log.i(ShowSeatingChartActivity.class.toString(), objects.toString()));
+                    chart.getReportBySelectability(report -> Log.i(ShowSeatingChartActivity.class.toString(), report.toString()));
                     chart.findObject("Adfsqs\"'fd-1",
                             object -> Log.i(ShowSeatingChartActivity.class.toString(), object.toString()),
                             () -> Log.i(ShowSeatingChartActivity.class.toString(), "not found"));

@@ -1,20 +1,20 @@
 package io.seats.seatingChart;
 
 import android.content.Context;
+import android.util.AttributeSet;
 
 import androidx.annotation.Nullable;
-
-import android.util.AttributeSet;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import io.seats.Region;
-import io.seats.SeatsioWebView;
-
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
+
+import io.seats.Region;
+import io.seats.SeatsioWebView;
 
 import static io.seats.seatingChart.SeatingChartJavascriptInterface.GSON;
 
@@ -101,6 +101,17 @@ public class SeatingChartView extends SeatsioWebView {
                     }.getType();
                     List<SeatsioObject> seatsioObjects = GSON.fromJson(objects, listType);
                     callback.accept(seatsioObjects);
+                }
+        );
+    }
+
+    public void getReportBySelectability(Consumer<Map<String, ?>> callback) {
+        caller.callAsync(
+                "chart.getReportBySelectability()",
+                report -> {
+                    Type type = new TypeToken<Map<String, ?>>() {
+                    }.getType();
+                    callback.accept(GSON.fromJson(report, type));
                 }
         );
     }
