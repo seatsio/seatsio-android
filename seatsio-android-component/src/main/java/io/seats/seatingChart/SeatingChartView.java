@@ -105,14 +105,10 @@ public class SeatingChartView extends SeatsioWebView {
         );
     }
 
-    public void getReportBySelectability(Consumer<Map<String, ?>> callback) {
+    public void getReportBySelectability(Consumer<ReportBySelectability> callback) {
         caller.callAsync(
                 "chart.getReportBySelectability()",
-                report -> {
-                    Type type = new TypeToken<Map<String, ?>>() {
-                    }.getType();
-                    callback.accept(GSON.fromJson(report, type));
-                }
+                report -> callback.accept(GSON.fromJson(report, ReportBySelectability.class))
         );
     }
 
