@@ -77,6 +77,9 @@ public class SeatingChartConfig {
     public Legend legend;
 
     @Expose
+    public Boolean multiSelectEnabled;
+
+    @Expose
     public Boolean showMinimap;
 
     @Expose
@@ -364,6 +367,11 @@ public class SeatingChartConfig {
 
     public SeatingChartConfig setLegend(Legend legend) {
         this.legend = legend;
+        return this;
+    }
+
+    public SeatingChartConfig setMultiSelectEnabled(boolean multiSelectEnabled) {
+        this.multiSelectEnabled = multiSelectEnabled;
         return this;
     }
 
