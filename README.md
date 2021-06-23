@@ -29,7 +29,7 @@ Then you can refer to seatsio-android as a regular package:
 
 ```
 dependencies {
-  implementation 'com.github.seatsio:seatsio-android:9.2.0'
+  implementation 'com.github.seatsio:seatsio-android:9.3.0'
 }
 ```
 
