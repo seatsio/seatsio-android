@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
 
 group='com.github.seatsio'
 
@@ -12,8 +11,6 @@ android {
     defaultConfig {
         minSdkVersion 24
         targetSdkVersion 30
-        versionCode majorVersion * 10000 + minorVersion * 100 + patchVersion
-        versionName "${majorVersion}.${minorVersion}.${patchVersion}"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
 
     }
