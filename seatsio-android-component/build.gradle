@@ -3,7 +3,7 @@ apply plugin: 'com.android.library'
 group='com.github.seatsio'
 
 def majorVersion = 9
-def minorVersion = 2
+def minorVersion = 3
 def patchVersion = 0
 
 android {

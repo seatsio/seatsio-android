@@ -62,6 +62,7 @@ public class ShowSeatingChartActivity extends AppCompatActivity {
                 .setPriceFormatter(price -> price + "€")
                 .setMessages(messages)
                 .setShowLegend(true)
+                .setMultiSelectEnabled(true)
                 .setShowActiveSectionTooltip(false)
                 .setShowViewFromYourSeat(false)
                 .setSelectionValidators(noOrphanSeats(), consecutiveSeats())
