@@ -7,10 +7,10 @@ def minorVersion = 3
 def patchVersion = 0
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     defaultConfig {
         minSdkVersion 24
-        targetSdkVersion 30
+        targetSdkVersion 31
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
 
     }
@@ -29,6 +29,6 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation 'androidx.appcompat:appcompat:1.3.1'
+    implementation 'androidx.appcompat:appcompat:1.4.0'
     implementation 'com.google.code.gson:gson:2.8.9'
 }
