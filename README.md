@@ -6,7 +6,7 @@
 
 seatsio-android allows rendering seats.io seating charts or the event manager inside an Android application.
 
-Android SDK version 24 and upwards is supported (which corresponds to Android 7 - Nougat)
+Android SDK version 29 and upwards is supported (which corresponds to Android 10)
 
 ## Installation
 
@@ -29,7 +29,7 @@ Then you can refer to seatsio-android as a regular package:
 
 ```
 dependencies {
-  implementation 'com.github.seatsio:seatsio-android:9.3.0'
+  implementation 'com.github.seatsio:seatsio-android:10.0.0'
 }
 ```
 
