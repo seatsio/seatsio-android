@@ -71,7 +71,7 @@ All configuration parameters are documented at https://docs.seats.io/docs/render
 protected void onCreate(Bundle savedInstanceState) {
   super.onCreate(savedInstanceState);
   SeatingChartConfig config = new SeatingChartConfig()
-    .setPublicKey("<yourPublicKey>")
+    .setWorkspaceKey("<yourPublicWorkspaceKey>")
     .setEvent("<yourEventKey>");
       
   setContentView(new SeatingChartView(Region.EU, config, getApplicationContext()));
@@ -82,7 +82,7 @@ protected void onCreate(Bundle savedInstanceState) {
 
 ```java
 SeatingChartConfig config = new SeatingChartConfig()
-  .setPublicKey("<yourPublicKey>")
+  .setWorkspaceKey("<yourPublicWorkspaceKey>")
   .setEvent("<yourEventKey>");
   .setPricing(
           new PricingForCategory("Ground Floor", new SimplePricing(34)),
@@ -97,7 +97,7 @@ setContentView(new SeatingChartView(Region.EU, config, getApplicationContext()))
 
 ```java
 SeatingChartConfig config = new SeatingChartConfig()
-  .setPublicKey("<yourPublicKey>")
+  .setWorkspaceKey("<yourPublicWorkspaceKey>")
   .setEvent("<yourEventKey>");
   .setPricing(
     new PricingForCategory("Ground Floor",
@@ -119,7 +119,7 @@ setContentView(new SeatingChartView(Region.EU, config, getApplicationContext()))
 
 ```java
 SeatingChartConfig config = new SeatingChartConfig()
-  .setPublicKey("<yourPublicKey>")
+  .setWorkspaceKey("<yourPublicWorkspaceKey>")
   .setEvent("<yourEventKey>")
   .setSession(START)
   .setOnChartRendered((chart) -> {
@@ -136,7 +136,7 @@ setContentView(chart);
 
 ```java
 SeatingChartConfig config = new SeatingChartConfig()
-  .setPublicKey("<yourPublicKey>")
+  .setWorkspaceKey("<yourPublicWorkspaceKey>")
   .setEvent("<yourEventKey>")
   .setOnObjectSelected((object, ticketType) -> /* do something */)
   .setOnObjectDeselected((object, ticketType) -> /* do something */);
@@ -148,7 +148,7 @@ setContentView(new SeatingChartView(Region.EU, config, getApplicationContext()))
 
 ```java
 SeatingChartConfig config = new SeatingChartConfig()
-  .setPublicKey("<yourPublicKey>")
+  .setWorkspaceKey("<yourPublicWorkspaceKey>")
   .setEvent("<yourEventKey>")
   .setOnChartRendered((chart) -> {
     chart.listSelectedObjects(objects -> {
@@ -164,7 +164,7 @@ setContentView(chart);
 
 ```java
 SeatingChartConfig config = new SeatingChartConfig()
-  .setPublicKey("<yourPublicKey>")
+  .setWorkspaceKey("<yourPublicWorkspaceKey>")
   .setEvent("<yourEventKey>")
   .setOnChartRendered((chart) -> {
     chart.getReportBySelectability(report -> {
@@ -180,7 +180,7 @@ setContentView(chart);
 
 ```java
 SeatingChartConfig config = new SeatingChartConfig()
-  .setPublicKey("<yourPublicKey>")
+  .setWorkspaceKey("<yourPublicWorkspaceKey>")
   .setEvent("<yourEventKey>")
   .setSession(START)
   .setOnChartRendered((chart) -> {
@@ -196,7 +196,7 @@ setContentView(chart);
 
 ```java
 SeatingChartConfig config = new SeatingChartConfig()
-  .setPublicKey("<yourPublicKey>")
+  .setWorkspaceKey("<yourPublicWorkspaceKey>")
   .setEvent("<yourEventKey>")
   .setObjectLabel("object => object.labels.own"); // must be a valid Javascript function
 

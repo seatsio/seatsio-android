@@ -1,24 +1,24 @@
 package test;
 
+import static io.seats.Region.EU;
+import static io.seats.seatingChart.SeatingChartSession.START;
+
 import android.os.Bundle;
-
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.util.Log;
 
-import io.seats.seatingChart.*;
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static io.seats.Region.EU;
-import static io.seats.seatingChart.SeatingChartSession.START;
-import static io.seats.seatingChart.SeatingChartShowSectionContents.ALWAYS;
-import static io.seats.seatingChart.SelectionValidator.consecutiveSeats;
-import static io.seats.seatingChart.SelectionValidator.noOrphanSeats;
+import io.seats.seatingChart.CategoryFilter;
+import io.seats.seatingChart.SeatingChartConfig;
+import io.seats.seatingChart.SeatingChartView;
 
 public class ShowSeatingChartActivity extends AppCompatActivity {
+
+    private static String LOGGING_TAG = "seatsio";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,49 +31,9 @@ public class ShowSeatingChartActivity extends AppCompatActivity {
         extraConfig.put("color", "blue");
         AtomicBoolean changed = new AtomicBoolean(false);
         SeatingChartConfig config = new SeatingChartConfig()
-                .setPublicKey("publicDemoKey")
-                .setEvent("smallTheatreEvent1")
-                .setSelectedObjects("A-9")
-                .setOnObjectSelected((object, ticketType) -> Log.i(ShowSeatingChartActivity.class.toString(), "Selected " + object.id + " TT " + ticketType))
-                .setOnObjectDeselected((object, ticketType) -> Log.i(ShowSeatingChartActivity.class.toString(), "Deselected " + object.id + " TT " + ticketType))
-                .setOnObjectClicked(object -> Log.i(ShowSeatingChartActivity.class.toString(), "Clicked " + object.id))
-                .setOnBestAvailableSelected((objects, nextToEachOther) -> Log.i(ShowSeatingChartActivity.class.toString(), "Best available selected " + nextToEachOther))
-                .setOnBestAvailableSelectionFailed(() -> Log.i(ShowSeatingChartActivity.class.toString(), "Best available failed"))
-                .setOnSelectionValid(() -> Log.i(ShowSeatingChartActivity.class.toString(), "Selection valid"))
-                .setOnSelectionInvalid((violations) -> Log.i(ShowSeatingChartActivity.class.toString(), "Selection invalid " + violations))
-                .setOnSelectedObjectBooked(object -> Log.i(ShowSeatingChartActivity.class.toString(), "Booked " + object.id))
-                .setOnChartRendered((chart) -> {
-                    chart.listSelectedObjects(objects -> Log.i(ShowSeatingChartActivity.class.toString(), objects.toString()));
-                    chart.getReportBySelectability(report -> Log.i(ShowSeatingChartActivity.class.toString(), report.toString()));
-                    chart.findObject("Adfsqs\"'fd-1",
-                            object -> Log.i(ShowSeatingChartActivity.class.toString(), object.toString()),
-                            () -> Log.i(ShowSeatingChartActivity.class.toString(), "not found"));
-                    chart.listCategories(categories -> Log.i(ShowSeatingChartActivity.class.toString(), categories.toString()));
-                    chart.getHoldToken(holdToken -> Log.i(ShowSeatingChartActivity.class.toString(), holdToken));
-                    if (!changed.get()) {
-                        changed.set(true);
-                        chart.changeConfig(new ConfigChange().setExtraConfig(extraConfig).setObjectColor("(object, dflt, extraConfig) => extraConfig.color"));
-                    }
-                    chart.isObjectInChannel("A-1", "bc122555-5d25-96ae-12b9-f6356b9e6226", result -> Log.i(ShowSeatingChartActivity.class.toString(), result.toString()));
-                    chart.isObjectInChannel("kljmkljm", "NO_CHANNEL", result -> Log.i(ShowSeatingChartActivity.class.toString(), result.toString()));
-                })
-                .setOnChartRenderingFailed((chart) -> Log.i(ShowSeatingChartActivity.class.toString(), "nonono"))
-                .setPricing(new PricingForCategory("2", new SimplePricing(34)))
-                .setPriceFormatter(price -> price + "€")
-                .setMessages(messages)
-                .setShowLegend(true)
-                .setMultiSelectEnabled(true)
-                .setShowActiveSectionTooltip(false)
-                .setShowViewFromYourSeat(false)
-                .setSelectionValidators(noOrphanSeats(), consecutiveSeats())
-                .setHoldOnSelectForGAs(true)
-                .setShowSectionContents(ALWAYS)
-                .setSession(START)
-                .setOnHoldSucceeded((objects, ticketTypes) -> Log.i(ShowSeatingChartActivity.class.toString(), "Hold succeeded " + objects))
-                .setOnHoldFailed((objects, ticketTypes) -> Log.i(ShowSeatingChartActivity.class.toString(), "Hold failed " + objects))
-                .setOnReleaseHoldSucceeded((objects, ticketTypes) -> Log.i(ShowSeatingChartActivity.class.toString(), "Release hold succeeded " + objects))
-                .setOnReleaseHoldFailed((objects, ticketTypes) -> Log.i(ShowSeatingChartActivity.class.toString(), "Release hold failed " + objects))
-                .setObjectLabel("object => object.labels.own");
+                .setWorkspaceKey("publicDemoKey")
+                .setEvent("multiFloorEvent")
+                .setOnFloorChanged(floor -> Log.i("seatsio", floor.categories.get(0).color));
         setContentView(new SeatingChartView(EU, config, getApplicationContext()));
     }
 
