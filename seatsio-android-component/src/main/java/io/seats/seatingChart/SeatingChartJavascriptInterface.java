@@ -2,8 +2,6 @@ package io.seats.seatingChart;
 
 import android.webkit.JavascriptInterface;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
@@ -11,43 +9,16 @@ import java.util.List;
 
 import io.seats.SeatsioJavascriptInterface;
 
-public class SeatingChartJavascriptInterface extends SeatsioJavascriptInterface {
-
-    protected static final Gson GSON = new GsonBuilder()
-            .registerTypeAdapter(Pricing.class, new Pricing.PricingDeserializer())
-            .create();
-
-    private SeatingChartConfig config;
-
-    private static final Type OBJECT_LIST_TYPE = new TypeToken<List<SeatsioObject>>() {
-    }.getType();
+public class SeatingChartJavascriptInterface extends SeatsioJavascriptInterface<SeatingChartView, SeatingChartConfig> {
 
     private static final Type TICKET_TYPE_LIST_TYPE = new TypeToken<List<TicketType>>() {
     }.getType();
 
-    SeatingChartJavascriptInterface(SeatingChartConfig config) {
-        this.config = config;
-    }
+    private static final Type CATEGORY_LIST_TYPE = new TypeToken<List<Category>>() {
+    }.getType();
 
-    @JavascriptInterface
-    public void onObjectSelected(String object, String ticketType) {
-        config.onObjectSelected.accept(
-                toSeatsObject(object),
-                GSON.fromJson(ticketType, TicketType.class)
-        );
-    }
-
-    @JavascriptInterface
-    public void onObjectDeselected(String object, String ticketType) {
-        config.onObjectDeselected.accept(
-                toSeatsObject(object),
-                GSON.fromJson(ticketType, TicketType.class)
-        );
-    }
-
-    @JavascriptInterface
-    public void onObjectClicked(String object) {
-        config.onObjectClicked.accept(toSeatsObject(object));
+    public SeatingChartJavascriptInterface(SeatingChartConfig config) {
+        super(config);
     }
 
     @JavascriptInterface
@@ -113,43 +84,32 @@ public class SeatingChartJavascriptInterface extends SeatsioJavascriptInterface 
     }
 
     @JavascriptInterface
-    public void onChartRendered() {
-        seatsioWebView.post(() -> config.onChartRendered.accept((SeatingChartView) seatsioWebView));
+    public void onObjectStatusChanged(String object) {
+        config.onObjectStatusChanged.accept(toSeatsObject(object));
     }
 
     @JavascriptInterface
-    public void onChartRenderingFailed() {
-        config.onChartRenderingFailed.accept((SeatingChartView) seatsioWebView);
+    public void onSessionInitialized(String holdToken) {
+        config.onSessionInitialized.accept(GSON.fromJson(holdToken, HoldToken.class));
     }
 
     @JavascriptInterface
-    public String tooltipInfo(String object) {
-        return config.tooltipInfo.apply(toSeatsObject(object));
+    public void onHoldTokenExpired() {
+        config.onHoldTokenExpired.run();
+    }
+
+    @JavascriptInterface
+    public void onFloorChanged(String floor) {
+        config.onFloorChanged.accept(GSON.fromJson(floor, Floor.class));
+    }
+
+    @JavascriptInterface
+    public void onFilteredCategoriesChanged(String categories) {
+        config.onFilteredCategoriesChanged.accept(GSON.fromJson(categories, CATEGORY_LIST_TYPE));
     }
 
     @JavascriptInterface
     public String formatPrice(float price) {
         return config.priceFormatter.apply(price);
-    }
-
-    @JavascriptInterface
-    public void asyncCallSuccess(String result, String requestId) {
-        seatsioWebView.onAsyncCallSuccess(result, requestId);
-    }
-
-    @JavascriptInterface
-    public void asyncCallError(String requestId) {
-        seatsioWebView.onAsyncCallError(requestId);
-    }
-
-    private SeatsioObject toSeatsObject(String object) {
-        return GSON.fromJson(object, SeatsioObject.class);
-    }
-
-    private List<SeatsioObject> toSeatsObjects(String objects) {
-        Type listType = new TypeToken<List<SeatsioObject>>() {
-        }.getType();
-
-        return GSON.fromJson(objects, listType);
     }
 }

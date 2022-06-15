@@ -9,7 +9,7 @@ import java.lang.reflect.Type;
 
 abstract public class Pricing {
 
-    static class PricingDeserializer implements JsonDeserializer<Pricing> {
+    public static class PricingDeserializer implements JsonDeserializer<Pricing> {
 
         @Override
         public Pricing deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {

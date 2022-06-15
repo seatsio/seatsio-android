@@ -1,5 +1,7 @@
 package io.seats.seatingChart;
 
+import static io.seats.seatingChart.SeatingChartJavascriptInterface.GSON;
+
 import android.content.Context;
 import android.util.AttributeSet;
 
@@ -10,17 +12,19 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Consumer;
 
 import io.seats.Region;
 import io.seats.SeatsioWebView;
 
-import static io.seats.seatingChart.SeatingChartJavascriptInterface.GSON;
-
-public class SeatingChartView extends SeatsioWebView {
+public class SeatingChartView extends SeatsioWebView<SeatingChartView> {
 
     private final SeatingChartConfig config;
+
+    @Override
+    protected String toolName() {
+        return "SeatingChart";
+    }
 
     public SeatingChartView(Region region, SeatingChartConfig config, Context context) {
         super(region, config.toJson(), new SeatingChartJavascriptInterface(config), context);
@@ -120,17 +124,6 @@ public class SeatingChartView extends SeatsioWebView {
                     }.getType();
                     callback.accept(GSON.fromJson(categories, listType));
                 }
-        );
-    }
-
-    public void findObject(String label, Consumer<SeatsioObject> successCallback, Runnable errorCallback) {
-        caller.callAsync(
-                "chart.findObject(" + GSON.toJson(label) + ")",
-                object -> {
-                    SeatsioObject seatsioObject = GSON.fromJson(object, SeatsioObject.class);
-                    successCallback.accept(seatsioObject);
-                },
-                errorCallback
         );
     }
 

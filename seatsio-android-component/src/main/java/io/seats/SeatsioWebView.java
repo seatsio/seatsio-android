@@ -1,14 +1,26 @@
 package io.seats;
 
+import static io.seats.SeatsioJavascriptInterface.GSON;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
-import androidx.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.webkit.ConsoleMessage;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
-abstract public class SeatsioWebView extends WebView {
+import androidx.annotation.Nullable;
+
+import java.util.function.Consumer;
+
+import io.seats.seatingChart.SeatsioObject;
+
+abstract public class SeatsioWebView<T extends WebView> extends WebView {
 
     protected Caller caller = new Caller(this);
+
+    protected abstract String toolName();
 
     public SeatsioWebView(Region region, String configJson, SeatsioJavascriptInterface javascriptInterface, Context context) {
         super(context);
@@ -32,11 +44,29 @@ abstract public class SeatsioWebView extends WebView {
 
     @SuppressLint({"JavascriptInterface", "SetJavaScriptEnabled"})
     void init(Region region, String configJson, SeatsioJavascriptInterface javascriptInterface) {
+        this.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public boolean onConsoleMessage(ConsoleMessage msg) {
+                Log.println(level(msg), "seatsio", msg.message() + " -- From line " + msg.lineNumber() + " of " + msg.sourceId());
+                return true;
+            }
+
+            private int level(ConsoleMessage msg) {
+                switch (msg.messageLevel()) {
+                    case ERROR:
+                        return Log.ERROR;
+                    case WARNING:
+                        return Log.WARN;
+                    default:
+                        return Log.INFO;
+                }
+            }
+        });
         getSettings().setJavaScriptEnabled(true);
         getSettings().setDomStorageEnabled(true);
+        getSettings().setAllowContentAccess(true);
         javascriptInterface.init(this);
         addJavascriptInterface(javascriptInterface, "Native");
-        WebView.setWebContentsDebuggingEnabled(true);
         loadData(createSrc(region.getUrl(), configJson), "text/html", "UTF-8");
     }
 
@@ -50,7 +80,7 @@ abstract public class SeatsioWebView extends WebView {
                 "<script>" +
                 "function asyncCallSuccess(requestId) { return result => Native.asyncCallSuccess(JSON.stringify(result), requestId) }" +
                 "function asyncCallError(requestId) { return result => Native.asyncCallError(requestId) }" +
-                "let chart = new seatsio.SeatingChart(" + configJson + ").render()" +
+                "let chart = new seatsio." + toolName() + "(" + configJson + ").render()" +
                 "</script>" +
                 "</body>" +
                 "</html>";
@@ -62,5 +92,16 @@ abstract public class SeatsioWebView extends WebView {
 
     public void onAsyncCallError(String requestId) {
         caller.onError(requestId);
+    }
+
+    public void findObject(String label, Consumer<SeatsioObject> successCallback, Runnable errorCallback) {
+        caller.callAsync(
+                "chart.findObject(" + GSON.toJson(label) + ")",
+                object -> {
+                    SeatsioObject seatsioObject = GSON.fromJson(object, SeatsioObject.class);
+                    successCallback.accept(seatsioObject);
+                },
+                errorCallback
+        );
     }
 }

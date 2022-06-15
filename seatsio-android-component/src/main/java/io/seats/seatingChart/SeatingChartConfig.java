@@ -1,26 +1,29 @@
 package io.seats.seatingChart;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
-import java.util.*;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Function;
-
 import static java.util.Arrays.asList;
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toList;
 
-public class SeatingChartConfig {
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Function;
+
+import io.seats.CommonConfig;
+
+public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, SeatingChartView> {
 
     @Expose
-    public String publicKey;
+    public String _client = "android";
 
     @Expose
-    public Collection<String> events;
+    public String workspaceKey;
 
     @Expose
     private List<PricingForCategory> pricing;
@@ -38,6 +41,9 @@ public class SeatingChartConfig {
     public List<SelectedObject> selectedObjects;
 
     @Expose
+    public List<String> selectableObjects;
+
+    @Expose
     public ObjectTooltip objectTooltip;
 
     @Expose
@@ -45,12 +51,6 @@ public class SeatingChartConfig {
 
     @Expose
     public ThemeColors themeColors;
-
-    @Expose
-    public String language;
-
-    @Expose
-    public Map<String, String> messages;
 
     @Expose
     public String priceLevelsTooltipMessage;
@@ -136,23 +136,23 @@ public class SeatingChartConfig {
     public String canGASelectionBeIncreased;
 
     @Expose
-    public String objectColor;
-
-    @Expose
     public String sectionColor;
-
-    @Expose
-    public Map<String, ?> extraConfig;
-
-    @Expose
-    public boolean showFullScreenButton = false;
 
     @Expose
     public Collection<String> channels;
 
-    public BiConsumer<SeatsioObject, TicketType> onObjectSelected;
-    public BiConsumer<SeatsioObject, TicketType> onObjectDeselected;
-    public Consumer<SeatsioObject> onObjectClicked;
+    @Expose
+    public String activeFloor;
+
+    @Expose
+    public Boolean showSectionPricingOverlay;
+
+    @Expose
+    public CategoryFilter categoryFilter;
+
+    @Expose
+    public Boolean unifiedObjectPropertiesInCallbacks;
+
     public BiConsumer<List<SeatsioObject>, Boolean> onBestAvailableSelected;
     public BiConsumer<List<SeatsioObject>, List<TicketType>> onHoldSucceeded;
     public BiConsumer<List<SeatsioObject>, List<TicketType>> onHoldFailed;
@@ -162,28 +162,15 @@ public class SeatingChartConfig {
     public Runnable onSelectionValid;
     public Consumer<List<SelectionValidatorType>> onSelectionInvalid;
     public Consumer<SeatsioObject> onSelectedObjectBooked;
-    public Function<SeatsioObject, String> tooltipInfo;
-    public Consumer<SeatingChartView> onChartRendered;
-    public Consumer<SeatingChartView> onChartRenderingFailed;
+    public Consumer<SeatsioObject> onObjectStatusChanged;
+    public Consumer<HoldToken> onSessionInitialized;
+    public Consumer<List<Category>> onFilteredCategoriesChanged;
+    public Consumer<Floor> onFloorChanged;
+    public Runnable onHoldTokenExpired;
     public Function<Float, String> priceFormatter;
 
-    @Expose
-    public String _client = "android";
-
-    public SeatingChartConfig setPublicKey(String publicKey) {
-        this.publicKey = publicKey;
-        return this;
-    }
-
-    public SeatingChartConfig setEvent(String event) {
-        HashSet<String> events = new HashSet<>();
-        events.add(event);
-        this.events = events;
-        return this;
-    }
-
-    public SeatingChartConfig setEvents(Collection<String> events) {
-        this.events = events;
+    public SeatingChartConfig setWorkspaceKey(String workspaceKey) {
+        this.workspaceKey = workspaceKey;
         return this;
     }
 
@@ -194,21 +181,6 @@ public class SeatingChartConfig {
 
     public SeatingChartConfig setNumberOfPlacesToSelect(Integer numberOfPlacesToSelect) {
         this.numberOfPlacesToSelect = numberOfPlacesToSelect;
-        return this;
-    }
-
-    public SeatingChartConfig setOnObjectSelected(BiConsumer<SeatsioObject, TicketType> onObjectSelected) {
-        this.onObjectSelected = onObjectSelected;
-        return this;
-    }
-
-    public SeatingChartConfig setOnObjectDeselected(BiConsumer<SeatsioObject, TicketType> onObjectDeselected) {
-        this.onObjectDeselected = onObjectDeselected;
-        return this;
-    }
-
-    public SeatingChartConfig setOnObjectClicked(Consumer<SeatsioObject> onObjectClicked) {
-        this.onObjectClicked = onObjectClicked;
         return this;
     }
 
@@ -257,18 +229,28 @@ public class SeatingChartConfig {
         return this;
     }
 
-    public SeatingChartConfig setTooltipInfo(Function<SeatsioObject, String> tooltipInfo) {
-        this.tooltipInfo = tooltipInfo;
+    public SeatingChartConfig setOnObjectStatusChanged(Consumer<SeatsioObject> onObjectStatusChanged) {
+        this.onObjectStatusChanged = onObjectStatusChanged;
         return this;
     }
 
-    public SeatingChartConfig setOnChartRendered(Consumer<SeatingChartView> onChartRendered) {
-        this.onChartRendered = onChartRendered;
+    public SeatingChartConfig setOnSessionInitialized(Consumer<HoldToken> onSessionInitialized) {
+        this.onSessionInitialized = onSessionInitialized;
         return this;
     }
 
-    public SeatingChartConfig setOnChartRenderingFailed(Consumer<SeatingChartView> onChartRenderingFailed) {
-        this.onChartRenderingFailed = onChartRenderingFailed;
+    public SeatingChartConfig setOnHoldTokenExpired(Runnable onHoldTokenExpired) {
+        this.onHoldTokenExpired = onHoldTokenExpired;
+        return this;
+    }
+
+    public SeatingChartConfig setOnFilteredCategoriesChanged(Consumer<List<Category>> onFilteredCategoriesChanged) {
+        this.onFilteredCategoriesChanged = onFilteredCategoriesChanged;
+        return this;
+    }
+
+    public SeatingChartConfig setOnFloorChanged(Consumer<Floor> onFloorChanged) {
+        this.onFloorChanged = onFloorChanged;
         return this;
     }
 
@@ -299,6 +281,11 @@ public class SeatingChartConfig {
         return this;
     }
 
+    public SeatingChartConfig setSelectableObjects(String... selectableObjects) {
+        this.selectableObjects = Arrays.asList(selectableObjects);
+        return this;
+    }
+
     public SeatingChartConfig setObjectTooltip(ObjectTooltip objectTooltip) {
         this.objectTooltip = objectTooltip;
         return this;
@@ -311,16 +298,6 @@ public class SeatingChartConfig {
 
     public SeatingChartConfig setThemeColors(ThemeColors themeColors) {
         this.themeColors = themeColors;
-        return this;
-    }
-
-    public SeatingChartConfig setLanguage(String language) {
-        this.language = language;
-        return this;
-    }
-
-    public SeatingChartConfig setMessages(Map<String, String> messages) {
-        this.messages = messages;
         return this;
     }
 
@@ -465,18 +442,8 @@ public class SeatingChartConfig {
         return this;
     }
 
-    public SeatingChartConfig setObjectColor(String objectColor) {
-        this.objectColor = objectColor;
-        return this;
-    }
-
     public SeatingChartConfig setSectionColor(String sectionColor) {
         this.sectionColor = sectionColor;
-        return this;
-    }
-
-    public SeatingChartConfig setExtraConfig(Map<String, ?> extraConfig) {
-        this.extraConfig = extraConfig;
         return this;
     }
 
@@ -485,109 +452,114 @@ public class SeatingChartConfig {
         return this;
     }
 
-    public String toJson() {
-        Gson gson = new GsonBuilder()
-                .excludeFieldsWithoutExposeAnnotation()
-                .registerTypeAdapter(PricingForCategory.class, new PricingForCategory.PricingForCategorySerializer())
-                .create();
+    public SeatingChartConfig setActiveFloor(String activeFloor) {
+        this.activeFloor = activeFloor;
+        return this;
+    }
 
-        String configAsJson = gson.toJson(this);
-        String configAsJsonWithoutLastChar = configAsJson.substring(0, configAsJson.length() - 1);
+    public SeatingChartConfig setShowSectionPricingOverlay(Boolean showSectionPricingOverlay) {
+        this.showSectionPricingOverlay = showSectionPricingOverlay;
+        return this;
+    }
 
-        if (onObjectSelected != null) {
-            configAsJsonWithoutLastChar += ", onObjectSelected: (object, ticketType) => Native.onObjectSelected(JSON.stringify(object), ticketType ? JSON.stringify(ticketType) : null)";
-        }
+    public SeatingChartConfig setCategoryFilter(CategoryFilter categoryFilter) {
+        this.categoryFilter = categoryFilter;
+        return this;
+    }
 
-        if (onObjectDeselected != null) {
-            configAsJsonWithoutLastChar += ", onObjectDeselected: (object, ticketType) => Native.onObjectDeselected(JSON.stringify(object), ticketType ? JSON.stringify(ticketType) : null)";
-        }
+    public SeatingChartConfig setUnifiedObjectPropertiesInCallbacks(Boolean unifiedObjectPropertiesInCallbacks) {
+        this.unifiedObjectPropertiesInCallbacks = unifiedObjectPropertiesInCallbacks;
+        return this;
+    }
 
-        if (onObjectClicked != null) {
-            configAsJsonWithoutLastChar += ", onObjectClicked: object => Native.onObjectClicked(JSON.stringify(object))";
-        }
+    @Override
+    protected List<String> callbacks() {
+        List<String> callbacks = super.callbacks();
 
         if (onBestAvailableSelected != null) {
-            configAsJsonWithoutLastChar += ", onBestAvailableSelected: (objects, nextToEachOther) => Native.onBestAvailableSelected(JSON.stringify(objects), nextToEachOther)";
+            callbacks.add("onBestAvailableSelected: (objects, nextToEachOther) => Native.onBestAvailableSelected(JSON.stringify(objects), nextToEachOther)");
         }
 
         if (onBestAvailableSelectionFailed != null) {
-            configAsJsonWithoutLastChar += ", onBestAvailableSelectionFailed: () => Native.onBestAvailableSelectionFailed()";
+            callbacks.add("onBestAvailableSelectionFailed: () => Native.onBestAvailableSelectionFailed()");
+        }
+
+        if (onSessionInitialized != null) {
+            callbacks.add("onSessionInitialized: (holdToken) => Native.onSessionInitialized(JSON.stringify(holdToken))");
+        }
+
+        if (onHoldTokenExpired != null) {
+            callbacks.add("onHoldTokenExpired: () => Native.onHoldTokenExpired()");
         }
 
         if (onHoldSucceeded != null) {
-            configAsJsonWithoutLastChar += ", onHoldSucceeded: (objects, ticketTypes) => Native.onHoldSucceeded(JSON.stringify(objects), JSON.stringify(ticketTypes))";
+            callbacks.add("onHoldSucceeded: (objects, ticketTypes) => Native.onHoldSucceeded(JSON.stringify(objects), JSON.stringify(ticketTypes))");
         }
 
         if (onHoldFailed != null) {
-            configAsJsonWithoutLastChar += ", onHoldFailed: (objects, ticketTypes) => Native.onHoldFailed(JSON.stringify(objects), JSON.stringify(ticketTypes))";
+            callbacks.add("onHoldFailed: (objects, ticketTypes) => Native.onHoldFailed(JSON.stringify(objects), JSON.stringify(ticketTypes))");
         }
 
         if (onReleaseHoldSucceeded != null) {
-            configAsJsonWithoutLastChar += ", onReleaseHoldSucceeded: (objects, ticketTypes) => Native.onReleaseHoldSucceeded(JSON.stringify(objects), JSON.stringify(ticketTypes))";
+            callbacks.add("onReleaseHoldSucceeded: (objects, ticketTypes) => Native.onReleaseHoldSucceeded(JSON.stringify(objects), JSON.stringify(ticketTypes))");
         }
 
         if (onReleaseHoldFailed != null) {
-            configAsJsonWithoutLastChar += ", onReleaseHoldFailed: (objects, ticketTypes) => Native.onReleaseHoldFailed(JSON.stringify(objects), JSON.stringify(ticketTypes))";
+            callbacks.add("onReleaseHoldFailed: (objects, ticketTypes) => Native.onReleaseHoldFailed(JSON.stringify(objects), JSON.stringify(ticketTypes))");
         }
 
         if (onSelectionValid != null) {
-            configAsJsonWithoutLastChar += ", onSelectionValid: () => Native.onSelectionValid()";
+            callbacks.add("onSelectionValid: () => Native.onSelectionValid()");
         }
 
         if (onSelectionInvalid != null) {
-            configAsJsonWithoutLastChar += ", onSelectionInvalid: (violations) => Native.onSelectionInvalid(JSON.stringify(violations))";
+            callbacks.add("onSelectionInvalid: (violations) => Native.onSelectionInvalid(JSON.stringify(violations))");
         }
 
         if (onSelectedObjectBooked != null) {
-            configAsJsonWithoutLastChar += ", onSelectedObjectBooked: object => Native.onSelectedObjectBooked(JSON.stringify(object))";
+            callbacks.add("onSelectedObjectBooked: object => Native.onSelectedObjectBooked(JSON.stringify(object))");
         }
 
-        if (tooltipInfo != null) {
-            configAsJsonWithoutLastChar += ", tooltipInfo: object => Native.tooltipInfo(JSON.stringify(object))";
+        if (onObjectStatusChanged != null) {
+            callbacks.add("onObjectStatusChanged: object => Native.onObjectStatusChanged(JSON.stringify(object))");
         }
 
-        if (onChartRendered != null) {
-            configAsJsonWithoutLastChar += ", onChartRendered: object => Native.onChartRendered()";
+        if (onFilteredCategoriesChanged != null) {
+            callbacks.add("onFilteredCategoriesChanged: categories => Native.onFilteredCategoriesChanged(JSON.stringify(categories))");
         }
 
-        if (onChartRendered != null) {
-            configAsJsonWithoutLastChar += ", onChartRenderingFailed: object => Native.onChartRenderingFailed()";
+        if (onFloorChanged != null) {
+            callbacks.add("onFloorChanged: floor => Native.onFloorChanged(JSON.stringify(floor))");
         }
 
         if (priceFormatter != null) {
-            configAsJsonWithoutLastChar += ", priceFormatter: price => Native.formatPrice(price)";
+            callbacks.add("priceFormatter: price => Native.formatPrice(price)");
         }
 
         if (objectLabel != null) {
-            configAsJsonWithoutLastChar += ", objectLabel: " + objectLabel;
+            callbacks.add("objectLabel: " + objectLabel);
         }
 
         if (objectIcon != null) {
-            configAsJsonWithoutLastChar += ", objectIcon: " + objectIcon;
+            callbacks.add("objectIcon: " + objectIcon);
         }
 
         if (isObjectVisible != null) {
-            configAsJsonWithoutLastChar += ", isObjectVisible: " + isObjectVisible;
+            callbacks.add("isObjectVisible: " + isObjectVisible);
         }
 
         if (isObjectSelectable != null) {
-            configAsJsonWithoutLastChar += ", isObjectSelectable: " + isObjectSelectable;
+            callbacks.add("isObjectSelectable: " + isObjectSelectable);
         }
 
         if (canGASelectionBeIncreased != null) {
-            configAsJsonWithoutLastChar += ", canGASelectionBeIncreased: " + canGASelectionBeIncreased;
-        }
-
-        if (objectColor != null) {
-            configAsJsonWithoutLastChar += ", objectColor: " + objectColor;
+            callbacks.add("canGASelectionBeIncreased: " + canGASelectionBeIncreased);
         }
 
         if (sectionColor != null) {
-            configAsJsonWithoutLastChar += ", sectionColor: " + sectionColor;
+            callbacks.add("sectionColor: " + sectionColor);
         }
 
-        configAsJson = configAsJsonWithoutLastChar + "}";
-        return configAsJson;
+        return callbacks;
     }
-
 }

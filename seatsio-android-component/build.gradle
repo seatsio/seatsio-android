@@ -2,15 +2,15 @@ apply plugin: 'com.android.library'
 
 group='com.github.seatsio'
 
-def majorVersion = 9
-def minorVersion = 3
+def majorVersion = 10
+def minorVersion = 0
 def patchVersion = 0
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 32
     defaultConfig {
-        minSdkVersion 24
-        targetSdkVersion 31
+        minSdkVersion 29
+        targetSdkVersion 32
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
 
     }

@@ -1,13 +1,17 @@
 package test;
 
-import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
-import io.seats.Region;
-import io.seats.eventManager.EventManagerConfig;
-import io.seats.eventManager.EventManagerView;
-
 import static io.seats.Region.EU;
 import static io.seats.eventManager.EventManagerMode.MANAGE_OBJECT_STATUSES;
+import static io.seats.seatingChart.ColorScheme.DARK;
+
+import android.graphics.Color;
+import android.os.Bundle;
+import android.util.Log;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import io.seats.eventManager.EventManagerConfig;
+import io.seats.eventManager.EventManagerView;
 
 public class ShowEventManagerActivity extends AppCompatActivity {
 
@@ -15,11 +19,19 @@ public class ShowEventManagerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventManagerConfig config = new EventManagerConfig()
-                .setSecretKey("...")
-                .setEvent("smallTheatreEvent1")
+                .setSecretKey("demoKey")
+                .setEvent("smallTheatreWithGAEvent")
                 .setMode(MANAGE_OBJECT_STATUSES)
-                .setLanguage("nl");
-        setContentView(new EventManagerView(EU, config, getApplicationContext()));
+                .setLanguage("nl")
+                .setObjectColor("(object, dflt, extraConfig) => object.channel ? 'blue': 'red'")
+                .setTooltipInfo(object -> object.channel != null ? "in channel" : "not in channel")
+                .setColorScheme(DARK)
+                .setOnChartRenderingFailed((chart) -> {
+                    Log.i("Seats.io", "whoops");
+                });
+        EventManagerView view = new EventManagerView(EU, config, getApplicationContext());
+        view.setBackgroundColor(Color.BLACK);
+        setContentView(view);
     }
 
 }

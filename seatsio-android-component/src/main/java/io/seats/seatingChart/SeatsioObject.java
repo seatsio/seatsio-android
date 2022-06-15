@@ -2,12 +2,12 @@ package io.seats.seatingChart;
 
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
 
 public class SeatsioObject {
 
     public String id;
     public Category category;
+    public Channel channel;
     public Point center;
     public String label;
     public Labels labels;
@@ -17,6 +17,10 @@ public class SeatsioObject {
     public Boolean selectable;
     public Boolean inSelectableChannel;
     public Boolean selected;
+    public Boolean accessible;
+    public Boolean companionSeat;
+    public Boolean restrictedView;
+    public Boolean disabledBySocialDistancingRules;
     public String selectedTicketType;
     public String objectType;
     public Map<String, Object> extraData;
