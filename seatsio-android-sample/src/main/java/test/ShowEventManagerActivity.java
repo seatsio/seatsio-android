@@ -19,7 +19,7 @@ public class ShowEventManagerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventManagerConfig config = new EventManagerConfig()
-                .setSecretKey("demoKey")
+                .setSecretKey("...")
                 .setEvent("smallTheatreWithGAEvent")
                 .setMode(MANAGE_OBJECT_STATUSES)
                 .setLanguage("nl")

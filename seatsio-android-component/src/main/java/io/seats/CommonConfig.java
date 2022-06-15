@@ -35,7 +35,7 @@ public class CommonConfig<T extends CommonConfig<?, ?>, U extends SeatsioWebView
     public Map<String, String> messages;
 
     @Expose
-    public Boolean showFullScreenButton;
+    public boolean showFullScreenButton = false;
 
     @Expose
     public Map<String, ?> extraConfig;
@@ -84,11 +84,6 @@ public class CommonConfig<T extends CommonConfig<?, ?>, U extends SeatsioWebView
 
     public T setTooltipInfo(Function<SeatsioObject, String> tooltipInfo) {
         this.tooltipInfo = tooltipInfo;
-        return (T) this;
-    }
-
-    public T setShowFullScreenButton(Boolean showFullScreenButton) {
-        this.showFullScreenButton = showFullScreenButton;
         return (T) this;
     }
 
