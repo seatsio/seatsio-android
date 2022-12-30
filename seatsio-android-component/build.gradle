@@ -3,7 +3,7 @@ plugins {
 }
 
 apply plugin: 'com.android.library'
-group='io.Seats'
+group='io.seats'
 
 def majorVersion = 12
 def minorVersion = 0
