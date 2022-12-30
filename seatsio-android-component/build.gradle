@@ -3,6 +3,8 @@ plugins {
 }
 
 apply plugin: 'com.android.library'
+group = 'io.seats'
+version = '12.0.0'
 
 android {
     compileSdkVersion 32
