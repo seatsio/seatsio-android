@@ -1,6 +1,7 @@
-# Seatsio Android component
+# Seats.io Android component
 
-[![](https://jitpack.io/v/seatsio/seatsio-android.svg)](https://jitpack.io/#seatsio/seatsio-android)
+[![Maven Central](https://img.shields.io/maven-central/v/io.seats/seatsio-android)](https://central.sonatype.dev/namespace/io.seats)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/seatsio/seatsio-android/build.yml)](https://github.com/seatsio/seatsio-android/actions/workflows/build.yml)
 
 ## Introduction
 
@@ -10,28 +11,25 @@ Android SDK version 29 and upwards is supported (which corresponds to Android 10
 
 ## Installation
 
-### Adding jitpack as a repository
-
-First add jitpack as a repository in `build.gradle`:
-
-```
-allprojects {
-  repositories {
-    ...
-    maven { url 'https://jitpack.io' }
-  }
-}
-```
-
 ### Adding the seatsio-android dependency
 
-Then you can refer to seatsio-android as a regular package:
+seatsio-android is available in the Maven Central repository:
 
 ```
+// build.gradle
 dependencies {
-  implementation 'com.github.seatsio:seatsio-android:10.0.0'
+  compile 'io.seats:seatsio-android:12.0.0'
 }
+
+// pom.xml
+<dependency>
+  <groupId>io.seats</groupId>
+  <artifactId>seatsio-android</artifactId>
+  <version>12.0.0</version>
+</dependency>
 ```
+
+Note that v12.0.0 is the first version that's hosted on Maven Central instead of on JitPack.
 
 ### Giving your app permission to access the internet
 

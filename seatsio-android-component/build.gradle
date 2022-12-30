@@ -1,8 +1,11 @@
+plugins {
+    id "com.vanniktech.maven.publish" version "0.23.1"
+}
+
 apply plugin: 'com.android.library'
+group='io.Seats'
 
-group='com.github.seatsio'
-
-def majorVersion = 10
+def majorVersion = 12
 def minorVersion = 0
 def patchVersion = 0
 
@@ -25,6 +28,42 @@ android {
         sourceCompatibility 1.8
     }
     namespace 'io.seats'
+}
+
+import com.vanniktech.maven.publish.SonatypeHost
+mavenPublishing {
+    publishToMavenCentral(SonatypeHost.S01, true)
+    signAllPublications()
+
+    pom {
+        name = "seatsio-android"
+        description = "Seats.io Android component"
+        url = "https://github.com/seatsio/seatsio-android"
+        licenses {
+            license {
+                name = "MIT"
+                url = "https://github.com/seatsio/seatsio-android/blob/master/LICENSE"
+                distribution = "repo"
+            }
+        }
+        developers {
+            developer {
+                id = "mroloux"
+                name = "Matti Roloux"
+                url = "https://github.com/mroloux/"
+            }
+            developer {
+                id = "bverbeken"
+                name = "Ben Verbeken"
+                url = "https://github.com/bverbeken"
+            }
+        }
+        scm {
+            url = "https://github.com/seatsio/seatsio-android/"
+            connection = "scm:git:git://github.com/seatsio/seatsio-android.git"
+            developerConnection = "scm:git:ssh://git@github.com/seatsio/seatsio-android.git"
+        }
+    }
 }
 
 dependencies {
