@@ -18,14 +18,14 @@ seatsio-android is available in the Maven Central repository:
 ```
 // build.gradle
 dependencies {
-  compile 'io.seats:seatsio-android:12.0.0'
+  compile 'io.seats:seatsio-android:12.1.0'
 }
 
 // pom.xml
 <dependency>
   <groupId>io.seats</groupId>
   <artifactId>seatsio-android</artifactId>
-  <version>12.0.0</version>
+  <version>12.1.0</version>
 </dependency>
 ```
 
@@ -199,6 +199,26 @@ SeatingChartConfig config = new SeatingChartConfig()
   .setObjectLabel("object => object.labels.own"); // must be a valid Javascript function
 
 setContentView(new SeatingChartView(Region.EU, config, getApplicationContext()));
+```
+
+#### Zooming to sections
+
+```java
+AtomicBoolean rendered = new AtomicBoolean(false);
+SeatingChartConfig config = new SeatingChartConfig()
+  .setWorkspaceKey("<yourPublicWorkspaceKey>")
+  .setEvent("<yourEventKey>")
+  .setOnChartRendered((chart) -> rendered.set(true))
+});
+SeatingChartView chart = new SeatingChartView(Region.EU, config, getApplicationContext());
+setContentView(chart);
+
+final Button button = findViewById(R.id.go_to_section_button);
+button.setOnClickListener((View v) -> {
+  if (rendered.get()) {
+    chart.zoomToSection("foo");
+  }
+});
 ```
 
 ### Event manager
