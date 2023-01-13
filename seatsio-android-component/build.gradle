@@ -29,7 +29,7 @@ android {
 
 import com.vanniktech.maven.publish.SonatypeHost
 mavenPublishing {
-    coordinates("io.seats", "seatsio-android", "12.0.0")
+    coordinates("io.seats", "seatsio-android", version)
 
     publishToMavenCentral(SonatypeHost.S01, true)
     signAllPublications()
