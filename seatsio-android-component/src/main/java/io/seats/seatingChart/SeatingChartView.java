@@ -54,6 +54,11 @@ public class SeatingChartView extends SeatsioWebView<SeatingChartView> {
         caller.call("chart.zoomToSelectedObjects()");
     }
 
+
+    public void zoomToSection(String label) {
+        caller.call("chart.zoomToSection(" + new Gson().toJson(label)+ ")");
+    }
+
     public void selectBestAvailable(BestAvailable bestAvailable) {
         caller.call("chart.selectBestAvailable(" + new Gson().toJson(bestAvailable) + ")");
     }
