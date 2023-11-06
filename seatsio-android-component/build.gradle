@@ -7,10 +7,10 @@ group = 'io.seats'
 version = '12.2.0'
 
 android {
-    compileSdkVersion 33
+    compileSdkVersion 34
     defaultConfig {
         minSdkVersion 29
-        targetSdkVersion 33
+        targetSdkVersion 34
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
 
     }
