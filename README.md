@@ -1,4 +1,4 @@
-# Seats.io Android component
+# Seats.io Android SDK
 
 [![Maven Central](https://img.shields.io/maven-central/v/io.seats/seatsio-android)](https://central.sonatype.dev/namespace/io.seats)
 [![Build Status](https://img.shields.io/github/actions/workflow/status/seatsio/seatsio-android/build.yml)](https://github.com/seatsio/seatsio-android/actions/workflows/build.yml)
