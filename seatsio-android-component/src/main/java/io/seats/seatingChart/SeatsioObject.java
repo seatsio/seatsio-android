@@ -24,6 +24,7 @@ public class SeatsioObject {
     public String selectedTicketType;
     public String objectType;
     public Map<String, Object> extraData;
+    public SeatParent parent;
 
     public Integer capacity;
     public Integer numBooked;
