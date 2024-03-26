@@ -25,6 +25,7 @@ public class SeatsioObject {
     public String objectType;
     public Map<String, Object> extraData;
     public SeatParent parent;
+    public String displayObjectType;
 
     public Integer capacity;
     public Integer numBooked;
