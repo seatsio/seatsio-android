@@ -74,6 +74,9 @@ public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, Seating
     public Boolean showLegend;
 
     @Expose
+    public Boolean showSeatLabels;
+
+    @Expose
     public Legend legend;
 
     @Expose
@@ -339,6 +342,11 @@ public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, Seating
 
     public SeatingChartConfig setShowLegend(boolean showLegend) {
         this.showLegend = showLegend;
+        return this;
+    }
+
+    public SeatingChartConfig setShowSeatLabels(boolean showSeatLabels) {
+        this.showSeatLabels = showSeatLabels;
         return this;
     }
 
