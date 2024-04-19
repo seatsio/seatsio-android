@@ -16,6 +16,9 @@ public class ConfigChange {
     public String objectLabel;
 
     @Expose
+    public int numberOfPlacesToSelect;
+
+    @Expose
     public Object maxSelectedObjects;
 
     @Expose
@@ -30,6 +33,12 @@ public class ConfigChange {
     @Expose
     public List<String> filteredCategories;
 
+    @Expose
+    public List<PricingForCategory> pricing;
+
+    @Expose
+    public List<String> channels;
+
     public ConfigChange setObjectColor(String objectColor) {
         this.objectColor = objectColor;
         return this;
@@ -37,6 +46,11 @@ public class ConfigChange {
 
     public ConfigChange setObjectLabel(String objectLabel) {
         this.objectLabel = objectLabel;
+        return this;
+    }
+
+    public ConfigChange setNumberOfPlacesToSelect(int numberOfPlacesToSelect) {
+        this.numberOfPlacesToSelect = numberOfPlacesToSelect;
         return this;
     }
 
@@ -67,6 +81,16 @@ public class ConfigChange {
 
     public ConfigChange setFilteredCategories(List<String> filteredCategories) {
         this.filteredCategories = filteredCategories;
+        return this;
+    }
+
+    public ConfigChange setPricing(List<PricingForCategory> pricing) {
+        this.pricing = pricing;
+        return this;
+    }
+
+    public ConfigChange setChannels(List<String> channels) {
+        this.channels = channels;
         return this;
     }
 }
