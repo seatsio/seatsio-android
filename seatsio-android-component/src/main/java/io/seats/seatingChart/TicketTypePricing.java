@@ -14,14 +14,11 @@ public class TicketTypePricing {
     public String description;
 
     public TicketTypePricing(float price, String ticketType) {
-        this.price = price;
-        this.ticketType = ticketType;
+        this(price, ticketType, null);
     }
 
     public TicketTypePricing(float price, String ticketType, String label) {
-        this.price = price;
-        this.ticketType = ticketType;
-        this.label = label;
+        this(price, ticketType, label, null);
     }
 
     public TicketTypePricing(float price, String ticketType, String label, String description) {
