@@ -35,9 +35,6 @@ public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, Seating
     public Boolean objectWithoutPricingSelectable;
 
     @Expose
-    public Boolean objectWithoutCategorySelectable;
-
-    @Expose
     public List<SelectedObject> selectedObjects;
 
     @Expose
@@ -264,11 +261,6 @@ public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, Seating
 
     public SeatingChartConfig setObjectWithoutPricingSelectable(boolean objectWithoutPricingSelectable) {
         this.objectWithoutPricingSelectable = objectWithoutPricingSelectable;
-        return this;
-    }
-
-    public SeatingChartConfig setObjectWithoutCategorySelectable(boolean objectWithoutCategorySelectable) {
-        this.objectWithoutCategorySelectable = objectWithoutCategorySelectable;
         return this;
     }
 
