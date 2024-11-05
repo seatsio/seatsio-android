@@ -4,7 +4,7 @@ plugins {
 
 apply plugin: 'com.android.library'
 group = 'io.seats'
-version = '13.0.0'
+version = '13.1.0'
 
 android {
     compileSdkVersion 34
