@@ -16,7 +16,7 @@ public class ConfigChange {
     public String objectLabel;
 
     @Expose
-    public int numberOfPlacesToSelect;
+    public Integer numberOfPlacesToSelect;
 
     @Expose
     public Object maxSelectedObjects;
