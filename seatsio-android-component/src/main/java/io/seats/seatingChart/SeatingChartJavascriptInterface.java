@@ -79,6 +79,16 @@ public class SeatingChartJavascriptInterface extends SeatsioJavascriptInterface<
     }
 
     @JavascriptInterface
+    public void onHoldCallsInProgress() {
+        config.onHoldCallsInProgress.run();
+    }
+
+    @JavascriptInterface
+    public void onHoldCallsComplete() {
+        config.onHoldCallsComplete.run();
+    }
+
+    @JavascriptInterface
     public void onSelectedObjectBooked(String object) {
         config.onSelectedObjectBooked.accept(toSeatsObject(object));
     }

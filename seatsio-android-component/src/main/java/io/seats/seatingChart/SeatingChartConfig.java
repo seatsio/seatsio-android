@@ -161,6 +161,8 @@ public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, Seating
     public Runnable onBestAvailableSelectionFailed;
     public Runnable onSelectionValid;
     public Consumer<List<SelectionValidatorType>> onSelectionInvalid;
+    public Runnable onHoldCallsInProgress;
+    public Runnable onHoldCallsComplete;
     public Consumer<SeatsioObject> onSelectedObjectBooked;
     public Consumer<SeatsioObject> onObjectStatusChanged;
     public Consumer<HoldToken> onSessionInitialized;
@@ -221,6 +223,16 @@ public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, Seating
 
     public SeatingChartConfig setOnSelectionInvalid(Consumer<List<SelectionValidatorType>> onSelectionInvalid) {
         this.onSelectionInvalid = onSelectionInvalid;
+        return this;
+    }
+
+    public SeatingChartConfig setOnHoldCallsInProgress(Runnable onHoldCallsInProgress) {
+        this.onHoldCallsInProgress = onHoldCallsInProgress;
+        return this;
+    }
+
+    public SeatingChartConfig setOnHoldCallsComplete(Runnable onHoldCallsComplete) {
+        this.onHoldCallsComplete = onHoldCallsComplete;
         return this;
     }
 
@@ -514,6 +526,14 @@ public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, Seating
 
         if (onSelectionInvalid != null) {
             callbacks.add("onSelectionInvalid: (violations) => Native.onSelectionInvalid(JSON.stringify(violations))");
+        }
+
+        if (onHoldCallsInProgress != null) {
+            callbacks.add("onHoldCallsInProgress: () => Native.onHoldCallsInProgress()");
+        }
+
+        if (onHoldCallsComplete != null) {
+            callbacks.add("onHoldCallsComplete: () => Native.onHoldCallsComplete()");
         }
 
         if (onSelectedObjectBooked != null) {

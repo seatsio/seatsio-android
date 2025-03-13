@@ -43,6 +43,8 @@ public class ShowSeatingChartActivity extends AppCompatActivity {
                 .setOnBestAvailableSelectionFailed(() -> Log.i(LOG_PREFIX, "Best available failed"))
                 .setOnSelectionValid(() -> Log.i(LOG_PREFIX, "Selection valid"))
                 .setOnSelectionInvalid((violations) -> Log.i(LOG_PREFIX, "Selection invalid " + violations))
+                .setOnHoldCallsInProgress(() -> Log.i(LOG_PREFIX, "Hold calls in progress"))
+                .setOnHoldCallsComplete(() -> Log.i(LOG_PREFIX, "Hold calls complete"))
                 .setOnSelectedObjectBooked(object -> Log.i(LOG_PREFIX, "Booked " + object.id))
                 .setOnChartRendered((chart) -> {
                     chart.listSelectedObjects(objects -> Log.i(LOG_PREFIX, objects.toString()));
