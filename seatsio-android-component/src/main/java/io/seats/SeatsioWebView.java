@@ -78,8 +78,11 @@ abstract public class SeatsioWebView<T extends WebView> extends WebView {
                 "<body style=\"margin: 0; padding: 0\">" +
                 "<div id=\"chart\" style=\"width: 100%; height: 100%;\"></div>" +
                 "<script>" +
+                "var internalCallbacks = {};" +
                 "function asyncCallSuccess(requestId) { return result => Native.asyncCallSuccess(JSON.stringify(result), requestId) }" +
                 "function asyncCallError(requestId) { return result => Native.asyncCallError(requestId) }" +
+                "function registerInternalCallback(name, fn) { internalCallbacks[name] = fn }" +
+                "function callInternalCallback(name, data) { internalCallbacks[name](data); delete internalCallbacks[name] }" +
                 "let chart = new seatsio." + toolName() + "(" + configJson + ").render()" +
                 "</script>" +
                 "</body>" +
@@ -92,6 +95,16 @@ abstract public class SeatsioWebView<T extends WebView> extends WebView {
 
     public void onAsyncCallError(String requestId) {
         caller.onError(requestId);
+    }
+
+    public void callInternalCallback(String name, Object data) {
+        if (data instanceof Integer) {
+            caller.call("callInternalCallback('" + name + "'," + data + ")");
+        } else if (data instanceof String) {
+            caller.call("callInternalCallback('" + name + "', '" + data + "')");
+        } else {
+            caller.call("callInternalCallback('" + name + "'," + GSON.toJson(data) + ")");
+        }
     }
 
     public void findObject(String label, Consumer<SeatsioObject> successCallback, Runnable errorCallback) {

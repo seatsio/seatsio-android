@@ -170,6 +170,9 @@ public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, Seating
     public Consumer<Floor> onFloorChanged;
     public Runnable onHoldTokenExpired;
     public Function<Float, String> priceFormatter;
+    public BiConsumer<PromptsApiParams.OnPlacesPromptParams, Consumer<Integer>> onPlacesPrompt;
+    public BiConsumer<PromptsApiParams.OnPlacesWithTicketTypesPromptParams, Consumer<Map<String, Integer>>> onPlacesWithTicketTypesPrompt;
+    public BiConsumer<PromptsApiParams.OnTicketTypePromptParams, Consumer<String>> onTicketTypePrompt;
 
     public SeatingChartConfig setWorkspaceKey(String workspaceKey) {
         this.workspaceKey = workspaceKey;
@@ -484,6 +487,21 @@ public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, Seating
         return this;
     }
 
+    public SeatingChartConfig setOnPlacesPrompt(BiConsumer<PromptsApiParams.OnPlacesPromptParams, Consumer<Integer>> onPlacesPrompt) {
+        this.onPlacesPrompt = onPlacesPrompt;
+        return this;
+    }
+
+    public SeatingChartConfig setOnPlacesWithTicketTypesPrompt(BiConsumer<PromptsApiParams.OnPlacesWithTicketTypesPromptParams, Consumer<Map<String, Integer>>> onPlacesWithTicketTypesPrompt) {
+        this.onPlacesWithTicketTypesPrompt = onPlacesWithTicketTypesPrompt;
+        return this;
+    }
+
+    public SeatingChartConfig setOnTicketTypePrompt(BiConsumer<PromptsApiParams.OnTicketTypePromptParams, Consumer<String>> onTicketTypePrompt) {
+        this.onTicketTypePrompt = onTicketTypePrompt;
+        return this;
+    }
+
     @Override
     protected List<String> callbacks() {
         List<String> callbacks = super.callbacks();
@@ -578,6 +596,18 @@ public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, Seating
 
         if (sectionColor != null) {
             callbacks.add("sectionColor: " + sectionColor);
+        }
+
+        if (onPlacesPrompt != null) {
+            callbacks.add("onPlacesPrompt: (params, callback) => { registerInternalCallback('onPlacesPrompt', callback); Native.onPlacesPrompt(JSON.stringify(params)) }");
+        }
+
+        if (onPlacesWithTicketTypesPrompt != null) {
+            callbacks.add("onPlacesWithTicketTypesPrompt: (params, callback) => { registerInternalCallback('onPlacesWithTicketTypesPrompt', callback); Native.onPlacesWithTicketTypesPrompt(JSON.stringify(params)) }");
+        }
+
+        if (onTicketTypePrompt != null) {
+            callbacks.add("onTicketTypePrompt: (params, callback) => { registerInternalCallback('onTicketTypePrompt', callback); Native.onTicketTypePrompt(JSON.stringify(params)) }");
         }
 
         return callbacks;

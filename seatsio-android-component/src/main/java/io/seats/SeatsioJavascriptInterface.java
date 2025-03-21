@@ -12,8 +12,11 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.time.Instant;
 import java.util.List;
+import java.util.Map;
 
 import io.seats.seatingChart.Pricing;
+import io.seats.seatingChart.PromptsApiParams;
+import io.seats.seatingChart.SeatingChartConfig;
 import io.seats.seatingChart.SeatsioObject;
 import io.seats.seatingChart.TicketType;
 
@@ -76,6 +79,36 @@ public class SeatsioJavascriptInterface<U extends SeatsioWebView<?>, T extends C
     @JavascriptInterface
     public void onObjectClicked(String object) {
         config.onObjectClicked.accept(toSeatsObject(object));
+    }
+
+    @JavascriptInterface
+    public void onPlacesPrompt(String params) {
+        if (config instanceof SeatingChartConfig) {
+            ((SeatingChartConfig)config).onPlacesPrompt.accept(
+                    GSON.fromJson(params, PromptsApiParams.OnPlacesPromptParams.class),
+                    (Integer places) -> seatsioWebView.callInternalCallback("onPlacesPrompt", places)
+            );
+        }
+    }
+
+    @JavascriptInterface
+    public void onPlacesWithTicketTypesPrompt(String params) {
+        if (config instanceof SeatingChartConfig) {
+            ((SeatingChartConfig)config).onPlacesWithTicketTypesPrompt.accept(
+                    GSON.fromJson(params, PromptsApiParams.OnPlacesWithTicketTypesPromptParams.class),
+                    (Map<String, Integer> types) -> seatsioWebView.callInternalCallback("onPlacesWithTicketTypesPrompt", types)
+            );
+        }
+    }
+
+    @JavascriptInterface
+    public void onTicketTypePrompt(String params) {
+        if (config instanceof SeatingChartConfig) {
+            ((SeatingChartConfig)config).onTicketTypePrompt.accept(
+                    GSON.fromJson(params, PromptsApiParams.OnTicketTypePromptParams.class),
+                    (String type) -> seatsioWebView.callInternalCallback("onTicketTypePrompt", type)
+            );
+        }
     }
 
     @JavascriptInterface
