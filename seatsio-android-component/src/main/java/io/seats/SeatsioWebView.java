@@ -12,9 +12,16 @@ import android.webkit.WebView;
 
 import androidx.annotation.Nullable;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.List;
 import java.util.function.Consumer;
 
+import io.seats.seatingChart.Category;
 import io.seats.seatingChart.SeatsioObject;
+import io.seats.seatingChart.SelectedObject;
 
 abstract public class SeatsioWebView<T extends WebView> extends WebView {
 
@@ -114,6 +121,81 @@ abstract public class SeatsioWebView<T extends WebView> extends WebView {
                     SeatsioObject seatsioObject = GSON.fromJson(object, SeatsioObject.class);
                     successCallback.accept(seatsioObject);
                 },
+                errorCallback
+        );
+    }
+
+    public void rerender() {
+        caller.call("chart.rerender()");
+    }
+
+    public void trySelectObjects(SelectedObject... selectedObjects) {
+        caller.call("chart.trySelectObjects(" + new Gson().toJson(selectedObjects) + ")");
+    }
+
+    public void doSelectObjects(SelectedObject... selectedObjects) {
+        caller.call("chart.doSelectObjects(" + new Gson().toJson(selectedObjects) + ")");
+    }
+
+    public void zoomToObjects(String ... labels) {
+        caller.call("chart.zoomToObjects(" + new Gson().toJson(labels) + ")");
+    }
+
+    public void resetView() {
+        caller.call("chart.resetView()");
+    }
+
+    public void selectCategories(String... categoryIds) {
+        caller.call("chart.selectCategories(" + new Gson().toJson(categoryIds) + ")");
+    }
+
+    public void deselectCategories(String... categoryIds) {
+        caller.call("chart.deselectCategories(" + new Gson().toJson(categoryIds) + ")");
+    }
+
+    public void zoomToSection(String label) {
+        caller.call("chart.zoomToSection(" + new Gson().toJson(label)+ ")");
+    }
+
+    public void zoomToSelectedObjects() {
+        caller.call("chart.zoomToSelectedObjects()");
+    }
+
+    public void pulseObject(String objectLabel) {
+        caller.call("chart.findObject(" + new Gson().toJson(objectLabel) + ").then(object => object.pulse())");
+    }
+
+    public void unpulseObject(String objectLabel) {
+        caller.call("chart.findObject(" + new Gson().toJson(objectLabel) + ").then(object => object.unpulse())");
+    }
+
+    public void listSelectedObjects(Consumer<List<SeatsioObject>> callback) {
+        caller.callAsync(
+                "chart.listSelectedObjects()",
+                objects -> {
+                    Type listType = new TypeToken<List<SeatsioObject>>() {
+                    }.getType();
+                    List<SeatsioObject> seatsioObjects = GSON.fromJson(objects, listType);
+                    callback.accept(seatsioObjects);
+                }
+        );
+    }
+
+    public void listCategories(Consumer<List<Category>> callback) {
+        caller.callAsync(
+                "chart.listCategories()",
+                categories -> {
+                    Type listType = new TypeToken<List<Category>>() {
+                    }.getType();
+                    callback.accept(GSON.fromJson(categories, listType));
+                }
+        );
+    }
+
+    public void clearSelection(Runnable successCallback, Runnable errorCallback) {
+        caller.callAsync(
+                "chart.clearSelection()",
+                object -> successCallback.run(),
                 errorCallback
         );
     }

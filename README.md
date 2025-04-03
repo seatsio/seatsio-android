@@ -238,4 +238,7 @@ protected void onCreate(Bundle savedInstanceState) {
 }
 ```
 
+Some event manager modes have additional properties. To use these properties, instantiate one of the 
+sub-classes of `EventManagerConfig`.
+
 Documentation for the event manager is available at https://docs.seats.io/docs/event-manager

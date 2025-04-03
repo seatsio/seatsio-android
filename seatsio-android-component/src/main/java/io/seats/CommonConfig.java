@@ -54,11 +54,13 @@ public class CommonConfig<T extends CommonConfig<?, ?>, U extends SeatsioWebView
 
     public String objectColor;
     public Function<SeatsioObject, String> tooltipInfo;
+    public Function<SeatsioObject, String> popoverInfo;
     public BiConsumer<SeatsioObject, TicketType> onObjectSelected;
     public BiConsumer<SeatsioObject, TicketType> onObjectDeselected;
     public Consumer<SeatsioObject> onObjectClicked;
     public Consumer<U> onChartRendered;
     public Consumer<U> onChartRenderingFailed;
+    public Consumer<U> onChartRerenderingStarted;
 
     public T setEvent(String event) {
         HashSet<String> events = new HashSet<>();
@@ -84,6 +86,11 @@ public class CommonConfig<T extends CommonConfig<?, ?>, U extends SeatsioWebView
 
     public T setTooltipInfo(Function<SeatsioObject, String> tooltipInfo) {
         this.tooltipInfo = tooltipInfo;
+        return (T) this;
+    }
+
+    public T popoverInfo(Function<SeatsioObject, String> popoverInfo) {
+        this.popoverInfo = popoverInfo;
         return (T) this;
     }
 
@@ -127,6 +134,11 @@ public class CommonConfig<T extends CommonConfig<?, ?>, U extends SeatsioWebView
         return (T) this;
     }
 
+    public T setOnChartRerenderingStarted(Consumer<U> onChartRerenderingStarted) {
+        this.onChartRerenderingStarted = onChartRerenderingStarted;
+        return (T) this;
+    }
+
     public T setOnObjectSelected(BiConsumer<SeatsioObject, TicketType> onObjectSelected) {
         this.onObjectSelected = onObjectSelected;
         return (T) this;
@@ -147,6 +159,10 @@ public class CommonConfig<T extends CommonConfig<?, ?>, U extends SeatsioWebView
 
         if (tooltipInfo != null) {
             callbacks.add("tooltipInfo: object => Native.tooltipInfo(JSON.stringify(object))");
+        }
+
+        if (popoverInfo != null) {
+            callbacks.add("popoverInfo: object => Native.popoverInfo(JSON.stringify(object))");
         }
 
         if (objectColor != null) {
@@ -171,6 +187,10 @@ public class CommonConfig<T extends CommonConfig<?, ?>, U extends SeatsioWebView
 
         if (onChartRenderingFailed != null) {
             callbacks.add("onChartRenderingFailed: object => Native.onChartRenderingFailed()");
+        }
+
+        if (onChartRerenderingStarted != null) {
+            callbacks.add("onChartRerenderingStarted: object => Native.onChartRerenderingStarted()");
         }
 
         return callbacks;
