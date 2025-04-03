@@ -50,6 +50,10 @@ public class SeatsioJavascriptInterface<U extends SeatsioWebView<?>, T extends C
         return config.tooltipInfo.apply(toSeatsObject(object));
     }
 
+    public String popoverInfo(String object) {
+        return config.popoverInfo.apply(toSeatsObject(object));
+    }
+
     @JavascriptInterface
     public void onChartRendered() {
         seatsioWebView.post(() -> config.onChartRendered.accept(seatsioWebView));
@@ -58,6 +62,11 @@ public class SeatsioJavascriptInterface<U extends SeatsioWebView<?>, T extends C
     @JavascriptInterface
     public void onChartRenderingFailed() {
         config.onChartRenderingFailed.accept(seatsioWebView);
+    }
+
+    @JavascriptInterface
+    public void onChartRerenderingStarted() {
+        config.onChartRerenderingStarted.accept(seatsioWebView);
     }
 
     @JavascriptInterface

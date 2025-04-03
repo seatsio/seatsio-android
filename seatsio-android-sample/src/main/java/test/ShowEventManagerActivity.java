@@ -2,6 +2,7 @@ package test;
 
 import static io.seats.Region.EU;
 import static io.seats.eventManager.EventManagerMode.MANAGE_OBJECT_STATUSES;
+import static io.seats.eventManager.EventManagerMode.SELECT;
 import static io.seats.seatingChart.ColorScheme.DARK;
 
 import android.graphics.Color;
@@ -12,16 +13,19 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import io.seats.eventManager.EventManagerConfig;
 import io.seats.eventManager.EventManagerView;
+import io.seats.eventManager.ManageObjectStatusesModeConfig;
+import io.seats.eventManager.SelectModeConfig;
 
 public class ShowEventManagerActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EventManagerConfig config = new EventManagerConfig()
+        EventManagerConfig config = new SelectModeConfig()
+                .setMaxSelectedObjects(4)
                 .setSecretKey("...")
-                .setEvent("smallTheatreWithGAEvent")
-                .setMode(MANAGE_OBJECT_STATUSES)
+                .setEvent("fa78299a-6b61-4bf3-99c8-8434a79be17e")
+                .setMode(SELECT)
                 .setLanguage("nl")
                 .setObjectColor("(object, dflt, extraConfig) => object.channel ? 'blue': 'red'")
                 .setTooltipInfo(object -> object.channel != null ? "in channel" : "not in channel")

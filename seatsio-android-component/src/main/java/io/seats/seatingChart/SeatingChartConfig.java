@@ -59,6 +59,9 @@ public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, Seating
     public List<String> unavailableCategories;
 
     @Expose
+    public List<String> availableCategories;
+
+    @Expose
     public BestAvailable selectBestAvailable;
 
     @Expose
@@ -145,6 +148,12 @@ public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, Seating
     public String activeFloor;
 
     @Expose
+    public Boolean lockActiveFloor;
+
+    @Expose
+    public Boolean showFloorElevator;
+
+    @Expose
     public Boolean showSectionPricingOverlay;
 
     @Expose
@@ -152,6 +161,13 @@ public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, Seating
 
     @Expose
     public Boolean unifiedObjectPropertiesInCallbacks;
+
+    @Expose
+    public Boolean hideSectionsNotForSale;
+
+    @Expose
+    public ObjectPopover objectPopover;
+
 
     public BiConsumer<List<SeatsioObject>, Boolean> onBestAvailableSelected;
     public BiConsumer<List<SeatsioObject>, List<TicketType>> onHoldSucceeded;
@@ -326,8 +342,23 @@ public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, Seating
         return this;
     }
 
+    public SeatingChartConfig setMaxSelectedObjects(TicketTypeWithQuantity... maxSelectedObjects) {
+        this.maxSelectedObjects = asList(maxSelectedObjects);
+        return this;
+    }
+
+    public SeatingChartConfig setMaxSelectedObjects(CategoryWithTicketTypesAndQuantity... maxSelectedObjects) {
+        this.maxSelectedObjects = asList(maxSelectedObjects);
+        return this;
+    }
+
     public SeatingChartConfig setUnavailableCategories(String... unavailableCategories) {
         this.unavailableCategories = asList(unavailableCategories);
+        return this;
+    }
+
+    public SeatingChartConfig setAvailableCategories(String... availableCategories) {
+        this.availableCategories = asList(availableCategories);
         return this;
     }
 
@@ -472,6 +503,16 @@ public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, Seating
         return this;
     }
 
+    public SeatingChartConfig setLockActiveFloor(Boolean lockActiveFloor) {
+        this.lockActiveFloor = lockActiveFloor;
+        return this;
+    }
+
+    public SeatingChartConfig setShowFloorElevator(Boolean showFloorElevator) {
+        this.showFloorElevator = showFloorElevator;
+        return this;
+    }
+
     public SeatingChartConfig setShowSectionPricingOverlay(Boolean showSectionPricingOverlay) {
         this.showSectionPricingOverlay = showSectionPricingOverlay;
         return this;
@@ -484,6 +525,16 @@ public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, Seating
 
     public SeatingChartConfig setUnifiedObjectPropertiesInCallbacks(Boolean unifiedObjectPropertiesInCallbacks) {
         this.unifiedObjectPropertiesInCallbacks = unifiedObjectPropertiesInCallbacks;
+        return this;
+    }
+
+    public SeatingChartConfig setHideSectionsNotForSale(Boolean hideSectionsNotForSale) {
+        this.hideSectionsNotForSale = hideSectionsNotForSale;
+        return this;
+    }
+
+    public SeatingChartConfig setObjectPopover(ObjectPopover objectPopover) {
+        this.objectPopover = objectPopover;
         return this;
     }
 
