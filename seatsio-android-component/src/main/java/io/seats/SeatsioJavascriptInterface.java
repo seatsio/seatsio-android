@@ -121,6 +121,11 @@ public class SeatsioJavascriptInterface<U extends SeatsioWebView<?>, T extends C
     }
 
     @JavascriptInterface
+    public String objectColor(String object, String defaultColor, String extraConfig) {
+        return config.objectColor.apply(toSeatsObject(object), defaultColor, GSON.fromJson(extraConfig, Map.class));
+    }
+
+    @JavascriptInterface
     public void asyncCallSuccess(String result, String requestId) {
         seatsioWebView.onAsyncCallSuccess(result, requestId);
     }

@@ -22,6 +22,7 @@ import io.seats.seatingChart.SeatsioObject;
 import io.seats.seatingChart.Style;
 import io.seats.seatingChart.StylePreset;
 import io.seats.seatingChart.TicketType;
+import io.seats.utils.Function3;
 
 public class CommonConfig<T extends CommonConfig<?, ?>, U extends SeatsioWebView<?>> {
 
@@ -52,7 +53,7 @@ public class CommonConfig<T extends CommonConfig<?, ?>, U extends SeatsioWebView
     @Expose
     public Style style;
 
-    public String objectColor;
+    public Function3<SeatsioObject, String, Map<String, ?>, String> objectColor;
     public Function<SeatsioObject, String> tooltipInfo;
     public Function<SeatsioObject, String> popoverInfo;
     public BiConsumer<SeatsioObject, TicketType> onObjectSelected;
@@ -99,7 +100,7 @@ public class CommonConfig<T extends CommonConfig<?, ?>, U extends SeatsioWebView
         return (T) this;
     }
 
-    public T setObjectColor(String objectColor) {
+    public T setObjectColor(Function3<SeatsioObject, String, Map<String, ?>, String> objectColor) {
         this.objectColor = objectColor;
         return (T) this;
     }
@@ -166,7 +167,7 @@ public class CommonConfig<T extends CommonConfig<?, ?>, U extends SeatsioWebView
         }
 
         if (objectColor != null) {
-            callbacks.add("objectColor: " + objectColor);
+            callbacks.add("objectColor: (object, defaultColor, extraConfig) => Native.objectColor(JSON.stringify(object), defaultColor, extraConfig)");
         }
 
         if (onObjectSelected != null) {

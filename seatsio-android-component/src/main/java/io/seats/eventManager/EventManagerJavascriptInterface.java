@@ -23,7 +23,7 @@ public class EventManagerJavascriptInterface extends SeatsioJavascriptInterface<
     }
 
     @JavascriptInterface
-    public String objectIcon(String object, String defaultIcon, String extraData) {
-        return config.objectIcon.apply(toSeatsObject(object), defaultIcon, GSON.fromJson(extraData, Map.class));
+    public String objectIcon(String object, String defaultIcon, String extraConfig) {
+        return config.objectIcon.apply(toSeatsObject(object), defaultIcon, GSON.fromJson(extraConfig, Map.class));
     }
 }

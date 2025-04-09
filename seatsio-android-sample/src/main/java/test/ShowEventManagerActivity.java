@@ -27,7 +27,8 @@ public class ShowEventManagerActivity extends AppCompatActivity {
                 .setEvent("fa78299a-6b61-4bf3-99c8-8434a79be17e")
                 .setMode(SELECT)
                 .setLanguage("nl")
-                .setObjectColor("(object, dflt, extraConfig) => object.channel ? 'blue': 'red'")
+                .setObjectColor((object, defaultColor, extraConfig) -> object.accessible ? "blue": "red")
+                .setObjectIcon((object, defaultIcon, extraConfig) -> defaultIcon)
                 .setTooltipInfo(object -> object.channel != null ? "in channel" : "not in channel")
                 .setColorScheme(DARK)
                 .setOnChartRenderingFailed((chart) -> {
