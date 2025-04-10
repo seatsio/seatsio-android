@@ -13,13 +13,16 @@ import java.lang.reflect.Type;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import io.seats.seatingChart.Pricing;
-import io.seats.seatingChart.PromptsApiParams;
-import io.seats.seatingChart.SeatingChartConfig;
 import io.seats.seatingChart.SeatsioObject;
 import io.seats.seatingChart.TicketType;
+import io.seats.utils.Function3;
 
+/** @noinspection unchecked*/
 public class SeatsioJavascriptInterface<U extends SeatsioWebView<?>, T extends CommonConfig<?, U>> {
 
     protected U seatsioWebView;
@@ -47,31 +50,31 @@ public class SeatsioJavascriptInterface<U extends SeatsioWebView<?>, T extends C
 
     @JavascriptInterface
     public String tooltipInfo(String object) {
-        return config.tooltipInfo.apply(toSeatsObject(object));
+        return ((Function<SeatsioObject, String>)config.tooltipInfo).apply(toSeatsObject(object));
     }
 
     public String popoverInfo(String object) {
-        return config.popoverInfo.apply(toSeatsObject(object));
+        return ((Function<SeatsioObject, String>)config.popoverInfo).apply(toSeatsObject(object));
     }
 
     @JavascriptInterface
     public void onChartRendered() {
-        seatsioWebView.post(() -> config.onChartRendered.accept(seatsioWebView));
+        seatsioWebView.post(() -> ((Consumer<U>)config.onChartRendered).accept(seatsioWebView));
     }
 
     @JavascriptInterface
     public void onChartRenderingFailed() {
-        config.onChartRenderingFailed.accept(seatsioWebView);
+        ((Consumer<U>)config.onChartRenderingFailed).accept(seatsioWebView);
     }
 
     @JavascriptInterface
     public void onChartRerenderingStarted() {
-        config.onChartRerenderingStarted.accept(seatsioWebView);
+        ((Consumer<U>)config.onChartRerenderingStarted).accept(seatsioWebView);
     }
 
     @JavascriptInterface
     public void onObjectSelected(String object, String ticketType) {
-        config.onObjectSelected.accept(
+        ((BiConsumer<SeatsioObject, TicketType>)config.onObjectSelected).accept(
                 toSeatsObject(object),
                 GSON.fromJson(ticketType, TicketType.class)
         );
@@ -79,7 +82,7 @@ public class SeatsioJavascriptInterface<U extends SeatsioWebView<?>, T extends C
 
     @JavascriptInterface
     public void onObjectDeselected(String object, String ticketType) {
-        config.onObjectDeselected.accept(
+        ((BiConsumer<SeatsioObject, TicketType>)config.onObjectDeselected).accept(
                 toSeatsObject(object),
                 GSON.fromJson(ticketType, TicketType.class)
         );
@@ -87,42 +90,12 @@ public class SeatsioJavascriptInterface<U extends SeatsioWebView<?>, T extends C
 
     @JavascriptInterface
     public void onObjectClicked(String object) {
-        config.onObjectClicked.accept(toSeatsObject(object));
-    }
-
-    @JavascriptInterface
-    public void onPlacesPrompt(String params) {
-        if (config instanceof SeatingChartConfig) {
-            ((SeatingChartConfig)config).onPlacesPrompt.accept(
-                    GSON.fromJson(params, PromptsApiParams.OnPlacesPromptParams.class),
-                    (Integer places) -> seatsioWebView.callInternalCallback("onPlacesPrompt", places)
-            );
-        }
-    }
-
-    @JavascriptInterface
-    public void onPlacesWithTicketTypesPrompt(String params) {
-        if (config instanceof SeatingChartConfig) {
-            ((SeatingChartConfig)config).onPlacesWithTicketTypesPrompt.accept(
-                    GSON.fromJson(params, PromptsApiParams.OnPlacesWithTicketTypesPromptParams.class),
-                    (Map<String, Integer> types) -> seatsioWebView.callInternalCallback("onPlacesWithTicketTypesPrompt", types)
-            );
-        }
-    }
-
-    @JavascriptInterface
-    public void onTicketTypePrompt(String params) {
-        if (config instanceof SeatingChartConfig) {
-            ((SeatingChartConfig)config).onTicketTypePrompt.accept(
-                    GSON.fromJson(params, PromptsApiParams.OnTicketTypePromptParams.class),
-                    (String type) -> seatsioWebView.callInternalCallback("onTicketTypePrompt", type)
-            );
-        }
+        ((Consumer<SeatsioObject>)config.onObjectClicked).accept(toSeatsObject(object));
     }
 
     @JavascriptInterface
     public String objectColor(String object, String defaultColor, String extraConfig) {
-        return config.objectColor.apply(toSeatsObject(object), defaultColor, GSON.fromJson(extraConfig, Map.class));
+        return ((Function3<SeatsioObject, String, Map<String, ?>, String>)config.objectColor).apply(toSeatsObject(object), defaultColor, GSON.fromJson(extraConfig, Map.class));
     }
 
     @JavascriptInterface

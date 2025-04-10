@@ -53,15 +53,15 @@ public class CommonConfig<T extends CommonConfig<?, ?>, U extends SeatsioWebView
     @Expose
     public Style style;
 
-    public Function3<SeatsioObject, String, Map<String, ?>, String> objectColor;
-    public Function<SeatsioObject, String> tooltipInfo;
-    public Function<SeatsioObject, String> popoverInfo;
-    public BiConsumer<SeatsioObject, TicketType> onObjectSelected;
-    public BiConsumer<SeatsioObject, TicketType> onObjectDeselected;
-    public Consumer<SeatsioObject> onObjectClicked;
-    public Consumer<U> onChartRendered;
-    public Consumer<U> onChartRenderingFailed;
-    public Consumer<U> onChartRerenderingStarted;
+    public Object objectColor;
+    public Object tooltipInfo;
+    public Object popoverInfo;
+    public Object onObjectSelected;
+    public Object onObjectDeselected;
+    public Object onObjectClicked;
+    public Object onChartRendered;
+    public Object onChartRenderingFailed;
+    public Object onChartRerenderingStarted;
 
     public T setEvent(String event) {
         HashSet<String> events = new HashSet<>();
@@ -90,7 +90,17 @@ public class CommonConfig<T extends CommonConfig<?, ?>, U extends SeatsioWebView
         return (T) this;
     }
 
+    public T setTooltipInfo(String tooltipInfo) {
+        this.tooltipInfo = tooltipInfo;
+        return (T) this;
+    }
+
     public T popoverInfo(Function<SeatsioObject, String> popoverInfo) {
+        this.popoverInfo = popoverInfo;
+        return (T) this;
+    }
+
+    public T popoverInfo(String popoverInfo) {
         this.popoverInfo = popoverInfo;
         return (T) this;
     }
@@ -101,6 +111,11 @@ public class CommonConfig<T extends CommonConfig<?, ?>, U extends SeatsioWebView
     }
 
     public T setObjectColor(Function3<SeatsioObject, String, Map<String, ?>, String> objectColor) {
+        this.objectColor = objectColor;
+        return (T) this;
+    }
+
+    public T setObjectColor(String objectColor) {
         this.objectColor = objectColor;
         return (T) this;
     }
@@ -130,7 +145,17 @@ public class CommonConfig<T extends CommonConfig<?, ?>, U extends SeatsioWebView
         return (T) this;
     }
 
+    public T setOnChartRendered(String onChartRendered) {
+        this.onChartRendered = onChartRendered;
+        return (T) this;
+    }
+
     public T setOnChartRenderingFailed(Consumer<U> onChartRenderingFailed) {
+        this.onChartRenderingFailed = onChartRenderingFailed;
+        return (T) this;
+    }
+
+    public T setOnChartRenderingFailed(String onChartRenderingFailed) {
         this.onChartRenderingFailed = onChartRenderingFailed;
         return (T) this;
     }
@@ -140,7 +165,17 @@ public class CommonConfig<T extends CommonConfig<?, ?>, U extends SeatsioWebView
         return (T) this;
     }
 
+    public T setOnChartRerenderingStarted(String onChartRerenderingStarted) {
+        this.onChartRerenderingStarted = onChartRerenderingStarted;
+        return (T) this;
+    }
+
     public T setOnObjectSelected(BiConsumer<SeatsioObject, TicketType> onObjectSelected) {
+        this.onObjectSelected = onObjectSelected;
+        return (T) this;
+    }
+
+    public T setOnObjectSelected(String onObjectSelected) {
         this.onObjectSelected = onObjectSelected;
         return (T) this;
     }
@@ -150,7 +185,17 @@ public class CommonConfig<T extends CommonConfig<?, ?>, U extends SeatsioWebView
         return (T) this;
     }
 
+    public T setOnObjectDeselected(String onObjectDeselected) {
+        this.onObjectDeselected = onObjectDeselected;
+        return (T) this;
+    }
+
     public T setOnObjectClicked(Consumer<SeatsioObject> onObjectClicked) {
+        this.onObjectClicked = onObjectClicked;
+        return (T) this;
+    }
+
+    public T setOnObjectClicked(String onObjectClicked) {
         this.onObjectClicked = onObjectClicked;
         return (T) this;
     }
@@ -159,39 +204,75 @@ public class CommonConfig<T extends CommonConfig<?, ?>, U extends SeatsioWebView
         List<String> callbacks = new ArrayList<>();
 
         if (tooltipInfo != null) {
-            callbacks.add("tooltipInfo: object => Native.tooltipInfo(JSON.stringify(object))");
+            if (tooltipInfo instanceof String) {
+                callbacks.add("tooltipInfo: " + tooltipInfo);
+            } else {
+                callbacks.add("tooltipInfo: (object) => Native.tooltipInfo(JSON.stringify(object))");
+            }
         }
 
         if (popoverInfo != null) {
-            callbacks.add("popoverInfo: object => Native.popoverInfo(JSON.stringify(object))");
+            if (popoverInfo instanceof String) {
+                callbacks.add("popoverInfo: " + popoverInfo);
+            } else {
+                callbacks.add("popoverInfo: (object) => Native.popoverInfo(JSON.stringify(object))");
+            }
         }
 
         if (objectColor != null) {
-            callbacks.add("objectColor: (object, defaultColor, extraConfig) => Native.objectColor(JSON.stringify(object), defaultColor, extraConfig)");
+            if (objectColor instanceof String) {
+                callbacks.add("objectColor: " + objectColor);
+            } else {
+                callbacks.add("objectColor: (object, defaultColor, extraConfig) => Native.objectColor(JSON.stringify(object), defaultColor, extraConfig)");
+            }
         }
 
         if (onObjectSelected != null) {
-            callbacks.add("onObjectSelected: (object, ticketType) => Native.onObjectSelected(JSON.stringify(object), ticketType ? JSON.stringify(ticketType) : null)");
+            if (onObjectSelected instanceof String) {
+                callbacks.add("onObjectSelected: " + onObjectSelected);
+            } else {
+                callbacks.add("onObjectSelected: (object, ticketType) => Native.onObjectSelected(JSON.stringify(object), ticketType ? JSON.stringify(ticketType) : null)");
+            }
         }
 
         if (onObjectDeselected != null) {
-            callbacks.add("onObjectDeselected: (object, ticketType) => Native.onObjectDeselected(JSON.stringify(object), ticketType ? JSON.stringify(ticketType) : null)");
+            if (onObjectDeselected instanceof String) {
+                callbacks.add("onObjectDeselected: " + onObjectDeselected);
+            } else {
+                callbacks.add("onObjectDeselected: (object, ticketType) => Native.onObjectDeselected(JSON.stringify(object), ticketType ? JSON.stringify(ticketType) : null)");
+            }
         }
 
         if (onObjectClicked != null) {
-            callbacks.add("onObjectClicked: object => Native.onObjectClicked(JSON.stringify(object))");
+            if (onObjectClicked instanceof String) {
+                callbacks.add("onObjectClicked: " + onObjectClicked);
+            } else {
+                callbacks.add("onObjectClicked: (object) => Native.onObjectClicked(JSON.stringify(object))");
+            }
         }
 
         if (onChartRendered != null) {
-            callbacks.add("onChartRendered: object => Native.onChartRendered()");
+            if (onChartRendered instanceof String) {
+                callbacks.add("onChartRendered: " + onChartRendered);
+            } else {
+                callbacks.add("onChartRendered: (object) => Native.onChartRendered()");
+            }
         }
 
         if (onChartRenderingFailed != null) {
-            callbacks.add("onChartRenderingFailed: object => Native.onChartRenderingFailed()");
+            if (onChartRenderingFailed instanceof String) {
+                callbacks.add("onChartRenderingFailed: " + onChartRenderingFailed);
+            } else {
+                callbacks.add("onChartRenderingFailed: (object) => Native.onChartRenderingFailed()");
+            }
         }
 
         if (onChartRerenderingStarted != null) {
-            callbacks.add("onChartRerenderingStarted: object => Native.onChartRerenderingStarted()");
+            if (onChartRerenderingStarted instanceof String) {
+                callbacks.add("onChartRerenderingStarted: " + onChartRerenderingStarted);
+            } else {
+                callbacks.add("onChartRerenderingStarted: (object) => Native.onChartRerenderingStarted()");
+            }
         }
 
         return callbacks;

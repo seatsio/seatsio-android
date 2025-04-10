@@ -15,6 +15,7 @@ import io.seats.eventManager.EventManagerConfig;
 import io.seats.eventManager.EventManagerView;
 import io.seats.eventManager.ManageObjectStatusesModeConfig;
 import io.seats.eventManager.SelectModeConfig;
+import io.seats.eventManager.SelectModeView;
 
 public class ShowEventManagerActivity extends AppCompatActivity {
 
@@ -22,19 +23,19 @@ public class ShowEventManagerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventManagerConfig config = new SelectModeConfig()
+                .setObjectIcon("(object, defaultIcon, extraConfig) => defaultIcon")
                 .setMaxSelectedObjects(4)
                 .setSecretKey("...")
                 .setEvent("fa78299a-6b61-4bf3-99c8-8434a79be17e")
                 .setMode(SELECT)
                 .setLanguage("nl")
                 .setObjectColor((object, defaultColor, extraConfig) -> object.accessible ? "blue": "red")
-                .setObjectIcon((object, defaultIcon, extraConfig) -> defaultIcon)
                 .setTooltipInfo(object -> object.channel != null ? "in channel" : "not in channel")
                 .setColorScheme(DARK)
                 .setOnChartRenderingFailed((chart) -> {
                     Log.i("Seats.io", "whoops");
                 });
-        EventManagerView view = new EventManagerView(EU, config, getApplicationContext());
+        EventManagerView view = new SelectModeView(EU, (SelectModeConfig)config, getApplicationContext());
         view.setBackgroundColor(Color.BLACK);
         setContentView(view);
     }

@@ -7,9 +7,16 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import io.seats.SeatsioJavascriptInterface;
+import io.seats.utils.Function3;
+import io.seats.utils.Function4;
 
+/** @noinspection unchecked*/
 public class SeatingChartJavascriptInterface extends SeatsioJavascriptInterface<SeatingChartView, SeatingChartConfig> {
 
     private static final Type TICKET_TYPE_LIST_TYPE = new TypeToken<List<TicketType>>() {
@@ -24,7 +31,7 @@ public class SeatingChartJavascriptInterface extends SeatsioJavascriptInterface<
 
     @JavascriptInterface
     public void onBestAvailableSelected(String objects, String nextToEachOther) {
-        config.onBestAvailableSelected.accept(
+        ((BiConsumer<List<SeatsioObject>, Boolean>)config.onBestAvailableSelected).accept(
                 toSeatsObjects(objects),
                 GSON.fromJson(nextToEachOther, Boolean.class)
         );
@@ -32,12 +39,12 @@ public class SeatingChartJavascriptInterface extends SeatsioJavascriptInterface<
 
     @JavascriptInterface
     public void onBestAvailableSelectionFailed() {
-        config.onBestAvailableSelectionFailed.run();
+        ((Runnable)config.onBestAvailableSelectionFailed).run();
     }
 
     @JavascriptInterface
     public void onHoldSucceeded(String objects, String ticketTypes) {
-        config.onHoldSucceeded.accept(
+        ((BiConsumer<List<SeatsioObject>, List<TicketType>>)config.onHoldSucceeded).accept(
                 GSON.fromJson(objects, OBJECT_LIST_TYPE),
                 GSON.fromJson(ticketTypes, TICKET_TYPE_LIST_TYPE)
         );
@@ -45,7 +52,7 @@ public class SeatingChartJavascriptInterface extends SeatsioJavascriptInterface<
 
     @JavascriptInterface
     public void onHoldFailed(String objects, String ticketTypes) {
-        config.onHoldFailed.accept(
+        ((BiConsumer<List<SeatsioObject>, List<TicketType>>)config.onHoldFailed).accept(
                 GSON.fromJson(objects, OBJECT_LIST_TYPE),
                 GSON.fromJson(ticketTypes, TICKET_TYPE_LIST_TYPE)
         );
@@ -53,7 +60,7 @@ public class SeatingChartJavascriptInterface extends SeatsioJavascriptInterface<
 
     @JavascriptInterface
     public void onReleaseHoldSucceeded(String objects, String ticketTypes) {
-        config.onReleaseHoldSucceeded.accept(
+        ((BiConsumer<List<SeatsioObject>, List<TicketType>>)config.onReleaseHoldSucceeded).accept(
                 GSON.fromJson(objects, OBJECT_LIST_TYPE),
                 GSON.fromJson(ticketTypes, TICKET_TYPE_LIST_TYPE)
         );
@@ -61,7 +68,7 @@ public class SeatingChartJavascriptInterface extends SeatsioJavascriptInterface<
 
     @JavascriptInterface
     public void onReleaseHoldFailed(String objects, String ticketTypes) {
-        config.onReleaseHoldFailed.accept(
+        ((BiConsumer<List<SeatsioObject>, List<TicketType>>)config.onReleaseHoldFailed).accept(
                 GSON.fromJson(objects, OBJECT_LIST_TYPE),
                 GSON.fromJson(ticketTypes, TICKET_TYPE_LIST_TYPE)
         );
@@ -69,83 +76,107 @@ public class SeatingChartJavascriptInterface extends SeatsioJavascriptInterface<
 
     @JavascriptInterface
     public void onSelectionValid() {
-        config.onSelectionValid.run();
+        ((Runnable)config.onSelectionValid).run();
     }
 
     @JavascriptInterface
     public void onSelectionInvalid(String violations) {
         Type listType = new TypeToken<List<SelectionValidatorType>>() {
         }.getType();
-        config.onSelectionInvalid.accept(GSON.fromJson(violations, listType));
+        ((Consumer<List<SelectionValidatorType>>)config.onSelectionInvalid).accept(GSON.fromJson(violations, listType));
     }
 
     @JavascriptInterface
     public void onHoldCallsInProgress() {
-        config.onHoldCallsInProgress.run();
+        ((Runnable)config.onHoldCallsInProgress).run();
     }
 
     @JavascriptInterface
     public void onHoldCallsComplete() {
-        config.onHoldCallsComplete.run();
+        ((Runnable)config.onHoldCallsComplete).run();
     }
 
     @JavascriptInterface
     public void onSelectedObjectBooked(String object) {
-        config.onSelectedObjectBooked.accept(toSeatsObject(object));
+        ((Consumer<SeatsioObject>)config.onSelectedObjectBooked).accept(toSeatsObject(object));
     }
 
     @JavascriptInterface
     public void onObjectStatusChanged(String object) {
-        config.onObjectStatusChanged.accept(toSeatsObject(object));
+        ((Consumer<SeatsioObject>)config.onObjectStatusChanged).accept(toSeatsObject(object));
     }
 
     @JavascriptInterface
     public void onSessionInitialized(String holdToken) {
-        config.onSessionInitialized.accept(GSON.fromJson(holdToken, HoldToken.class));
+        ((Consumer<HoldToken>)config.onSessionInitialized).accept(GSON.fromJson(holdToken, HoldToken.class));
     }
 
     @JavascriptInterface
     public void onHoldTokenExpired() {
-        config.onHoldTokenExpired.run();
+        ((Runnable)config.onHoldTokenExpired).run();
     }
 
     @JavascriptInterface
     public void onFloorChanged(String floor) {
-        config.onFloorChanged.accept(GSON.fromJson(floor, Floor.class));
+        ((Consumer<Floor>)config.onFloorChanged).accept(GSON.fromJson(floor, Floor.class));
     }
 
     @JavascriptInterface
     public void onFilteredCategoriesChanged(String categories) {
-        config.onFilteredCategoriesChanged.accept(GSON.fromJson(categories, CATEGORY_LIST_TYPE));
+        ((Consumer<List<Category>>)config.onFilteredCategoriesChanged).accept(GSON.fromJson(categories, CATEGORY_LIST_TYPE));
     }
 
     @JavascriptInterface
     public String formatPrice(float price) {
-        return config.priceFormatter.apply(price);
+        return ((Function<Float, String>)config.priceFormatter).apply(price);
     }
 
     @JavascriptInterface
     public String sectionColor(String section, String defaultColor, String extraConfig) {
-        return config.sectionColor.apply(GSON.fromJson(section, Section.class), defaultColor, GSON.fromJson(extraConfig, Map.class));
+        return ((Function3<Section, String, Map<String, ?>, String>)config.sectionColor).apply(GSON.fromJson(section, Section.class), defaultColor, GSON.fromJson(extraConfig, Map.class));
     }
 
     @JavascriptInterface
     public String objectLabel(String object, String defaultLabel, String extraConfig) {
-        return config.objectLabel.apply(toSeatsObject(object), defaultLabel, GSON.fromJson(extraConfig, Map.class));
+        return ((Function3<SeatsioObject, String, Map<String, ?>, String>)config.objectLabel).apply(toSeatsObject(object), defaultLabel, GSON.fromJson(extraConfig, Map.class));
     }
 
     @JavascriptInterface
     public String objectIcon(String object, String defaultIcon, String extraConfig) {
-        return config.objectLabel.apply(toSeatsObject(object), defaultIcon, GSON.fromJson(extraConfig, Map.class));
+        return ((Function3<SeatsioObject, String, Map<String, ?>, String>)config.objectIcon).apply(toSeatsObject(object), defaultIcon, GSON.fromJson(extraConfig, Map.class));
     }
 
     @JavascriptInterface
     public boolean isObjectVisible(String object, String extraConfig) {
-        return config.isObjectVisible.apply(toSeatsObject(object), GSON.fromJson(extraConfig, Map.class));
+        return ((BiFunction<SeatsioObject, Map<String, ?>, Boolean>)config.isObjectVisible).apply(toSeatsObject(object), GSON.fromJson(extraConfig, Map.class));
     }
 
     @JavascriptInterface
     public Boolean canGASelectionBeIncreased(String object, boolean defaultValue, String extraConfig, String ticketType) {
-        return config.canGASelectionBeIncreased.apply(toSeatsObject(object), defaultValue, GSON.fromJson(extraConfig, Map.class), GSON.fromJson(ticketType, TicketTypePricing.class));
+        return ((Function4<SeatsioObject, Boolean, Map<String, ?>, TicketTypePricing, Boolean>)config.canGASelectionBeIncreased).apply(toSeatsObject(object), defaultValue, GSON.fromJson(extraConfig, Map.class), GSON.fromJson(ticketType, TicketTypePricing.class));
+    }
+
+    @JavascriptInterface
+    public void onPlacesPrompt(String params) {
+        ((BiConsumer<PromptsApiParams.OnPlacesPromptParams, Consumer<Integer>>)config.onPlacesPrompt).accept(
+                GSON.fromJson(params, PromptsApiParams.OnPlacesPromptParams.class),
+                (Integer places) -> seatsioWebView.callInternalCallback("onPlacesPrompt", places)
+        );
+    }
+
+    @JavascriptInterface
+    public void onPlacesWithTicketTypesPrompt(String params) {
+        ((BiConsumer<PromptsApiParams.OnPlacesWithTicketTypesPromptParams, Consumer<Map<String, Integer>>>)config.onPlacesWithTicketTypesPrompt).accept(
+                GSON.fromJson(params, PromptsApiParams.OnPlacesWithTicketTypesPromptParams.class),
+                (Map<String, Integer> types) -> seatsioWebView.callInternalCallback("onPlacesWithTicketTypesPrompt", types)
+        );
+    }
+
+    @JavascriptInterface
+    public void onTicketTypePrompt(String params) {
+        ((BiConsumer<PromptsApiParams.OnTicketTypePromptParams, Consumer<String>>)config.onTicketTypePrompt).accept(
+                GSON.fromJson(params, PromptsApiParams.OnTicketTypePromptParams.class),
+                (String type) -> seatsioWebView.callInternalCallback("onTicketTypePrompt", type)
+        );
     }
 }
