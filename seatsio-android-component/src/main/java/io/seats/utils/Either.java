@@ -1,6 +1,7 @@
 package io.seats.utils;
 
 import java.util.NoSuchElementException;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 public abstract class Either<L, R> {
@@ -12,6 +13,10 @@ public abstract class Either<L, R> {
     public abstract R get();
 
     public abstract L getLeft();
+
+    public R getOrNull() {
+        return this.isRight() ? this.get() : null;
+    }
 
     public static <L, R> Either<L, R> left(L value) {
         return new Left<>(value);
@@ -26,6 +31,14 @@ public abstract class Either<L, R> {
             return leftFn.apply(this.getLeft());
         }
         return rightFn.apply(this.get());
+    }
+
+    public void forEach(Consumer<L> leftConsumer, Consumer<R> rightConsumer) {
+        if (this.isLeft()) {
+            leftConsumer.accept(this.getLeft());
+        } else {
+            rightConsumer.accept(this.get());
+        }
     }
 
     public static class Left<L, R> extends Either<L, R> {

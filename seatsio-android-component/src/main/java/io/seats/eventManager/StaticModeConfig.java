@@ -3,20 +3,19 @@ package io.seats.eventManager;
 import com.google.gson.annotations.Expose;
 
 import java.util.List;
-import java.util.Map;
 import java.util.function.Function;
 
 import io.seats.seatingChart.SeatsioObject;
-import io.seats.utils.Function3;
+import io.seats.utils.Either;
 
-public class StaticModeConfig extends EventManagerConfig implements HasObjectIcon, HasTooltipContents {
+public class StaticModeConfig extends EventManagerConfig implements HasTooltipContents {
 
     @Expose
     public ObjectPopover objectPopover;
 
-    public Object tooltipContents;
+    public Either<String, Function<SeatsioObject, String>> tooltipContents;
 
-    public Object objectIcon;
+    public String objectIconJavascriptFunction;
 
     public StaticModeConfig() {
         setMode(EventManagerMode.STATIC);
@@ -35,33 +34,26 @@ public class StaticModeConfig extends EventManagerConfig implements HasObjectIco
     }
 
     public StaticModeConfig setTooltipContents(Function<SeatsioObject, String> tooltipContents) {
-        this.tooltipContents = tooltipContents;
+        this.tooltipContents = Either.right(tooltipContents);
         return this;
     }
 
     public StaticModeConfig setTooltipContents(String tooltipContents) {
-        this.tooltipContents = tooltipContents;
+        this.tooltipContents = Either.left(tooltipContents);
         return this;
     }
 
     @Override
     public Function<SeatsioObject, String> getTooltipContents() {
-        return tooltipContents != null && tooltipContents instanceof Function ? (Function<SeatsioObject, String>)tooltipContents : null;
+        if (tooltipContents == null) {
+            return null;
+        }
+        return tooltipContents.getOrNull();
     }
 
-    public StaticModeConfig setObjectIcon(Function3<SeatsioObject, String, Map<String, ?>, String> objectIcon) {
-        this.objectIcon = objectIcon;
+    public StaticModeConfig setObjectIconJavascriptFunction(String objectIconJavascriptFunction) {
+        this.objectIconJavascriptFunction = objectIconJavascriptFunction;
         return this;
-    }
-
-    public StaticModeConfig setObjectIcon(String objectIcon) {
-        this.objectIcon = objectIcon;
-        return this;
-    }
-
-    @Override
-    public Function3<SeatsioObject, String, Map<String, ?>, String> getObjectIcon() {
-        return objectIcon != null && objectIcon instanceof Function3 ? (Function3<SeatsioObject, String, Map<String, ?>, String>)objectIcon : null;
     }
 
     @Override
@@ -69,19 +61,14 @@ public class StaticModeConfig extends EventManagerConfig implements HasObjectIco
         List<String> callbacks = super.callbacks();
 
         if (tooltipContents != null) {
-            if (tooltipContents instanceof String) {
-                callbacks.add("tooltipContents: " + tooltipContents);
-            } else {
-                callbacks.add("tooltipContents: (object) => Native.tooltipContents(JSON.stringify(object))");
-            }
+            tooltipContents.forEach(
+                    value -> callbacks.add("tooltipContents: " + value),
+                    value -> callbacks.add("tooltipContents: (object) => Native.tooltipContents(JSON.stringify(object))")
+            );
         }
 
-        if (objectIcon != null) {
-            if (objectIcon instanceof String) {
-                callbacks.add("objectIcon: " + objectIcon);
-            } else {
-                callbacks.add("objectIcon: (object, defaultIcon, extraConfig) => Native.objectIcon(JSON.stringify(object), defaultIcon, extraConfig)");
-            }
+        if (objectIconJavascriptFunction != null) {
+            callbacks.add("objectIcon: " + objectIconJavascriptFunction);
         }
 
         return callbacks;

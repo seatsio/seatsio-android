@@ -12,17 +12,11 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.time.Instant;
 import java.util.List;
-import java.util.Map;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Function;
 
 import io.seats.seatingChart.Pricing;
 import io.seats.seatingChart.SeatsioObject;
 import io.seats.seatingChart.TicketType;
-import io.seats.utils.Function3;
 
-/** @noinspection unchecked*/
 public class SeatsioJavascriptInterface<U extends SeatsioWebView<?>, T extends CommonConfig<?, U>> {
 
     protected U seatsioWebView;
@@ -50,31 +44,32 @@ public class SeatsioJavascriptInterface<U extends SeatsioWebView<?>, T extends C
 
     @JavascriptInterface
     public String tooltipInfo(String object) {
-        return ((Function<SeatsioObject, String>)config.tooltipInfo).apply(toSeatsObject(object));
+        return config.tooltipInfo.get().apply(toSeatsObject(object));
     }
 
+    @JavascriptInterface
     public String popoverInfo(String object) {
-        return ((Function<SeatsioObject, String>)config.popoverInfo).apply(toSeatsObject(object));
+        return config.popoverInfo.get().apply(toSeatsObject(object));
     }
 
     @JavascriptInterface
     public void onChartRendered() {
-        seatsioWebView.post(() -> ((Consumer<U>)config.onChartRendered).accept(seatsioWebView));
+        seatsioWebView.post(() -> config.onChartRendered.get().accept(seatsioWebView));
     }
 
     @JavascriptInterface
     public void onChartRenderingFailed() {
-        ((Consumer<U>)config.onChartRenderingFailed).accept(seatsioWebView);
+        config.onChartRenderingFailed.get().accept(seatsioWebView);
     }
 
     @JavascriptInterface
     public void onChartRerenderingStarted() {
-        ((Consumer<U>)config.onChartRerenderingStarted).accept(seatsioWebView);
+        config.onChartRerenderingStarted.get().accept(seatsioWebView);
     }
 
     @JavascriptInterface
     public void onObjectSelected(String object, String ticketType) {
-        ((BiConsumer<SeatsioObject, TicketType>)config.onObjectSelected).accept(
+        config.onObjectSelected.get().accept(
                 toSeatsObject(object),
                 GSON.fromJson(ticketType, TicketType.class)
         );
@@ -82,7 +77,7 @@ public class SeatsioJavascriptInterface<U extends SeatsioWebView<?>, T extends C
 
     @JavascriptInterface
     public void onObjectDeselected(String object, String ticketType) {
-        ((BiConsumer<SeatsioObject, TicketType>)config.onObjectDeselected).accept(
+        config.onObjectDeselected.get().accept(
                 toSeatsObject(object),
                 GSON.fromJson(ticketType, TicketType.class)
         );
@@ -90,12 +85,7 @@ public class SeatsioJavascriptInterface<U extends SeatsioWebView<?>, T extends C
 
     @JavascriptInterface
     public void onObjectClicked(String object) {
-        ((Consumer<SeatsioObject>)config.onObjectClicked).accept(toSeatsObject(object));
-    }
-
-    @JavascriptInterface
-    public String objectColor(String object, String defaultColor, String extraConfig) {
-        return ((Function3<SeatsioObject, String, Map<String, ?>, String>)config.objectColor).apply(toSeatsObject(object), defaultColor, GSON.fromJson(extraConfig, Map.class));
+        config.onObjectClicked.get().accept(toSeatsObject(object));
     }
 
     @JavascriptInterface

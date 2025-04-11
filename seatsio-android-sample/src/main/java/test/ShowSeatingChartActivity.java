@@ -6,16 +6,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
 import io.seats.seatingChart.*;
 
-import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -70,9 +66,9 @@ public class ShowSeatingChartActivity extends AppCompatActivity {
                 .setOnHoldFailed((objects, ticketTypes) -> Log.i(LOG_PREFIX, "Hold failed " + objects))
                 .setOnReleaseHoldSucceeded((objects, ticketTypes) -> Log.i(LOG_PREFIX, "Release hold succeeded " + objects))
                 .setOnReleaseHoldFailed((objects, ticketTypes) -> Log.i(LOG_PREFIX, "Release hold failed " + objects))
-                .setObjectLabel((object, defaultLabel, extraConfig) -> object.labels.own)
-                .setObjectIcon((object, defaultIcon, extraConfig) -> defaultIcon)
-                .setPriceFormatter(price -> price + "€")
+                .setObjectLabelJavascriptFunction("(object, defaultLabel, extraConfig) => object.labels.own")
+                .setObjectIconJavascriptFunction("(object, defaultIcon, extraConfig) => defaultIcon")
+                .setPriceFormatter("price => '€' + price")
                 .setShowLegend(true)
                 .setShowSeatLabels(true)
                 .setMultiSelectEnabled(true)

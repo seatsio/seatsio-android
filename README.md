@@ -242,3 +242,21 @@ Some event manager modes have additional properties. To use these properties, in
 sub-classes of `EventManagerConfig`.
 
 Documentation for the event manager is available at https://docs.seats.io/docs/event-manager
+
+
+### Configuring functions
+In most cases, it's possible to define functions in the configuration using either Java or Javascript. There are a few cases, such as `objectLabel`, where it is
+only possible to define functions using Javascript because those functions are applied to each object in the chart and the performance overhead of using the
+Javascript <-> Java bridge seriously degrades performance.
+
+To define a function, use either a Java object or lambda, or a Javascript function represented as a String:
+
+```java
+new SeatingChartConfig().setTooltipInfo(object -> object.channel != null ? "in channel" : "not in channel")
+```
+
+```java
+new SeatingChartConfig().setTooltipInfo("(object) => object.channel != null ? 'in channel" : 'not in channel'")
+```
+
+Any configuration function which does support a Java implementation is suffixed with `JavascriptFunction`, for example `setIsObjectSelectableJavascriptFunction(String)`.

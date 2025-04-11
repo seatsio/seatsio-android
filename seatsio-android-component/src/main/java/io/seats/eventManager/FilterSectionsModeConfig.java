@@ -4,10 +4,11 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import io.seats.seatingChart.Section;
+import io.seats.utils.Either;
 
 public class FilterSectionsModeConfig extends EventManagerConfig implements HasOnFilteredSectionChange {
 
-    public Object onFilteredSectionChange;
+    public Either<String, Consumer<Section[]>> onFilteredSectionChange;
 
     public FilterSectionsModeConfig() {
         setMode(EventManagerMode.FILTER_SECTIONS);
@@ -21,19 +22,22 @@ public class FilterSectionsModeConfig extends EventManagerConfig implements HasO
         return this;
     }
 
-    public FilterSectionsModeConfig setOnFilteredSectionChange(Consumer<List<Section>> onFilteredSectionChange) {
-        this.onFilteredSectionChange = onFilteredSectionChange;
+    public FilterSectionsModeConfig setOnFilteredSectionChange(Consumer<Section[]> onFilteredSectionChange) {
+        this.onFilteredSectionChange = Either.right(onFilteredSectionChange);
         return this;
     }
 
     public FilterSectionsModeConfig setOnFilteredSectionChange(String onFilteredSectionChange) {
-        this.onFilteredSectionChange = onFilteredSectionChange;
+        this.onFilteredSectionChange = Either.left(onFilteredSectionChange);
         return this;
     }
 
     @Override
     public Consumer<Section[]> getOnFilteredSectionChange() {
-        return onFilteredSectionChange != null && onFilteredSectionChange instanceof Consumer ? (Consumer<Section[]>)onFilteredSectionChange : null;
+        if (onFilteredSectionChange == null) {
+            return null;
+        }
+        return onFilteredSectionChange.getOrNull();
     }
 
     @Override
@@ -41,11 +45,10 @@ public class FilterSectionsModeConfig extends EventManagerConfig implements HasO
         List<String> callbacks = super.callbacks();
 
         if (onFilteredSectionChange != null) {
-            if (onFilteredSectionChange instanceof String) {
-                callbacks.add("onFilteredSectionChange: " + onFilteredSectionChange);
-            } else {
-                callbacks.add("onFilteredSectionChange: (sections) => Native.onFilteredSectionChange(JSON.stringify(sections))");
-            }
+            onFilteredSectionChange.forEach(
+                    value -> callbacks.add("onFilteredSectionChange: " + value),
+                    value -> callbacks.add("onFilteredSectionChange: (sections) => Native.onFilteredSectionChange(JSON.stringify(sections))")
+            );
         }
 
         return callbacks;
