@@ -10,6 +10,18 @@ public class ManageChannelsModeConfig extends EventManagerConfig {
     @Expose
     public Boolean unavailableObjectsSelectable;
 
+    public ManageChannelsModeConfig() {
+        setMode(EventManagerMode.MANAGE_CHANNELS);
+    }
+
+    @Override
+    public ManageChannelsModeConfig setMode(EventManagerMode mode) {
+        if (mode != EventManagerMode.MANAGE_CHANNELS) {
+            throw new IllegalArgumentException("Mode must be 'manageChannels'");
+        }
+        return this;
+    }
+
     public ManageChannelsModeConfig setManageChannelsList(Boolean manageChannelsList) {
         this.manageChannelsList = manageChannelsList;
         return this;

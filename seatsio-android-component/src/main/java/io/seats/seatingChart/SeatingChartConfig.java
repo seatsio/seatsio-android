@@ -16,6 +16,9 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 import io.seats.CommonConfig;
+import io.seats.utils.Either;
+import io.seats.utils.Function3;
+import io.seats.utils.Function4;
 
 public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, SeatingChartView> {
 
@@ -26,7 +29,7 @@ public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, Seating
     public String workspaceKey;
 
     @Expose
-    private List<PricingForCategory> pricing;
+    public List<PricingForCategory> pricing;
 
     @Expose
     public Integer numberOfPlacesToSelect;
@@ -124,24 +127,6 @@ public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, Seating
     public SeatingChartSession session;
 
     @Expose
-    public String objectLabel;
-
-    @Expose
-    public String objectIcon;
-
-    @Expose
-    public String isObjectVisible;
-
-    @Expose
-    public String isObjectSelectable;
-
-    @Expose
-    public String canGASelectionBeIncreased;
-
-    @Expose
-    public String sectionColor;
-
-    @Expose
     public Collection<String> channels;
 
     @Expose
@@ -168,27 +153,33 @@ public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, Seating
     @Expose
     public ObjectPopover objectPopover;
 
+    public Either<String, Function4<SeatsioObject, Boolean, Map<String, ?>, TicketTypePricing, Boolean>> canGASelectionBeIncreased;
 
-    public BiConsumer<List<SeatsioObject>, Boolean> onBestAvailableSelected;
-    public BiConsumer<List<SeatsioObject>, List<TicketType>> onHoldSucceeded;
-    public BiConsumer<List<SeatsioObject>, List<TicketType>> onHoldFailed;
-    public BiConsumer<List<SeatsioObject>, List<TicketType>> onReleaseHoldSucceeded;
-    public BiConsumer<List<SeatsioObject>, List<TicketType>> onReleaseHoldFailed;
-    public Runnable onBestAvailableSelectionFailed;
-    public Runnable onSelectionValid;
-    public Consumer<List<SelectionValidatorType>> onSelectionInvalid;
-    public Runnable onHoldCallsInProgress;
-    public Runnable onHoldCallsComplete;
-    public Consumer<SeatsioObject> onSelectedObjectBooked;
-    public Consumer<SeatsioObject> onObjectStatusChanged;
-    public Consumer<HoldToken> onSessionInitialized;
-    public Consumer<List<Category>> onFilteredCategoriesChanged;
-    public Consumer<Floor> onFloorChanged;
-    public Runnable onHoldTokenExpired;
-    public Function<Float, String> priceFormatter;
-    public BiConsumer<PromptsApiParams.OnPlacesPromptParams, Consumer<Integer>> onPlacesPrompt;
-    public BiConsumer<PromptsApiParams.OnPlacesWithTicketTypesPromptParams, Consumer<Map<String, Integer>>> onPlacesWithTicketTypesPrompt;
-    public BiConsumer<PromptsApiParams.OnTicketTypePromptParams, Consumer<String>> onTicketTypePrompt;
+    public String isObjectVisibleJavascriptFunction;
+    public String objectLabelJavascriptFunction;
+    public String objectIconJavascriptFunction;
+    public Either<String, Function3<Section, String, Map<String, ?>, String>> sectionColor;
+
+    public Either<String, BiConsumer<List<SeatsioObject>, Boolean>> onBestAvailableSelected;
+    public Either<String, BiConsumer<List<SeatsioObject>, List<TicketType>>> onHoldSucceeded;
+    public Either<String, BiConsumer<List<SeatsioObject>, List<TicketType>>> onHoldFailed;
+    public Either<String, BiConsumer<List<SeatsioObject>, List<TicketType>>> onReleaseHoldSucceeded;
+    public Either<String, BiConsumer<List<SeatsioObject>, List<TicketType>>> onReleaseHoldFailed;
+    public Either<String, Runnable> onBestAvailableSelectionFailed;
+    public Either<String, Runnable> onSelectionValid;
+    public Either<String, Consumer<List<SelectionValidatorType>>> onSelectionInvalid;
+    public Either<String, Runnable> onHoldCallsInProgress;
+    public Either<String, Runnable> onHoldCallsComplete;
+    public Either<String, Consumer<SeatsioObject>> onSelectedObjectBooked;
+    public Either<String, Consumer<SeatsioObject>> onObjectStatusChanged;
+    public Either<String, Consumer<HoldToken>> onSessionInitialized;
+    public Either<String, Consumer<List<Category>>> onFilteredCategoriesChanged;
+    public Either<String, Consumer<Floor>> onFloorChanged;
+    public Either<String, Runnable> onHoldTokenExpired;
+    public Either<String, Function<Float, String>> priceFormatter;
+    public Either<String, BiConsumer<PromptsApiParams.OnPlacesPromptParams, Consumer<Integer>>> onPlacesPrompt;
+    public Either<String, BiConsumer<PromptsApiParams.OnPlacesWithTicketTypesPromptParams, Consumer<Map<String, Integer>>>> onPlacesWithTicketTypesPrompt;
+    public Either<String, BiConsumer<PromptsApiParams.OnTicketTypePromptParams, Consumer<String>>> onTicketTypePrompt;
 
     public SeatingChartConfig setWorkspaceKey(String workspaceKey) {
         this.workspaceKey = workspaceKey;
@@ -206,87 +197,172 @@ public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, Seating
     }
 
     public SeatingChartConfig setOnBestAvailableSelected(BiConsumer<List<SeatsioObject>, Boolean> onBestAvailableSelected) {
-        this.onBestAvailableSelected = onBestAvailableSelected;
+        this.onBestAvailableSelected = Either.right(onBestAvailableSelected);
+        return this;
+    }
+
+    public SeatingChartConfig setOnBestAvailableSelected(String onBestAvailableSelected) {
+        this.onBestAvailableSelected = Either.left(onBestAvailableSelected);
         return this;
     }
 
     public SeatingChartConfig setOnBestAvailableSelectionFailed(Runnable onBestAvailableSelectionFailed) {
-        this.onBestAvailableSelectionFailed = onBestAvailableSelectionFailed;
+        this.onBestAvailableSelectionFailed = Either.right(onBestAvailableSelectionFailed);
+        return this;
+    }
+
+    public SeatingChartConfig setOnBestAvailableSelectionFailed(String onBestAvailableSelectionFailed) {
+        this.onBestAvailableSelectionFailed = Either.left(onBestAvailableSelectionFailed);
         return this;
     }
 
     public SeatingChartConfig setOnHoldSucceeded(BiConsumer<List<SeatsioObject>, List<TicketType>> onHoldSucceeded) {
-        this.onHoldSucceeded = onHoldSucceeded;
+        this.onHoldSucceeded = Either.right(onHoldSucceeded);
+        return this;
+    }
+
+    public SeatingChartConfig setOnHoldSucceeded(String onHoldSucceeded) {
+        this.onHoldSucceeded = Either.left(onHoldSucceeded);
         return this;
     }
 
     public SeatingChartConfig setOnHoldFailed(BiConsumer<List<SeatsioObject>, List<TicketType>> onHoldFailed) {
-        this.onHoldFailed = onHoldFailed;
+        this.onHoldFailed = Either.right(onHoldFailed);
+        return this;
+    }
+
+    public SeatingChartConfig setOnHoldFailed(String onHoldFailed) {
+        this.onHoldFailed = Either.left(onHoldFailed);
         return this;
     }
 
     public SeatingChartConfig setOnReleaseHoldSucceeded(BiConsumer<List<SeatsioObject>, List<TicketType>> onReleaseHoldSucceeded) {
-        this.onReleaseHoldSucceeded = onReleaseHoldSucceeded;
+        this.onReleaseHoldSucceeded = Either.right(onReleaseHoldSucceeded);
+        return this;
+    }
+
+    public SeatingChartConfig setOnReleaseHoldSucceeded(String onReleaseHoldSucceeded) {
+        this.onReleaseHoldSucceeded = Either.left(onReleaseHoldSucceeded);
         return this;
     }
 
     public SeatingChartConfig setOnReleaseHoldFailed(BiConsumer<List<SeatsioObject>, List<TicketType>> onReleaseHoldFailed) {
-        this.onReleaseHoldFailed = onReleaseHoldFailed;
+        this.onReleaseHoldFailed = Either.right(onReleaseHoldFailed);
+        return this;
+    }
+
+    public SeatingChartConfig setOnReleaseHoldFailed(String onReleaseHoldFailed) {
+        this.onReleaseHoldFailed = Either.left(onReleaseHoldFailed);
         return this;
     }
 
     public SeatingChartConfig setOnSelectionValid(Runnable onSelectionValid) {
-        this.onSelectionValid = onSelectionValid;
+        this.onSelectionValid = Either.right(onSelectionValid);
+        return this;
+    }
+
+    public SeatingChartConfig setOnSelectionValid(String onSelectionValid) {
+        this.onSelectionValid = Either.left(onSelectionValid);
         return this;
     }
 
     public SeatingChartConfig setOnSelectionInvalid(Consumer<List<SelectionValidatorType>> onSelectionInvalid) {
-        this.onSelectionInvalid = onSelectionInvalid;
+        this.onSelectionInvalid = Either.right(onSelectionInvalid);
+        return this;
+    }
+
+    public SeatingChartConfig setOnSelectionInvalid(String onSelectionInvalid) {
+        this.onSelectionInvalid = Either.left(onSelectionInvalid);
         return this;
     }
 
     public SeatingChartConfig setOnHoldCallsInProgress(Runnable onHoldCallsInProgress) {
-        this.onHoldCallsInProgress = onHoldCallsInProgress;
+        this.onHoldCallsInProgress = Either.right(onHoldCallsInProgress);
+        return this;
+    }
+
+    public SeatingChartConfig setOnHoldCallsInProgress(String onHoldCallsInProgress) {
+        this.onHoldCallsInProgress = Either.left(onHoldCallsInProgress);
         return this;
     }
 
     public SeatingChartConfig setOnHoldCallsComplete(Runnable onHoldCallsComplete) {
-        this.onHoldCallsComplete = onHoldCallsComplete;
+        this.onHoldCallsComplete = Either.right(onHoldCallsComplete);
+        return this;
+    }
+
+    public SeatingChartConfig setOnHoldCallsComplete(String onHoldCallsComplete) {
+        this.onHoldCallsComplete = Either.left(onHoldCallsComplete);
         return this;
     }
 
     public SeatingChartConfig setOnSelectedObjectBooked(Consumer<SeatsioObject> onSelectedObjectBooked) {
-        this.onSelectedObjectBooked = onSelectedObjectBooked;
+        this.onSelectedObjectBooked = Either.right(onSelectedObjectBooked);
+        return this;
+    }
+
+    public SeatingChartConfig setOnSelectedObjectBooked(String onSelectedObjectBooked) {
+        this.onSelectedObjectBooked = Either.left(onSelectedObjectBooked);
         return this;
     }
 
     public SeatingChartConfig setOnObjectStatusChanged(Consumer<SeatsioObject> onObjectStatusChanged) {
-        this.onObjectStatusChanged = onObjectStatusChanged;
+        this.onObjectStatusChanged = Either.right(onObjectStatusChanged);
+        return this;
+    }
+
+    public SeatingChartConfig setOnObjectStatusChanged(String onObjectStatusChanged) {
+        this.onObjectStatusChanged = Either.left(onObjectStatusChanged);
         return this;
     }
 
     public SeatingChartConfig setOnSessionInitialized(Consumer<HoldToken> onSessionInitialized) {
-        this.onSessionInitialized = onSessionInitialized;
+        this.onSessionInitialized = Either.right(onSessionInitialized);
+        return this;
+    }
+
+    public SeatingChartConfig setOnSessionInitialized(String onSessionInitialized) {
+        this.onSessionInitialized = Either.left(onSessionInitialized);
         return this;
     }
 
     public SeatingChartConfig setOnHoldTokenExpired(Runnable onHoldTokenExpired) {
-        this.onHoldTokenExpired = onHoldTokenExpired;
+        this.onHoldTokenExpired = Either.right(onHoldTokenExpired);
+        return this;
+    }
+
+    public SeatingChartConfig setOnHoldTokenExpired(String onHoldTokenExpired) {
+        this.onHoldTokenExpired = Either.left(onHoldTokenExpired);
         return this;
     }
 
     public SeatingChartConfig setOnFilteredCategoriesChanged(Consumer<List<Category>> onFilteredCategoriesChanged) {
-        this.onFilteredCategoriesChanged = onFilteredCategoriesChanged;
+        this.onFilteredCategoriesChanged = Either.right(onFilteredCategoriesChanged);
+        return this;
+    }
+
+    public SeatingChartConfig setOnFilteredCategoriesChanged(String onFilteredCategoriesChanged) {
+        this.onFilteredCategoriesChanged = Either.left(onFilteredCategoriesChanged);
         return this;
     }
 
     public SeatingChartConfig setOnFloorChanged(Consumer<Floor> onFloorChanged) {
-        this.onFloorChanged = onFloorChanged;
+        this.onFloorChanged = Either.right(onFloorChanged);
+        return this;
+    }
+
+    public SeatingChartConfig setOnFloorChanged(String onFloorChanged) {
+        this.onFloorChanged = Either.left(onFloorChanged);
         return this;
     }
 
     public SeatingChartConfig setPriceFormatter(Function<Float, String> priceFormatter) {
-        this.priceFormatter = priceFormatter;
+        this.priceFormatter = Either.right(priceFormatter);
+        return this;
+    }
+
+    public SeatingChartConfig setPriceFormatter(String priceFormatter) {
+        this.priceFormatter = Either.left(priceFormatter);
         return this;
     }
 
@@ -463,33 +539,38 @@ public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, Seating
         return this;
     }
 
-    public SeatingChartConfig setObjectLabel(String objectLabel) {
-        this.objectLabel = objectLabel;
+    public SeatingChartConfig setObjectLabelJavascriptFunction(String objectLabelJavascriptFunction) {
+        this.objectLabelJavascriptFunction = objectLabelJavascriptFunction;
         return this;
     }
 
-    public SeatingChartConfig setObjectIcon(String objectIcon) {
-        this.objectIcon = objectIcon;
+    public SeatingChartConfig setObjectIconJavascriptFunction(String objectIconJavascriptFunction) {
+        this.objectIconJavascriptFunction = objectIconJavascriptFunction;
         return this;
     }
 
-    public SeatingChartConfig setIsObjectVisible(String isObjectVisible) {
-        this.isObjectVisible = isObjectVisible;
+    public SeatingChartConfig setIsObjectVisibleJavascriptFunction(String isObjectVisibleJavascriptFunction) {
+        this.isObjectVisibleJavascriptFunction = isObjectVisibleJavascriptFunction;
         return this;
     }
 
-    public SeatingChartConfig setIsObjectSelectable(String isObjectSelectable) {
-        this.isObjectSelectable = isObjectSelectable;
+    public SeatingChartConfig setCanGASelectionBeIncreased(Function4<SeatsioObject, Boolean, Map<String, ?>, TicketTypePricing, Boolean> canGASelectionBeIncreased) {
+        this.canGASelectionBeIncreased = Either.right(canGASelectionBeIncreased);
         return this;
     }
 
     public SeatingChartConfig setCanGASelectionBeIncreased(String canGASelectionBeIncreased) {
-        this.canGASelectionBeIncreased = canGASelectionBeIncreased;
+        this.canGASelectionBeIncreased = Either.left(canGASelectionBeIncreased);
+        return this;
+    }
+
+    public SeatingChartConfig setSectionColor(Function3<Section, String, Map<String, ?>, String> sectionColor) {
+        this.sectionColor = Either.right(sectionColor);
         return this;
     }
 
     public SeatingChartConfig setSectionColor(String sectionColor) {
-        this.sectionColor = sectionColor;
+        this.sectionColor = Either.left(sectionColor);
         return this;
     }
 
@@ -539,17 +620,32 @@ public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, Seating
     }
 
     public SeatingChartConfig setOnPlacesPrompt(BiConsumer<PromptsApiParams.OnPlacesPromptParams, Consumer<Integer>> onPlacesPrompt) {
-        this.onPlacesPrompt = onPlacesPrompt;
+        this.onPlacesPrompt = Either.right(onPlacesPrompt);
+        return this;
+    }
+
+    public SeatingChartConfig setOnPlacesPrompt(String onPlacesPrompt) {
+        this.onPlacesPrompt = Either.left(onPlacesPrompt);
         return this;
     }
 
     public SeatingChartConfig setOnPlacesWithTicketTypesPrompt(BiConsumer<PromptsApiParams.OnPlacesWithTicketTypesPromptParams, Consumer<Map<String, Integer>>> onPlacesWithTicketTypesPrompt) {
-        this.onPlacesWithTicketTypesPrompt = onPlacesWithTicketTypesPrompt;
+        this.onPlacesWithTicketTypesPrompt = Either.right(onPlacesWithTicketTypesPrompt);
+        return this;
+    }
+
+    public SeatingChartConfig setOnPlacesWithTicketTypesPrompt(String onPlacesWithTicketTypesPrompt) {
+        this.onPlacesWithTicketTypesPrompt = Either.left(onPlacesWithTicketTypesPrompt);
         return this;
     }
 
     public SeatingChartConfig setOnTicketTypePrompt(BiConsumer<PromptsApiParams.OnTicketTypePromptParams, Consumer<String>> onTicketTypePrompt) {
-        this.onTicketTypePrompt = onTicketTypePrompt;
+        this.onTicketTypePrompt = Either.right(onTicketTypePrompt);
+        return this;
+    }
+
+    public SeatingChartConfig setOnTicketTypePrompt(String onTicketTypePrompt) {
+        this.onTicketTypePrompt = Either.left(onTicketTypePrompt);
         return this;
     }
 
@@ -558,107 +654,169 @@ public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, Seating
         List<String> callbacks = super.callbacks();
 
         if (onBestAvailableSelected != null) {
-            callbacks.add("onBestAvailableSelected: (objects, nextToEachOther) => Native.onBestAvailableSelected(JSON.stringify(objects), nextToEachOther)");
+            onBestAvailableSelected.forEach(
+                    value -> callbacks.add("onBestAvailableSelected: " + value),
+                    value -> callbacks.add("onBestAvailableSelected: (objects, nextToEachOther) => Native.onBestAvailableSelected(JSON.stringify(objects), nextToEachOther)")
+            );
         }
 
         if (onBestAvailableSelectionFailed != null) {
-            callbacks.add("onBestAvailableSelectionFailed: () => Native.onBestAvailableSelectionFailed()");
+            onBestAvailableSelectionFailed.forEach(
+                    value -> callbacks.add("onBestAvailableSelectionFailed: " + value),
+                    value -> callbacks.add("onBestAvailableSelectionFailed: () => Native.onBestAvailableSelectionFailed()")
+            );
         }
 
         if (onSessionInitialized != null) {
-            callbacks.add("onSessionInitialized: (holdToken) => Native.onSessionInitialized(JSON.stringify(holdToken))");
+            onSessionInitialized.forEach(
+                    value -> callbacks.add("onSessionInitialized: " + value),
+                    value -> callbacks.add("onSessionInitialized: (holdToken) => Native.onSessionInitialized(JSON.stringify(holdToken))")
+            );
         }
 
         if (onHoldTokenExpired != null) {
-            callbacks.add("onHoldTokenExpired: () => Native.onHoldTokenExpired()");
+            onHoldTokenExpired.forEach(
+                    value -> callbacks.add("onHoldTokenExpired: " + value),
+                    value -> callbacks.add("onHoldTokenExpired: () => Native.onHoldTokenExpired()")
+            );
         }
 
         if (onHoldSucceeded != null) {
-            callbacks.add("onHoldSucceeded: (objects, ticketTypes) => Native.onHoldSucceeded(JSON.stringify(objects), JSON.stringify(ticketTypes))");
+            onHoldSucceeded.forEach(
+                    value -> callbacks.add("onHoldSucceeded: " + value),
+                    value -> callbacks.add("onHoldSucceeded: (objects, ticketTypes) => Native.onHoldSucceeded(JSON.stringify(objects), JSON.stringify(ticketTypes))")
+            );
         }
 
         if (onHoldFailed != null) {
-            callbacks.add("onHoldFailed: (objects, ticketTypes) => Native.onHoldFailed(JSON.stringify(objects), JSON.stringify(ticketTypes))");
+            onHoldFailed.forEach(
+                    value -> callbacks.add("onHoldFailed: " + value),
+                    value -> callbacks.add("onHoldFailed: (objects, ticketTypes) => Native.onHoldFailed(JSON.stringify(objects), JSON.stringify(ticketTypes))")
+            );
         }
 
         if (onReleaseHoldSucceeded != null) {
-            callbacks.add("onReleaseHoldSucceeded: (objects, ticketTypes) => Native.onReleaseHoldSucceeded(JSON.stringify(objects), JSON.stringify(ticketTypes))");
+            onReleaseHoldSucceeded.forEach(
+                    value -> callbacks.add("onReleaseHoldSucceeded: " + value),
+                    value -> callbacks.add("onReleaseHoldSucceeded: (objects, ticketTypes) => Native.onReleaseHoldSucceeded(JSON.stringify(objects), JSON.stringify(ticketTypes))")
+            );
         }
 
         if (onReleaseHoldFailed != null) {
-            callbacks.add("onReleaseHoldFailed: (objects, ticketTypes) => Native.onReleaseHoldFailed(JSON.stringify(objects), JSON.stringify(ticketTypes))");
+            onReleaseHoldFailed.forEach(
+                    value -> callbacks.add("onReleaseHoldFailed: " + value),
+                    value -> callbacks.add("onReleaseHoldFailed: (objects, ticketTypes) => Native.onReleaseHoldFailed(JSON.stringify(objects), JSON.stringify(ticketTypes))")
+            );
         }
 
         if (onSelectionValid != null) {
-            callbacks.add("onSelectionValid: () => Native.onSelectionValid()");
+            onSelectionValid.forEach(
+                    value -> callbacks.add("onSelectionValid: " + value),
+                    value -> callbacks.add("onSelectionValid: () => Native.onSelectionValid()")
+            );
         }
 
         if (onSelectionInvalid != null) {
-            callbacks.add("onSelectionInvalid: (violations) => Native.onSelectionInvalid(JSON.stringify(violations))");
+            onSelectionInvalid.forEach(
+                    value -> callbacks.add("onSelectionInvalid: " + value),
+                    value -> callbacks.add("onSelectionInvalid: (violations) => Native.onSelectionInvalid(JSON.stringify(violations))")
+            );
         }
 
         if (onHoldCallsInProgress != null) {
-            callbacks.add("onHoldCallsInProgress: () => Native.onHoldCallsInProgress()");
+            onHoldCallsInProgress.forEach(
+                    value -> callbacks.add("onHoldCallsInProgress: " + value),
+                    value -> callbacks.add("onHoldCallsInProgress: () => Native.onHoldCallsInProgress()")
+            );
         }
 
         if (onHoldCallsComplete != null) {
-            callbacks.add("onHoldCallsComplete: () => Native.onHoldCallsComplete()");
+            onHoldCallsComplete.forEach(
+                    value -> callbacks.add("onHoldCallsComplete: " + value),
+                    value -> callbacks.add("onHoldCallsComplete: () => Native.onHoldCallsComplete()")
+            );
         }
 
         if (onSelectedObjectBooked != null) {
-            callbacks.add("onSelectedObjectBooked: object => Native.onSelectedObjectBooked(JSON.stringify(object))");
+            onSelectedObjectBooked.forEach(
+                    value -> callbacks.add("onSelectedObjectBooked: " + value),
+                    value -> callbacks.add("onSelectedObjectBooked: (object) => Native.onSelectedObjectBooked(JSON.stringify(object))")
+            );
         }
 
         if (onObjectStatusChanged != null) {
-            callbacks.add("onObjectStatusChanged: object => Native.onObjectStatusChanged(JSON.stringify(object))");
+            onObjectStatusChanged.forEach(
+                    value -> callbacks.add("onObjectStatusChanged: " + value),
+                    value -> callbacks.add("onObjectStatusChanged: (object) => Native.onObjectStatusChanged(JSON.stringify(object))")
+            );
         }
 
         if (onFilteredCategoriesChanged != null) {
-            callbacks.add("onFilteredCategoriesChanged: categories => Native.onFilteredCategoriesChanged(JSON.stringify(categories))");
+            onFilteredCategoriesChanged.forEach(
+                    value -> callbacks.add("onFilteredCategoriesChanged: " + value),
+                    value -> callbacks.add("onFilteredCategoriesChanged: (categories) => Native.onFilteredCategoriesChanged(JSON.stringify(categories))")
+            );
         }
 
         if (onFloorChanged != null) {
-            callbacks.add("onFloorChanged: floor => Native.onFloorChanged(JSON.stringify(floor))");
+            onFloorChanged.forEach(
+                    value -> callbacks.add("onFloorChanged: " + value),
+                    value -> callbacks.add("onFloorChanged: (floor) => Native.onFloorChanged(JSON.stringify(floor))")
+            );
         }
 
         if (priceFormatter != null) {
-            callbacks.add("priceFormatter: price => Native.formatPrice(price)");
+            priceFormatter.forEach(
+                    value -> callbacks.add("priceFormatter: " + value),
+                    value -> callbacks.add("priceFormatter: (price) => Native.formatPrice(price)")
+            );
         }
 
-        if (objectLabel != null) {
-            callbacks.add("objectLabel: " + objectLabel);
+        if (objectLabelJavascriptFunction != null) {
+            callbacks.add("objectLabel: " + objectLabelJavascriptFunction);
         }
 
-        if (objectIcon != null) {
-            callbacks.add("objectIcon: " + objectIcon);
+        if (objectIconJavascriptFunction != null) {
+            callbacks.add("objectIcon: " + objectIconJavascriptFunction);
         }
 
-        if (isObjectVisible != null) {
-            callbacks.add("isObjectVisible: " + isObjectVisible);
-        }
-
-        if (isObjectSelectable != null) {
-            callbacks.add("isObjectSelectable: " + isObjectSelectable);
+        if (isObjectVisibleJavascriptFunction != null) {
+            callbacks.add("isObjectVisible: " + isObjectVisibleJavascriptFunction);
         }
 
         if (canGASelectionBeIncreased != null) {
-            callbacks.add("canGASelectionBeIncreased: " + canGASelectionBeIncreased);
+            canGASelectionBeIncreased.forEach(
+                    value -> callbacks.add("canGASelectionBeIncreased: " + value),
+                    value -> callbacks.add("canGASelectionBeIncreased: (gaArea, defaultValue, extraConfig, ticketType) => Native.x(JSON.stringify(object), defaultValue, extraConfig, ticketType)")
+            );
         }
 
         if (sectionColor != null) {
-            callbacks.add("sectionColor: " + sectionColor);
+            sectionColor.forEach(
+                    value -> callbacks.add("sectionColor: " + value),
+                    value -> callbacks.add("sectionColor: (section, defaultColor, extraConfig) => Native.sectionColor(JSON.stringify(section), defaultColor, extraConfig)")
+            );
         }
 
         if (onPlacesPrompt != null) {
-            callbacks.add("onPlacesPrompt: (params, callback) => { registerInternalCallback('onPlacesPrompt', callback); Native.onPlacesPrompt(JSON.stringify(params)) }");
+            onPlacesPrompt.forEach(
+                    value -> callbacks.add("onPlacesPrompt: " + value),
+                    value -> callbacks.add("onPlacesPrompt: (params, callback) => { registerInternalCallback('onPlacesPrompt', callback); Native.onPlacesPrompt(JSON.stringify(params)) }")
+            );
         }
 
         if (onPlacesWithTicketTypesPrompt != null) {
-            callbacks.add("onPlacesWithTicketTypesPrompt: (params, callback) => { registerInternalCallback('onPlacesWithTicketTypesPrompt', callback); Native.onPlacesWithTicketTypesPrompt(JSON.stringify(params)) }");
+            onPlacesWithTicketTypesPrompt.forEach(
+                    value -> callbacks.add("onPlacesWithTicketTypesPrompt: " + value),
+                    value -> callbacks.add("onPlacesWithTicketTypesPrompt: (params, callback) => { registerInternalCallback('onPlacesWithTicketTypesPrompt', callback); Native.onPlacesWithTicketTypesPrompt(JSON.stringify(params)) }")
+            );
         }
 
         if (onTicketTypePrompt != null) {
-            callbacks.add("onTicketTypePrompt: (params, callback) => { registerInternalCallback('onTicketTypePrompt', callback); Native.onTicketTypePrompt(JSON.stringify(params)) }");
+            onTicketTypePrompt.forEach(
+                    value -> callbacks.add("onTicketTypePrompt: " + value),
+                    value -> callbacks.add("onTicketTypePrompt: (params, callback) => { registerInternalCallback('onTicketTypePrompt', callback); Native.onTicketTypePrompt(JSON.stringify(params)) }")
+            );
         }
 
         return callbacks;
