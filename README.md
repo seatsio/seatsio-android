@@ -252,11 +252,11 @@ Javascript <-> Java bridge seriously degrades performance.
 To define a function, use either a Java object or lambda, or a Javascript function represented as a String:
 
 ```java
-new SeatingChartConfig().setTooltipInfo(object -> object.channel != null ? "in channel" : "not in channel")
+new SeatingChartConfig().setSectionColor(section -> section.numberOfSelectableObjects > 100 ? "blue" : "red")
 ```
 
 ```java
-new SeatingChartConfig().setTooltipInfo("(object) => object.channel != null ? 'in channel" : 'not in channel'")
+new SeatingChartConfig().setSectionColor("(section) => section.numberOfSelectableObjects > 100 ? 'blue' : 'red'")
 ```
 
 Any configuration function which does support a Java implementation is suffixed with `JavascriptFunction`, for example `setIsObjectSelectableJavascriptFunction(String)`.

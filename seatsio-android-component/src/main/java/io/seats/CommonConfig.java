@@ -22,7 +22,6 @@ import io.seats.seatingChart.SeatsioObject;
 import io.seats.seatingChart.Style;
 import io.seats.seatingChart.StylePreset;
 import io.seats.seatingChart.TicketType;
-import io.seats.utils.Either;
 
 public class CommonConfig<T extends CommonConfig<?, ?>, U extends SeatsioWebView<?>> {
 
@@ -55,14 +54,14 @@ public class CommonConfig<T extends CommonConfig<?, ?>, U extends SeatsioWebView
 
     public String objectColorJavascriptFunction;
 
-    public Either<String, Function<SeatsioObject, String>> tooltipInfo;
-    public Either<String, Function<SeatsioObject, String>> popoverInfo;
-    public Either<String, BiConsumer<SeatsioObject, TicketType>> onObjectSelected;
-    public Either<String, BiConsumer<SeatsioObject, TicketType>> onObjectDeselected;
-    public Either<String, Consumer<SeatsioObject>> onObjectClicked;
-    public Either<String, Consumer<U>> onChartRendered;
-    public Either<String, Consumer<U>> onChartRenderingFailed;
-    public Either<String, Consumer<U>> onChartRerenderingStarted;
+    public Function<SeatsioObject, String> tooltipInfo;
+    public Function<SeatsioObject, String> popoverInfo;
+    public BiConsumer<SeatsioObject, TicketType> onObjectSelected;
+    public BiConsumer<SeatsioObject, TicketType> onObjectDeselected;
+    public Consumer<SeatsioObject> onObjectClicked;
+    public Consumer<U> onChartRendered;
+    public Consumer<U> onChartRenderingFailed;
+    public Consumer<U> onChartRerenderingStarted;
 
     public T setEvent(String event) {
         HashSet<String> events = new HashSet<>();
@@ -87,22 +86,12 @@ public class CommonConfig<T extends CommonConfig<?, ?>, U extends SeatsioWebView
     }
 
     public T setTooltipInfo(Function<SeatsioObject, String> tooltipInfo) {
-        this.tooltipInfo = Either.right(tooltipInfo);
-        return (T) this;
-    }
-
-    public T setTooltipInfo(String tooltipInfo) {
-        this.tooltipInfo = Either.left(tooltipInfo);
+        this.tooltipInfo = tooltipInfo;
         return (T) this;
     }
 
     public T popoverInfo(Function<SeatsioObject, String> popoverInfo) {
-        this.popoverInfo = Either.right(popoverInfo);
-        return (T) this;
-    }
-
-    public T popoverInfo(String popoverInfo) {
-        this.popoverInfo = Either.left(popoverInfo);
+        this.popoverInfo = popoverInfo;
         return (T) this;
     }
 
@@ -137,62 +126,32 @@ public class CommonConfig<T extends CommonConfig<?, ?>, U extends SeatsioWebView
     }
 
     public T setOnChartRendered(Consumer<U> onChartRendered) {
-        this.onChartRendered = Either.right(onChartRendered);
-        return (T) this;
-    }
-
-    public T setOnChartRendered(String onChartRendered) {
-        this.onChartRendered = Either.left(onChartRendered);
+        this.onChartRendered = onChartRendered;
         return (T) this;
     }
 
     public T setOnChartRenderingFailed(Consumer<U> onChartRenderingFailed) {
-        this.onChartRenderingFailed = Either.right(onChartRenderingFailed);
-        return (T) this;
-    }
-
-    public T setOnChartRenderingFailed(String onChartRenderingFailed) {
-        this.onChartRenderingFailed = Either.left(onChartRenderingFailed);
+        this.onChartRenderingFailed = onChartRenderingFailed;
         return (T) this;
     }
 
     public T setOnChartRerenderingStarted(Consumer<U> onChartRerenderingStarted) {
-        this.onChartRerenderingStarted = Either.right(onChartRerenderingStarted);
-        return (T) this;
-    }
-
-    public T setOnChartRerenderingStarted(String onChartRerenderingStarted) {
-        this.onChartRerenderingStarted = Either.left(onChartRerenderingStarted);
+        this.onChartRerenderingStarted = onChartRerenderingStarted;
         return (T) this;
     }
 
     public T setOnObjectSelected(BiConsumer<SeatsioObject, TicketType> onObjectSelected) {
-        this.onObjectSelected = Either.right(onObjectSelected);
-        return (T) this;
-    }
-
-    public T setOnObjectSelected(String onObjectSelected) {
-        this.onObjectSelected = Either.left(onObjectSelected);
+        this.onObjectSelected = onObjectSelected;
         return (T) this;
     }
 
     public T setOnObjectDeselected(BiConsumer<SeatsioObject, TicketType> onObjectDeselected) {
-        this.onObjectDeselected = Either.right(onObjectDeselected);
-        return (T) this;
-    }
-
-    public T setOnObjectDeselected(String onObjectDeselected) {
-        this.onObjectDeselected = Either.left(onObjectDeselected);
+        this.onObjectDeselected = onObjectDeselected;
         return (T) this;
     }
 
     public T setOnObjectClicked(Consumer<SeatsioObject> onObjectClicked) {
-        this.onObjectClicked = Either.right(onObjectClicked);
-        return (T) this;
-    }
-
-    public T setOnObjectClicked(String onObjectClicked) {
-        this.onObjectClicked = Either.left(onObjectClicked);
+        this.onObjectClicked = onObjectClicked;
         return (T) this;
     }
 
@@ -204,59 +163,35 @@ public class CommonConfig<T extends CommonConfig<?, ?>, U extends SeatsioWebView
         }
 
         if (tooltipInfo != null) {
-            tooltipInfo.forEach(
-                    value -> callbacks.add("tooltipInfo: " + value),
-                    value -> callbacks.add("tooltipInfo: (object) => Native.tooltipInfo(JSON.stringify(object))")
-            );
+            callbacks.add("tooltipInfo: (object) => Native.tooltipInfo(JSON.stringify(object))");
         }
 
         if (popoverInfo != null) {
-            popoverInfo.forEach(
-                    value -> callbacks.add("popoverInfo: " + value),
-                    value -> callbacks.add("popoverInfo: (object) => Native.popoverInfo(JSON.stringify(object))")
-            );
+            callbacks.add("popoverInfo: (object) => Native.popoverInfo(JSON.stringify(object))");
         }
 
         if (onObjectSelected != null) {
-            onObjectSelected.forEach(
-                    value -> callbacks.add("onObjectSelected: " + value),
-                    value -> callbacks.add("onObjectSelected: (object, ticketType) => Native.onObjectSelected(JSON.stringify(object), ticketType ? JSON.stringify(ticketType) : null)")
-            );
+            callbacks.add("onObjectSelected: (object, ticketType) => Native.onObjectSelected(JSON.stringify(object), ticketType ? JSON.stringify(ticketType) : null)");
         }
 
         if (onObjectDeselected != null) {
-            onObjectDeselected.forEach(
-                    value -> callbacks.add("onObjectDeselected: " + value),
-                    value -> callbacks.add("onObjectDeselected: (object, ticketType) => Native.onObjectDeselected(JSON.stringify(object), ticketType ? JSON.stringify(ticketType) : null)")
-            );
+            callbacks.add("onObjectDeselected: (object, ticketType) => Native.onObjectDeselected(JSON.stringify(object), ticketType ? JSON.stringify(ticketType) : null)");
         }
 
         if (onObjectClicked != null) {
-            onObjectClicked.forEach(
-                    value -> callbacks.add("onObjectClicked: " + value),
-                    value -> callbacks.add("onObjectClicked: (object) => Native.onObjectClicked(JSON.stringify(object))")
-            );
+            callbacks.add("onObjectClicked: (object) => Native.onObjectClicked(JSON.stringify(object))");
         }
 
         if (onChartRendered != null) {
-            onChartRendered.forEach(
-                    value -> callbacks.add("onChartRendered: " + value),
-                    value -> callbacks.add("onChartRendered: (object) => Native.onChartRendered()")
-            );
+            callbacks.add("onChartRendered: (object) => Native.onChartRendered()");
         }
 
         if (onChartRenderingFailed != null) {
-            onChartRenderingFailed.forEach(
-                    value -> callbacks.add("onChartRenderingFailed: " + value),
-                    value -> callbacks.add("onChartRenderingFailed: (object) => Native.onChartRenderingFailed()")
-            );
+            callbacks.add("onChartRenderingFailed: (object) => Native.onChartRenderingFailed()");
         }
 
         if (onChartRerenderingStarted != null) {
-            onChartRerenderingStarted.forEach(
-                    value -> callbacks.add("onChartRerenderingStarted: " + value),
-                    value -> callbacks.add("onChartRerenderingStarted: (object) => Native.onChartRerenderingStarted()")
-            );
+            callbacks.add("onChartRerenderingStarted: (object) => Native.onChartRerenderingStarted()");
         }
 
         return callbacks;

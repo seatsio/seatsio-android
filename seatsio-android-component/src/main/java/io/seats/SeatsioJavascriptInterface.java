@@ -44,32 +44,32 @@ public class SeatsioJavascriptInterface<U extends SeatsioWebView<?>, T extends C
 
     @JavascriptInterface
     public String tooltipInfo(String object) {
-        return config.tooltipInfo.get().apply(toSeatsObject(object));
+        return config.tooltipInfo.apply(toSeatsObject(object));
     }
 
     @JavascriptInterface
     public String popoverInfo(String object) {
-        return config.popoverInfo.get().apply(toSeatsObject(object));
+        return config.popoverInfo.apply(toSeatsObject(object));
     }
 
     @JavascriptInterface
     public void onChartRendered() {
-        seatsioWebView.post(() -> config.onChartRendered.get().accept(seatsioWebView));
+        seatsioWebView.post(() -> config.onChartRendered.accept(seatsioWebView));
     }
 
     @JavascriptInterface
     public void onChartRenderingFailed() {
-        config.onChartRenderingFailed.get().accept(seatsioWebView);
+        config.onChartRenderingFailed.accept(seatsioWebView);
     }
 
     @JavascriptInterface
     public void onChartRerenderingStarted() {
-        config.onChartRerenderingStarted.get().accept(seatsioWebView);
+        config.onChartRerenderingStarted.accept(seatsioWebView);
     }
 
     @JavascriptInterface
     public void onObjectSelected(String object, String ticketType) {
-        config.onObjectSelected.get().accept(
+        config.onObjectSelected.accept(
                 toSeatsObject(object),
                 GSON.fromJson(ticketType, TicketType.class)
         );
@@ -77,7 +77,7 @@ public class SeatsioJavascriptInterface<U extends SeatsioWebView<?>, T extends C
 
     @JavascriptInterface
     public void onObjectDeselected(String object, String ticketType) {
-        config.onObjectDeselected.get().accept(
+        config.onObjectDeselected.accept(
                 toSeatsObject(object),
                 GSON.fromJson(ticketType, TicketType.class)
         );
@@ -85,7 +85,7 @@ public class SeatsioJavascriptInterface<U extends SeatsioWebView<?>, T extends C
 
     @JavascriptInterface
     public void onObjectClicked(String object) {
-        config.onObjectClicked.get().accept(toSeatsObject(object));
+        config.onObjectClicked.accept(toSeatsObject(object));
     }
 
     @JavascriptInterface
