@@ -5,10 +5,11 @@ import android.util.AttributeSet;
 
 import androidx.annotation.Nullable;
 
+import io.seats.Caller;
 import io.seats.Region;
 import io.seats.SeatsioWebView;
 
-public class EventManagerView extends SeatsioWebView<EventManagerView> {
+public class EventManagerView extends SeatsioWebView<EventManagerView> implements WithCaller {
 
     private final EventManagerConfig config;
 
@@ -35,5 +36,10 @@ public class EventManagerView extends SeatsioWebView<EventManagerView> {
     public EventManagerView(Region region, EventManagerConfig config, Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(region, config.toJson(), new EventManagerJavascriptInterface(config), context, attrs, defStyleAttr, defStyleRes);
         this.config = config;
+    }
+
+    @Override
+    public Caller getCaller() {
+        return caller;
     }
 }
