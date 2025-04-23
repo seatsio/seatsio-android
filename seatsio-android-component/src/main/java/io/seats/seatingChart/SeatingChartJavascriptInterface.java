@@ -121,7 +121,7 @@ public class SeatingChartJavascriptInterface extends SeatsioJavascriptInterface<
 
     @JavascriptInterface
     public String formatPrice(float price) {
-        return config.priceFormatter.get().apply(price);
+        return config.priceFormatter.apply(price);
     }
 
     /** @noinspection unchecked*/

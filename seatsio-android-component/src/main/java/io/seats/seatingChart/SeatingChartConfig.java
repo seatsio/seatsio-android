@@ -176,7 +176,7 @@ public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, Seating
     public Either<String, Consumer<List<Category>>> onFilteredCategoriesChanged;
     public Either<String, Consumer<Floor>> onFloorChanged;
     public Either<String, Runnable> onHoldTokenExpired;
-    public Either<String, Function<Float, String>> priceFormatter;
+    public Function<Float, String> priceFormatter;
     public Either<String, BiConsumer<PromptsApiParams.OnPlacesPromptParams, Consumer<Integer>>> onPlacesPrompt;
     public Either<String, BiConsumer<PromptsApiParams.OnPlacesWithTicketTypesPromptParams, Consumer<Map<String, Integer>>>> onPlacesWithTicketTypesPrompt;
     public Either<String, BiConsumer<PromptsApiParams.OnTicketTypePromptParams, Consumer<String>>> onTicketTypePrompt;
@@ -357,12 +357,7 @@ public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, Seating
     }
 
     public SeatingChartConfig setPriceFormatter(Function<Float, String> priceFormatter) {
-        this.priceFormatter = Either.right(priceFormatter);
-        return this;
-    }
-
-    public SeatingChartConfig setPriceFormatter(String priceFormatter) {
-        this.priceFormatter = Either.left(priceFormatter);
+        this.priceFormatter = priceFormatter;
         return this;
     }
 
@@ -766,10 +761,7 @@ public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, Seating
         }
 
         if (priceFormatter != null) {
-            priceFormatter.forEach(
-                    value -> callbacks.add("priceFormatter: " + value),
-                    value -> callbacks.add("priceFormatter: (price) => Native.formatPrice(price)")
-            );
+            callbacks.add("priceFormatter: (price) => Native.formatPrice(price)");
         }
 
         if (objectLabelJavascriptFunction != null) {
