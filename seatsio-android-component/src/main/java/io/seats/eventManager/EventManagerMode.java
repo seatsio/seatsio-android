@@ -10,5 +10,7 @@ public enum EventManagerMode {
     @SerializedName("manageChannels") MANAGE_CHANNELS,
     @SerializedName("manageCategories") MANAGE_CATEGORIES,
     @SerializedName("select") SELECT,
-    @SerializedName("static") STATIC;
+    @SerializedName("static") STATIC,
+    @SerializedName("filterSections") FILTER_SECTIONS;
+
 }

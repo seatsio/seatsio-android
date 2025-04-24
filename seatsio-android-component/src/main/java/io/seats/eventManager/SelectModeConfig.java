@@ -5,11 +5,9 @@ import static java.util.Arrays.asList;
 import com.google.gson.annotations.Expose;
 
 import java.util.List;
-import java.util.function.Function;
 
 import io.seats.seatingChart.CategoryWithQuantity;
 import io.seats.seatingChart.CategoryWithTicketTypesAndQuantity;
-import io.seats.seatingChart.SeatsioObject;
 import io.seats.seatingChart.SelectedObject;
 import io.seats.seatingChart.TicketTypeWithQuantity;
 
@@ -38,7 +36,21 @@ public class SelectModeConfig extends EventManagerConfig {
     @Expose
     public List<String> selectableObjects;
 
-    public Function<SeatsioObject, Boolean> isObjectSelectable;
+    public String isObjectSelectableJavaScriptFunction;
+
+    public String objectIconJavaScriptFunction;
+
+    public SelectModeConfig() {
+        setMode(EventManagerMode.SELECT);
+    }
+
+    @Override
+    public SelectModeConfig setMode(EventManagerMode mode) {
+        if (mode != EventManagerMode.SELECT) {
+            throw new IllegalArgumentException("Mode must be 'select'");
+        }
+        return this;
+    }
 
     public SelectModeConfig setMaxSelectedObjects(int maxSelectedObjects) {
         this.maxSelectedObjects = maxSelectedObjects;
@@ -95,8 +107,13 @@ public class SelectModeConfig extends EventManagerConfig {
         return this;
     }
 
-    public SelectModeConfig setIsObjectSelectable(Function<SeatsioObject, Boolean> isObjectSelectable) {
-        this.isObjectSelectable = isObjectSelectable;
+    public SelectModeConfig setIsObjectSelectableJavaScriptFunction(String isObjectSelectableJavaScriptFunction) {
+        this.isObjectSelectableJavaScriptFunction = isObjectSelectableJavaScriptFunction;
+        return this;
+    }
+
+    public SelectModeConfig setObjectIconJavaScriptFunction(String objectIconJavaScriptFunction) {
+        this.objectIconJavaScriptFunction = objectIconJavaScriptFunction;
         return this;
     }
 
@@ -104,8 +121,12 @@ public class SelectModeConfig extends EventManagerConfig {
     protected List<String> callbacks() {
         List<String> callbacks = super.callbacks();
 
-        if (isObjectSelectable != null) {
-            callbacks.add("isObjectSelectable: (object) => Native.isObjectSelectable(JSON.stringify(object))");
+        if (isObjectSelectableJavaScriptFunction != null) {
+            callbacks.add("isObjectSelectable: " + isObjectSelectableJavaScriptFunction);
+        }
+
+        if (objectIconJavaScriptFunction != null) {
+            callbacks.add("objectIcon: " + objectIconJavaScriptFunction);
         }
 
         return callbacks;

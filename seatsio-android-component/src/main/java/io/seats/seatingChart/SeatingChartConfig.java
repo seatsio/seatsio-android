@@ -16,6 +16,8 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 import io.seats.CommonConfig;
+import io.seats.utils.Function3;
+import io.seats.utils.Function4;
 
 public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, SeatingChartView> {
 
@@ -26,7 +28,7 @@ public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, Seating
     public String workspaceKey;
 
     @Expose
-    private List<PricingForCategory> pricing;
+    public List<PricingForCategory> pricing;
 
     @Expose
     public Integer numberOfPlacesToSelect;
@@ -124,24 +126,6 @@ public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, Seating
     public SeatingChartSession session;
 
     @Expose
-    public String objectLabel;
-
-    @Expose
-    public String objectIcon;
-
-    @Expose
-    public String isObjectVisible;
-
-    @Expose
-    public String isObjectSelectable;
-
-    @Expose
-    public String canGASelectionBeIncreased;
-
-    @Expose
-    public String sectionColor;
-
-    @Expose
     public Collection<String> channels;
 
     @Expose
@@ -168,6 +152,12 @@ public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, Seating
     @Expose
     public ObjectPopover objectPopover;
 
+    public Function4<SeatsioObject, Boolean, Map<String, ?>, TicketTypePricing, Boolean> canGASelectionBeIncreased;
+
+    public String isObjectVisibleJavaScriptFunction;
+    public String objectLabelJavaScriptFunction;
+    public String objectIconJavaScriptFunction;
+    public Function3<Section, String, Map<String, ?>, String> sectionColor;
 
     public BiConsumer<List<SeatsioObject>, Boolean> onBestAvailableSelected;
     public BiConsumer<List<SeatsioObject>, List<TicketType>> onHoldSucceeded;
@@ -463,32 +453,27 @@ public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, Seating
         return this;
     }
 
-    public SeatingChartConfig setObjectLabel(String objectLabel) {
-        this.objectLabel = objectLabel;
+    public SeatingChartConfig setObjectLabelJavaScriptFunction(String objectLabelJavaScriptFunction) {
+        this.objectLabelJavaScriptFunction = objectLabelJavaScriptFunction;
         return this;
     }
 
-    public SeatingChartConfig setObjectIcon(String objectIcon) {
-        this.objectIcon = objectIcon;
+    public SeatingChartConfig setObjectIconJavaScriptFunction(String objectIconJavaScriptFunction) {
+        this.objectIconJavaScriptFunction = objectIconJavaScriptFunction;
         return this;
     }
 
-    public SeatingChartConfig setIsObjectVisible(String isObjectVisible) {
-        this.isObjectVisible = isObjectVisible;
+    public SeatingChartConfig setIsObjectVisibleJavaScriptFunction(String isObjectVisibleJavaScriptFunction) {
+        this.isObjectVisibleJavaScriptFunction = isObjectVisibleJavaScriptFunction;
         return this;
     }
 
-    public SeatingChartConfig setIsObjectSelectable(String isObjectSelectable) {
-        this.isObjectSelectable = isObjectSelectable;
-        return this;
-    }
-
-    public SeatingChartConfig setCanGASelectionBeIncreased(String canGASelectionBeIncreased) {
+    public SeatingChartConfig setCanGASelectionBeIncreased(Function4<SeatsioObject, Boolean, Map<String, ?>, TicketTypePricing, Boolean> canGASelectionBeIncreased) {
         this.canGASelectionBeIncreased = canGASelectionBeIncreased;
         return this;
     }
 
-    public SeatingChartConfig setSectionColor(String sectionColor) {
+    public SeatingChartConfig setSectionColor(Function3<Section, String, Map<String, ?>, String> sectionColor) {
         this.sectionColor = sectionColor;
         return this;
     }
@@ -606,47 +591,43 @@ public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, Seating
         }
 
         if (onSelectedObjectBooked != null) {
-            callbacks.add("onSelectedObjectBooked: object => Native.onSelectedObjectBooked(JSON.stringify(object))");
+            callbacks.add("onSelectedObjectBooked: (object) => Native.onSelectedObjectBooked(JSON.stringify(object))");
         }
 
         if (onObjectStatusChanged != null) {
-            callbacks.add("onObjectStatusChanged: object => Native.onObjectStatusChanged(JSON.stringify(object))");
+            callbacks.add("onObjectStatusChanged: (object) => Native.onObjectStatusChanged(JSON.stringify(object))");
         }
 
         if (onFilteredCategoriesChanged != null) {
-            callbacks.add("onFilteredCategoriesChanged: categories => Native.onFilteredCategoriesChanged(JSON.stringify(categories))");
+            callbacks.add("onFilteredCategoriesChanged: (categories) => Native.onFilteredCategoriesChanged(JSON.stringify(categories))");
         }
 
         if (onFloorChanged != null) {
-            callbacks.add("onFloorChanged: floor => Native.onFloorChanged(JSON.stringify(floor))");
+            callbacks.add("onFloorChanged: (floor) => Native.onFloorChanged(JSON.stringify(floor))");
         }
 
         if (priceFormatter != null) {
-            callbacks.add("priceFormatter: price => Native.formatPrice(price)");
+            callbacks.add("priceFormatter: (price) => Native.formatPrice(price)");
         }
 
-        if (objectLabel != null) {
-            callbacks.add("objectLabel: " + objectLabel);
+        if (objectLabelJavaScriptFunction != null) {
+            callbacks.add("objectLabel: " + objectLabelJavaScriptFunction);
         }
 
-        if (objectIcon != null) {
-            callbacks.add("objectIcon: " + objectIcon);
+        if (objectIconJavaScriptFunction != null) {
+            callbacks.add("objectIcon: " + objectIconJavaScriptFunction);
         }
 
-        if (isObjectVisible != null) {
-            callbacks.add("isObjectVisible: " + isObjectVisible);
-        }
-
-        if (isObjectSelectable != null) {
-            callbacks.add("isObjectSelectable: " + isObjectSelectable);
+        if (isObjectVisibleJavaScriptFunction != null) {
+            callbacks.add("isObjectVisible: " + isObjectVisibleJavaScriptFunction);
         }
 
         if (canGASelectionBeIncreased != null) {
-            callbacks.add("canGASelectionBeIncreased: " + canGASelectionBeIncreased);
+            callbacks.add("canGASelectionBeIncreased: (gaArea, defaultValue, extraConfig, ticketType) => Native.x(JSON.stringify(object), defaultValue, extraConfig, ticketType)");
         }
 
         if (sectionColor != null) {
-            callbacks.add("sectionColor: " + sectionColor);
+            callbacks.add("sectionColor: (section, defaultColor, extraConfig) => Native.sectionColor(JSON.stringify(section), defaultColor, extraConfig)");
         }
 
         if (onPlacesPrompt != null) {

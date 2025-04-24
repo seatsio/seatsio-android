@@ -1,21 +1,19 @@
 package test;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
 import io.seats.seatingChart.*;
 
-import java.util.LinkedHashMap;
+import java.text.DecimalFormat;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -34,7 +32,10 @@ public class ShowSeatingChartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         AtomicBoolean changed = new AtomicBoolean(false);
         AtomicReference<SeatingChartView> seatingChartViewWrapper = null;
-        SeatingChartConfig config = new SeatingChartConfig()
+        DecimalFormat priceFormat = new DecimalFormat();
+        priceFormat.setMinimumFractionDigits(2);
+        priceFormat.setMaximumFractionDigits(2);
+        SeatingChartConfig config = new SeatingChartConfig().setColorScheme(ColorScheme.DARK)
                 .setWorkspaceKey("publicDemoKey")
                 .setEvent("fa78299a-6b61-4bf3-99c8-8434a79be17e")
                 .setSession(START)
@@ -51,10 +52,10 @@ public class ShowSeatingChartActivity extends AppCompatActivity {
                 .setPricing(
                         new PricingForCategory("10", new TicketTypesPricing(
                                 new TicketTypePricing(20.0f, "child"),
-                                new TicketTypePricing(30.0f, "adult"))),
+                                new TicketTypePricing(30.5f, "adult"))),
                         new PricingForCategory("11", new TicketTypesPricing(
                                 new TicketTypePricing(20.0f, "child"),
-                                new TicketTypePricing(30.0f, "adult")
+                                new TicketTypePricing(30.5f, "adult")
                         ))
                 )
                 .setCategoryFilter(new CategoryFilter().setEnabled(true))
@@ -70,13 +71,15 @@ public class ShowSeatingChartActivity extends AppCompatActivity {
                 .setOnHoldFailed((objects, ticketTypes) -> Log.i(LOG_PREFIX, "Hold failed " + objects))
                 .setOnReleaseHoldSucceeded((objects, ticketTypes) -> Log.i(LOG_PREFIX, "Release hold succeeded " + objects))
                 .setOnReleaseHoldFailed((objects, ticketTypes) -> Log.i(LOG_PREFIX, "Release hold failed " + objects))
-                .setObjectLabel("object => object.labels.own")
-                .setPriceFormatter(price -> price + "€")
+                .setObjectLabelJavaScriptFunction("(object, defaultLabel, extraConfig) => object.labels.own")
+                .setObjectIconJavaScriptFunction("(object, defaultIcon, extraConfig) => defaultIcon")
+                .setPriceFormatter(price -> "€" + priceFormat.format(price))
                 .setShowLegend(true)
                 .setShowSeatLabels(true)
                 .setMultiSelectEnabled(true)
                 .setShowActiveSectionTooltip(false)
                 .setShowViewFromYourSeat(false)
+                .setSectionColor((section, defaultValue, extraConfig) -> defaultValue)
                 .setSelectionValidators(noOrphanSeats(), consecutiveSeats())
                 .setHoldOnSelectForGAs(true)
                 .setShowSectionContents(ALWAYS)
@@ -100,6 +103,7 @@ public class ShowSeatingChartActivity extends AppCompatActivity {
         layout.setOrientation(LinearLayout.VERTICAL);
 
         SeatingChartView seatingChartView = new SeatingChartView(EU, config, getApplicationContext());
+        seatingChartView.setBackgroundColor(Color.BLACK);
         seatingChartViewWrapper = new AtomicReference<>(seatingChartView);
         Toolbar toolbar = new Toolbar(getApplicationContext());
         Button rerenderButton = new Button(getApplicationContext());

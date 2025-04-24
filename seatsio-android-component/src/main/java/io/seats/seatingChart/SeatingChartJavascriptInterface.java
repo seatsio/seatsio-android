@@ -6,6 +6,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Map;
 
 import io.seats.SeatsioJavascriptInterface;
 
@@ -121,5 +122,41 @@ public class SeatingChartJavascriptInterface extends SeatsioJavascriptInterface<
     @JavascriptInterface
     public String formatPrice(float price) {
         return config.priceFormatter.apply(price);
+    }
+
+    /** @noinspection unchecked*/
+    @JavascriptInterface
+    public String sectionColor(String section, String defaultColor, String extraConfig) {
+        return config.sectionColor.apply(GSON.fromJson(section, Section.class), defaultColor, GSON.fromJson(extraConfig, Map.class));
+    }
+
+    /** @noinspection unchecked*/
+    @JavascriptInterface
+    public Boolean canGASelectionBeIncreased(String object, boolean defaultValue, String extraConfig, String ticketType) {
+        return config.canGASelectionBeIncreased.apply(toSeatsObject(object), defaultValue, GSON.fromJson(extraConfig, Map.class), GSON.fromJson(ticketType, TicketTypePricing.class));
+    }
+
+    @JavascriptInterface
+    public void onPlacesPrompt(String params) {
+        config.onPlacesPrompt.accept(
+                GSON.fromJson(params, PromptsApiParams.OnPlacesPromptParams.class),
+                (Integer places) -> seatsioWebView.callInternalCallback("onPlacesPrompt", places)
+        );
+    }
+
+    @JavascriptInterface
+    public void onPlacesWithTicketTypesPrompt(String params) {
+        config.onPlacesWithTicketTypesPrompt.accept(
+                GSON.fromJson(params, PromptsApiParams.OnPlacesWithTicketTypesPromptParams.class),
+                (Map<String, Integer> types) -> seatsioWebView.callInternalCallback("onPlacesWithTicketTypesPrompt", types)
+        );
+    }
+
+    @JavascriptInterface
+    public void onTicketTypePrompt(String params) {
+        config.onTicketTypePrompt.accept(
+                GSON.fromJson(params, PromptsApiParams.OnTicketTypePromptParams.class),
+                (String type) -> seatsioWebView.callInternalCallback("onTicketTypePrompt", type)
+        );
     }
 }

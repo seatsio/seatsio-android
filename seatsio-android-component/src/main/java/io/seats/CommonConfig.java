@@ -52,7 +52,8 @@ public class CommonConfig<T extends CommonConfig<?, ?>, U extends SeatsioWebView
     @Expose
     public Style style;
 
-    public String objectColor;
+    public String objectColorJavaScriptFunction;
+
     public Function<SeatsioObject, String> tooltipInfo;
     public Function<SeatsioObject, String> popoverInfo;
     public BiConsumer<SeatsioObject, TicketType> onObjectSelected;
@@ -99,8 +100,8 @@ public class CommonConfig<T extends CommonConfig<?, ?>, U extends SeatsioWebView
         return (T) this;
     }
 
-    public T setObjectColor(String objectColor) {
-        this.objectColor = objectColor;
+    public T setObjectColorJavaScriptFunction(String objectColorJavaScriptFunction) {
+        this.objectColorJavaScriptFunction = objectColorJavaScriptFunction;
         return (T) this;
     }
 
@@ -157,16 +158,16 @@ public class CommonConfig<T extends CommonConfig<?, ?>, U extends SeatsioWebView
     protected List<String> callbacks() {
         List<String> callbacks = new ArrayList<>();
 
+        if (objectColorJavaScriptFunction != null) {
+            callbacks.add("objectColor: " + objectColorJavaScriptFunction);
+        }
+
         if (tooltipInfo != null) {
-            callbacks.add("tooltipInfo: object => Native.tooltipInfo(JSON.stringify(object))");
+            callbacks.add("tooltipInfo: (object) => Native.tooltipInfo(JSON.stringify(object))");
         }
 
         if (popoverInfo != null) {
-            callbacks.add("popoverInfo: object => Native.popoverInfo(JSON.stringify(object))");
-        }
-
-        if (objectColor != null) {
-            callbacks.add("objectColor: " + objectColor);
+            callbacks.add("popoverInfo: (object) => Native.popoverInfo(JSON.stringify(object))");
         }
 
         if (onObjectSelected != null) {
@@ -178,19 +179,19 @@ public class CommonConfig<T extends CommonConfig<?, ?>, U extends SeatsioWebView
         }
 
         if (onObjectClicked != null) {
-            callbacks.add("onObjectClicked: object => Native.onObjectClicked(JSON.stringify(object))");
+            callbacks.add("onObjectClicked: (object) => Native.onObjectClicked(JSON.stringify(object))");
         }
 
         if (onChartRendered != null) {
-            callbacks.add("onChartRendered: object => Native.onChartRendered()");
+            callbacks.add("onChartRendered: (object) => Native.onChartRendered()");
         }
 
         if (onChartRenderingFailed != null) {
-            callbacks.add("onChartRenderingFailed: object => Native.onChartRenderingFailed()");
+            callbacks.add("onChartRenderingFailed: (object) => Native.onChartRenderingFailed()");
         }
 
         if (onChartRerenderingStarted != null) {
-            callbacks.add("onChartRerenderingStarted: object => Native.onChartRerenderingStarted()");
+            callbacks.add("onChartRerenderingStarted: (object) => Native.onChartRerenderingStarted()");
         }
 
         return callbacks;

@@ -242,3 +242,19 @@ Some event manager modes have additional properties. To use these properties, in
 sub-classes of `EventManagerConfig`.
 
 Documentation for the event manager is available at https://docs.seats.io/docs/event-manager
+
+### Configuring callbacks
+In most cases, it's possible to pass in regular Java functions as callbacks:
+
+```java
+new SeatingChartConfig().setOnObjectSelected((object, ticketType) -> /* do something */)
+```
+
+There are a few cases, such as `objectLabel`, where it is only possible to define functions using JavaScript because those functions
+are applied to each object in the chart and the performance overhead of using the JavaScript <-> Java bridge seriously degrades performance.
+
+```java
+new SeatingChartConfig().setObjectLabelJavaScriptFunction("object => object.labels.own"); // must be a valid JavaScript function
+```
+
+Any callback which requires a JavaScript implementation is suffixed with `JavaScriptFunction`.
