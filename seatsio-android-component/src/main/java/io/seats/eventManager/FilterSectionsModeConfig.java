@@ -4,11 +4,10 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import io.seats.seatingChart.Section;
-import io.seats.utils.Either;
 
 public class FilterSectionsModeConfig extends EventManagerConfig implements HasOnFilteredSectionChange {
 
-    public Either<String, Consumer<Section[]>> onFilteredSectionChange;
+    public Consumer<Section[]> onFilteredSectionChange;
 
     public FilterSectionsModeConfig() {
         setMode(EventManagerMode.FILTER_SECTIONS);
@@ -23,21 +22,13 @@ public class FilterSectionsModeConfig extends EventManagerConfig implements HasO
     }
 
     public FilterSectionsModeConfig setOnFilteredSectionChange(Consumer<Section[]> onFilteredSectionChange) {
-        this.onFilteredSectionChange = Either.right(onFilteredSectionChange);
-        return this;
-    }
-
-    public FilterSectionsModeConfig setOnFilteredSectionChange(String onFilteredSectionChange) {
-        this.onFilteredSectionChange = Either.left(onFilteredSectionChange);
+        this.onFilteredSectionChange = onFilteredSectionChange;
         return this;
     }
 
     @Override
     public Consumer<Section[]> getOnFilteredSectionChange() {
-        if (onFilteredSectionChange == null) {
-            return null;
-        }
-        return onFilteredSectionChange.getOrNull();
+        return onFilteredSectionChange;
     }
 
     @Override
@@ -45,10 +36,7 @@ public class FilterSectionsModeConfig extends EventManagerConfig implements HasO
         List<String> callbacks = super.callbacks();
 
         if (onFilteredSectionChange != null) {
-            onFilteredSectionChange.forEach(
-                    value -> callbacks.add("onFilteredSectionChange: " + value),
-                    value -> callbacks.add("onFilteredSectionChange: (sections) => Native.onFilteredSectionChange(JSON.stringify(sections))")
-            );
+            callbacks.add("onFilteredSectionChange: (sections) => Native.onFilteredSectionChange(JSON.stringify(sections))");
         }
 
         return callbacks;

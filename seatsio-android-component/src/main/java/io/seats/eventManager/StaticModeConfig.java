@@ -13,7 +13,7 @@ public class StaticModeConfig extends EventManagerConfig implements HasTooltipCo
     @Expose
     public ObjectPopover objectPopover;
 
-    public Either<String, Function<SeatsioObject, String>> tooltipContents;
+    public Function<SeatsioObject, String> tooltipContents;
 
     public String objectIconJavascriptFunction;
 
@@ -34,21 +34,13 @@ public class StaticModeConfig extends EventManagerConfig implements HasTooltipCo
     }
 
     public StaticModeConfig setTooltipContents(Function<SeatsioObject, String> tooltipContents) {
-        this.tooltipContents = Either.right(tooltipContents);
-        return this;
-    }
-
-    public StaticModeConfig setTooltipContents(String tooltipContents) {
-        this.tooltipContents = Either.left(tooltipContents);
+        this.tooltipContents = tooltipContents;
         return this;
     }
 
     @Override
     public Function<SeatsioObject, String> getTooltipContents() {
-        if (tooltipContents == null) {
-            return null;
-        }
-        return tooltipContents.getOrNull();
+        return tooltipContents;
     }
 
     public StaticModeConfig setObjectIconJavascriptFunction(String objectIconJavascriptFunction) {
@@ -61,10 +53,7 @@ public class StaticModeConfig extends EventManagerConfig implements HasTooltipCo
         List<String> callbacks = super.callbacks();
 
         if (tooltipContents != null) {
-            tooltipContents.forEach(
-                    value -> callbacks.add("tooltipContents: " + value),
-                    value -> callbacks.add("tooltipContents: (object) => Native.tooltipContents(JSON.stringify(object))")
-            );
+            callbacks.add("tooltipContents: (object) => Native.tooltipContents(JSON.stringify(object))");
         }
 
         if (objectIconJavascriptFunction != null) {
