@@ -52,7 +52,7 @@ public class CommonConfig<T extends CommonConfig<?, ?>, U extends SeatsioWebView
     @Expose
     public Style style;
 
-    public String objectColorJavascriptFunction;
+    public String objectColorJavaScriptFunction;
 
     public Function<SeatsioObject, String> tooltipInfo;
     public Function<SeatsioObject, String> popoverInfo;
@@ -100,8 +100,8 @@ public class CommonConfig<T extends CommonConfig<?, ?>, U extends SeatsioWebView
         return (T) this;
     }
 
-    public T setObjectColorJavascriptFunction(String objectColorJavascriptFunction) {
-        this.objectColorJavascriptFunction = objectColorJavascriptFunction;
+    public T setObjectColorJavaScriptFunction(String objectColorJavaScriptFunction) {
+        this.objectColorJavaScriptFunction = objectColorJavaScriptFunction;
         return (T) this;
     }
 
@@ -158,8 +158,8 @@ public class CommonConfig<T extends CommonConfig<?, ?>, U extends SeatsioWebView
     protected List<String> callbacks() {
         List<String> callbacks = new ArrayList<>();
 
-        if (objectColorJavascriptFunction != null) {
-            callbacks.add("objectColor: " + objectColorJavascriptFunction);
+        if (objectColorJavaScriptFunction != null) {
+            callbacks.add("objectColor: " + objectColorJavaScriptFunction);
         }
 
         if (tooltipInfo != null) {

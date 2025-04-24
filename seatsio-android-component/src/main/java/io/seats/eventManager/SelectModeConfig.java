@@ -36,9 +36,9 @@ public class SelectModeConfig extends EventManagerConfig {
     @Expose
     public List<String> selectableObjects;
 
-    public String isObjectSelectableJavascriptFunction;
+    public String isObjectSelectableJavaScriptFunction;
 
-    public String objectIconJavascriptFunction;
+    public String objectIconJavaScriptFunction;
 
     public SelectModeConfig() {
         setMode(EventManagerMode.SELECT);
@@ -107,13 +107,13 @@ public class SelectModeConfig extends EventManagerConfig {
         return this;
     }
 
-    public SelectModeConfig setIsObjectSelectableJavascriptFunction(String isObjectSelectableJavascriptFunction) {
-        this.isObjectSelectableJavascriptFunction = isObjectSelectableJavascriptFunction;
+    public SelectModeConfig setIsObjectSelectableJavaScriptFunction(String isObjectSelectableJavaScriptFunction) {
+        this.isObjectSelectableJavaScriptFunction = isObjectSelectableJavaScriptFunction;
         return this;
     }
 
-    public SelectModeConfig setObjectIconJavascriptFunction(String objectIconJavascriptFunction) {
-        this.objectIconJavascriptFunction = objectIconJavascriptFunction;
+    public SelectModeConfig setObjectIconJavaScriptFunction(String objectIconJavaScriptFunction) {
+        this.objectIconJavaScriptFunction = objectIconJavaScriptFunction;
         return this;
     }
 
@@ -121,12 +121,12 @@ public class SelectModeConfig extends EventManagerConfig {
     protected List<String> callbacks() {
         List<String> callbacks = super.callbacks();
 
-        if (isObjectSelectableJavascriptFunction != null) {
-            callbacks.add("isObjectSelectable: " + isObjectSelectableJavascriptFunction);
+        if (isObjectSelectableJavaScriptFunction != null) {
+            callbacks.add("isObjectSelectable: " + isObjectSelectableJavaScriptFunction);
         }
 
-        if (objectIconJavascriptFunction != null) {
-            callbacks.add("objectIcon: " + objectIconJavascriptFunction);
+        if (objectIconJavaScriptFunction != null) {
+            callbacks.add("objectIcon: " + objectIconJavaScriptFunction);
         }
 
         return callbacks;

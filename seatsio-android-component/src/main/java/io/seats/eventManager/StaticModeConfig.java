@@ -15,7 +15,7 @@ public class StaticModeConfig extends EventManagerConfig implements HasTooltipCo
 
     public Function<SeatsioObject, String> tooltipContents;
 
-    public String objectIconJavascriptFunction;
+    public String objectIconJavaScriptFunction;
 
     public StaticModeConfig() {
         setMode(EventManagerMode.STATIC);
@@ -43,8 +43,8 @@ public class StaticModeConfig extends EventManagerConfig implements HasTooltipCo
         return tooltipContents;
     }
 
-    public StaticModeConfig setObjectIconJavascriptFunction(String objectIconJavascriptFunction) {
-        this.objectIconJavascriptFunction = objectIconJavascriptFunction;
+    public StaticModeConfig setObjectIconJavaScriptFunction(String objectIconJavaScriptFunction) {
+        this.objectIconJavaScriptFunction = objectIconJavaScriptFunction;
         return this;
     }
 
@@ -56,8 +56,8 @@ public class StaticModeConfig extends EventManagerConfig implements HasTooltipCo
             callbacks.add("tooltipContents: (object) => Native.tooltipContents(JSON.stringify(object))");
         }
 
-        if (objectIconJavascriptFunction != null) {
-            callbacks.add("objectIcon: " + objectIconJavascriptFunction);
+        if (objectIconJavaScriptFunction != null) {
+            callbacks.add("objectIcon: " + objectIconJavaScriptFunction);
         }
 
         return callbacks;

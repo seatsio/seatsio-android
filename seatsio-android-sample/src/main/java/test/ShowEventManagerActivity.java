@@ -21,13 +21,13 @@ public class ShowEventManagerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventManagerConfig config = new SelectModeConfig()
-                .setObjectIconJavascriptFunction("(object, defaultIcon, extraConfig) => defaultIcon")
+                .setObjectIconJavaScriptFunction("(object, defaultIcon, extraConfig) => defaultIcon")
                 .setMaxSelectedObjects(4)
                 .setSecretKey("...")
                 .setEvent("fa78299a-6b61-4bf3-99c8-8434a79be17e")
                 .setMode(SELECT)
                 .setLanguage("nl")
-                .setObjectColorJavascriptFunction("(object, defaultColor, extraConfig) -> object.accessible ? 'blue': 'red''")
+                .setObjectColorJavaScriptFunction("(object, defaultColor, extraConfig) -> object.accessible ? 'blue': 'red''")
                 .setTooltipInfo(object -> object.channel != null ? "in channel" : "not in channel")
                 .setColorScheme(DARK)
                 .setOnChartRenderingFailed((chart) -> Log.i("Seats.io", "whoops"));

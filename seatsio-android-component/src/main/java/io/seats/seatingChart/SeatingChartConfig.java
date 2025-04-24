@@ -154,9 +154,9 @@ public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, Seating
 
     public Function4<SeatsioObject, Boolean, Map<String, ?>, TicketTypePricing, Boolean> canGASelectionBeIncreased;
 
-    public String isObjectVisibleJavascriptFunction;
-    public String objectLabelJavascriptFunction;
-    public String objectIconJavascriptFunction;
+    public String isObjectVisibleJavaScriptFunction;
+    public String objectLabelJavaScriptFunction;
+    public String objectIconJavaScriptFunction;
     public Function3<Section, String, Map<String, ?>, String> sectionColor;
 
     public BiConsumer<List<SeatsioObject>, Boolean> onBestAvailableSelected;
@@ -453,18 +453,18 @@ public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, Seating
         return this;
     }
 
-    public SeatingChartConfig setObjectLabelJavascriptFunction(String objectLabelJavascriptFunction) {
-        this.objectLabelJavascriptFunction = objectLabelJavascriptFunction;
+    public SeatingChartConfig setObjectLabelJavaScriptFunction(String objectLabelJavaScriptFunction) {
+        this.objectLabelJavaScriptFunction = objectLabelJavaScriptFunction;
         return this;
     }
 
-    public SeatingChartConfig setObjectIconJavascriptFunction(String objectIconJavascriptFunction) {
-        this.objectIconJavascriptFunction = objectIconJavascriptFunction;
+    public SeatingChartConfig setObjectIconJavaScriptFunction(String objectIconJavaScriptFunction) {
+        this.objectIconJavaScriptFunction = objectIconJavaScriptFunction;
         return this;
     }
 
-    public SeatingChartConfig setIsObjectVisibleJavascriptFunction(String isObjectVisibleJavascriptFunction) {
-        this.isObjectVisibleJavascriptFunction = isObjectVisibleJavascriptFunction;
+    public SeatingChartConfig setIsObjectVisibleJavaScriptFunction(String isObjectVisibleJavaScriptFunction) {
+        this.isObjectVisibleJavaScriptFunction = isObjectVisibleJavaScriptFunction;
         return this;
     }
 
@@ -610,16 +610,16 @@ public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, Seating
             callbacks.add("priceFormatter: (price) => Native.formatPrice(price)");
         }
 
-        if (objectLabelJavascriptFunction != null) {
-            callbacks.add("objectLabel: " + objectLabelJavascriptFunction);
+        if (objectLabelJavaScriptFunction != null) {
+            callbacks.add("objectLabel: " + objectLabelJavaScriptFunction);
         }
 
-        if (objectIconJavascriptFunction != null) {
-            callbacks.add("objectIcon: " + objectIconJavascriptFunction);
+        if (objectIconJavaScriptFunction != null) {
+            callbacks.add("objectIcon: " + objectIconJavaScriptFunction);
         }
 
-        if (isObjectVisibleJavascriptFunction != null) {
-            callbacks.add("isObjectVisible: " + isObjectVisibleJavascriptFunction);
+        if (isObjectVisibleJavaScriptFunction != null) {
+            callbacks.add("isObjectVisible: " + isObjectVisibleJavaScriptFunction);
         }
 
         if (canGASelectionBeIncreased != null) {
