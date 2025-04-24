@@ -10,7 +10,7 @@ public class Section {
     public String objectType;
 
     @Expose
-    public SectionCategory sectionCategory;
+    public Category sectionCategory;
 
     @Expose
     public String label;
