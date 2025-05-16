@@ -18,14 +18,14 @@ seatsio-android is available in the Maven Central repository:
 ```
 // build.gradle
 dependencies {
-  compile 'io.seats:seatsio-android:14.3.0'
+  compile 'io.seats:seatsio-android:14.4.0'
 }
 
 // pom.xml
 <dependency>
   <groupId>io.seats</groupId>
   <artifactId>seatsio-android</artifactId>
-  <version>14.3.0</version>
+  <version>14.4.0</version>
 </dependency>
 ```
 
