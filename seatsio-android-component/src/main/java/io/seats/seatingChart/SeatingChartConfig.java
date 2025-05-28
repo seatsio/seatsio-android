@@ -144,7 +144,7 @@ public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, Seating
     public CategoryFilter categoryFilter;
 
     @Expose
-    public Boolean unifiedObjectPropertiesInCallbacks;
+    public final Boolean unifiedObjectPropertiesInCallbacks = true;
 
     @Expose
     public Boolean hideSectionsNotForSale;
@@ -505,11 +505,6 @@ public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, Seating
 
     public SeatingChartConfig setCategoryFilter(CategoryFilter categoryFilter) {
         this.categoryFilter = categoryFilter;
-        return this;
-    }
-
-    public SeatingChartConfig setUnifiedObjectPropertiesInCallbacks(Boolean unifiedObjectPropertiesInCallbacks) {
-        this.unifiedObjectPropertiesInCallbacks = unifiedObjectPropertiesInCallbacks;
         return this;
     }
 
