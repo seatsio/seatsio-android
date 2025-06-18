@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -179,6 +180,9 @@ public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, Seating
     public BiConsumer<PromptsApiParams.OnPlacesPromptParams, Consumer<Integer>> onPlacesPrompt;
     public BiConsumer<PromptsApiParams.OnPlacesWithTicketTypesPromptParams, Consumer<Map<String, Integer>>> onPlacesWithTicketTypesPrompt;
     public BiConsumer<PromptsApiParams.OnTicketTypePromptParams, Consumer<String>> onTicketTypePrompt;
+
+    @Expose
+    public UUID ticketBuyerId;
 
     public SeatingChartConfig setWorkspaceKey(String workspaceKey) {
         this.workspaceKey = workspaceKey;
@@ -530,6 +534,11 @@ public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, Seating
 
     public SeatingChartConfig setOnTicketTypePrompt(BiConsumer<PromptsApiParams.OnTicketTypePromptParams, Consumer<String>> onTicketTypePrompt) {
         this.onTicketTypePrompt = onTicketTypePrompt;
+        return this;
+    }
+
+    public SeatingChartConfig setTicketBuyerId(UUID ticketBuyerId) {
+        this.ticketBuyerId = ticketBuyerId;
         return this;
     }
 
