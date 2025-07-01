@@ -12,7 +12,9 @@ public class TicketTypePricing {
     public String label;
     @Expose
     public String description;
-
+    @Expose
+    public Boolean primary;
+    
     public TicketTypePricing(float price, String ticketType) {
         this(price, ticketType, null);
     }
@@ -22,9 +24,14 @@ public class TicketTypePricing {
     }
 
     public TicketTypePricing(float price, String ticketType, String label, String description) {
+        this(price, ticketType, label, description, null);
+    }
+
+    public TicketTypePricing(float price, String ticketType, String label, String description, Boolean primary) {
         this.price = price;
         this.ticketType = ticketType;
         this.label = label;
         this.description = description;
+        this.primary = primary;
     }
 }
