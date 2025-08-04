@@ -1,5 +1,5 @@
 plugins {
-    id "com.vanniktech.maven.publish" version "0.33.0"
+    id "com.vanniktech.maven.publish" version "0.34.0"
 }
 
 apply plugin: 'com.android.library'
@@ -27,11 +27,10 @@ android {
     namespace 'io.seats'
 }
 
-import com.vanniktech.maven.publish.SonatypeHost
 mavenPublishing {
     coordinates("io.seats", "seatsio-android", version)
 
-    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL, true)
+    publishToMavenCentral(true)
     signAllPublications()
 
     pom {
