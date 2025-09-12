@@ -81,34 +81,65 @@ protected void onCreate(Bundle savedInstanceState) {
 ```java
 SeatingChartConfig config = new SeatingChartConfig()
   .setWorkspaceKey("<yourPublicWorkspaceKey>")
-  .setEvent("<yourEventKey>");
+  .setEvent("<yourEventKey>")
   .setPricing(
-          new PricingForCategory("Ground Floor", new SimplePricing(34)),
-          new PricingForCategory("Balcony", new SimplePricing(50))
-  )
-  .setPriceFormatter(price -> price + "€");
+          new Pricing(List.of(
+                new PricingForCategory("Ground Floor", new SimplePricing(34)),
+                new PricingForCategory("Balcony", new SimplePricing(50))
+            ))
+            .setPriceFormatter(price -> price + "€")
+  );
   
 setContentView(new SeatingChartView(Region.EU, config, getApplicationContext()));
 ```
 
-#### Multi-level pricing (ticket types)
+#### Complex pricing
+
+```java
+SeatingChartConfig config = new SeatingChartConfig()
+  .setWorkspaceKey("<yourPublicWorkspaceKey>")
+  .setEvent("<yourEventKey>")
+  .setPricing(new Pricing(List.of(
+          new PricingForCategory("13", new SimplePrice(80f, 120f)),
+          new PricingForCategory("10", new TicketTypesPrice(
+                  new TicketTypePricing(20.0f, "child").setOriginalPrice(25f),
+                  new TicketTypePricing(30.5f, "adult").setOriginalPrice(35f))),
+          new PricingForCategory("11", new TicketTypesPrice(
+                  new TicketTypePricing(20.0f, "child"),
+                  new TicketTypePricing(30.5f, "adult"))
+          ),
+          new PricingForChart(new ObjectPrice(List.of("VIP SEATS-A-1", "VIP SEATS-A-2", "VIP SEATS-A-3"), 54f, 76f)),
+          new PricingForChart(new ObjectPrice(List.of("VIP SEATS-B-1", "VIP SEATS-B-2", "VIP SEATS-B-3"), List.of(
+                  new TicketTypePricing(20.0f, "child"),
+                  new TicketTypePricing(30.5f, "adult")
+          ))),
+          new PricingForCategory("13", new ChannelPrice(List.of(
+                  new ChannelPricing("d0b3e5e6-5089-1cfa-2e1b-4123a544051e", 55f)
+          ), 50f, 60f))))
+          .setPriceFormatter((price) -> "€" + priceFormat.format(price))
+          .setAllFeesIncluded(true)
+  );
+  
+setContentView(new SeatingChartView(Region.EU, config, getApplicationContext()));
+```
 
 ```java
 SeatingChartConfig config = new SeatingChartConfig()
   .setWorkspaceKey("<yourPublicWorkspaceKey>")
   .setEvent("<yourEventKey>");
-  .setPricing(
-    new PricingForCategory("Ground Floor",
-      new TicketTypesPricing(
-        new TicketTypePricing(40, "Child"),
+  .setPricing(new Pricing(List.of(
+      new PricingForCategory("Ground Floor",
+          new TicketTypesPricing(
+                      new TicketTypePricing(40, "Child"),
         new TicketTypePricing(50, "Adult")
       )),
-    new PricingForCategory("Balcony",
-      new TicketTypesPricing(
-        new TicketTypePricing(60, "Child"),
+              new PricingForCategory("Balcony",
+                                             new TicketTypesPricing(
+                                             new TicketTypePricing(60, "Child"),
         new TicketTypePricing(70, "Adult")
-   )))
-  .setPriceFormatter(price -> price + "€");
+   ))
+     ))
+    .setPriceFormatter(price -> price + "€"));
   
 setContentView(new SeatingChartView(Region.EU, config, getApplicationContext()));
 ```

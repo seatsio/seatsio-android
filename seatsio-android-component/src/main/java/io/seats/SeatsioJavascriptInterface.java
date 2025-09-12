@@ -13,7 +13,7 @@ import java.lang.reflect.Type;
 import java.time.Instant;
 import java.util.List;
 
-import io.seats.seatingChart.Pricing;
+import io.seats.seatingChart.Price;
 import io.seats.seatingChart.SeatsioObject;
 import io.seats.seatingChart.TicketType;
 
@@ -23,7 +23,7 @@ public class SeatsioJavascriptInterface<U extends SeatsioWebView<?>, T extends C
     protected T config;
 
     public static final Gson GSON = new GsonBuilder()
-            .registerTypeAdapter(Pricing.class, new Pricing.PricingDeserializer())
+            .registerTypeAdapter(Price.class, new Price.PriceDeserializer())
             .registerTypeAdapter(Instant.class, instantDeserializer())
             .create();
 

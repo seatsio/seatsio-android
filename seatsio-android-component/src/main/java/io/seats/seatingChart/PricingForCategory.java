@@ -8,15 +8,15 @@ import com.google.gson.annotations.Expose;
 
 import java.lang.reflect.Type;
 
-public class PricingForCategory {
+public class PricingForCategory implements Pricing {
 
     @Expose
     public String category;
 
     @Expose
-    public Pricing pricing;
+    public Price pricing;
 
-    public PricingForCategory(String category, Pricing pricing) {
+    public PricingForCategory(String category, Price pricing) {
         this.category = category;
         this.pricing = pricing;
     }
