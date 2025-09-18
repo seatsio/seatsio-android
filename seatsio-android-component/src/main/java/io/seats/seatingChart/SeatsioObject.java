@@ -11,7 +11,7 @@ public class SeatsioObject {
     public Point center;
     public String label;
     public Labels labels;
-    public Pricing pricing;
+    public Price pricing;
     public String status;
     public Boolean forSale;
     public Boolean selectable;
@@ -41,15 +41,15 @@ public class SeatsioObject {
     public Boolean isInteractive;
 
     public boolean isSimplePricing() {
-        return pricing instanceof SimplePricing;
+        return pricing instanceof SimplePrice;
     }
 
-    public SimplePricing getSimplePricing() {
-        return (SimplePricing) pricing;
+    public SimplePrice getSimplePricing() {
+        return (SimplePrice) pricing;
     }
 
-    public TicketTypesPricing getTicketTypesPricing() {
-        return (TicketTypesPricing) pricing;
+    public TicketTypesPrice getTicketTypesPricing() {
+        return (TicketTypesPrice) pricing;
     }
 
 }

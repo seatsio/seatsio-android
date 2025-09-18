@@ -18,6 +18,7 @@ import java.util.function.Function;
 import io.seats.seatingChart.ColorScheme;
 import io.seats.seatingChart.Colors;
 import io.seats.seatingChart.PricingForCategory;
+import io.seats.seatingChart.PricingForChart;
 import io.seats.seatingChart.SeatsioObject;
 import io.seats.seatingChart.Style;
 import io.seats.seatingChart.StylePreset;
@@ -155,6 +156,10 @@ public class CommonConfig<T extends CommonConfig<?, ?>, U extends SeatsioWebView
         return (T) this;
     }
 
+    protected String addAdditionalProperties(String configAsJson) {
+        return configAsJson;
+    }
+
     protected List<String> callbacks() {
         List<String> callbacks = new ArrayList<>();
 
@@ -201,12 +206,14 @@ public class CommonConfig<T extends CommonConfig<?, ?>, U extends SeatsioWebView
         Gson gson = new GsonBuilder()
                 .excludeFieldsWithoutExposeAnnotation()
                 .registerTypeAdapter(PricingForCategory.class, new PricingForCategory.PricingForCategorySerializer())
+                .registerTypeAdapter(PricingForChart.class, new PricingForChart.PricingForChartSerializer())
                 .create();
 
         String configAsJson = gson.toJson(this);
         String configAsJsonWithoutLastChar = configAsJson.substring(0, configAsJson.length() - 1);
         configAsJsonWithoutLastChar += "," + join(", ", callbacks());
         configAsJson = configAsJsonWithoutLastChar + "}";
+        configAsJson = addAdditionalProperties(configAsJson);
         return configAsJson;
     }
 }

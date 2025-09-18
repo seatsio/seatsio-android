@@ -14,7 +14,6 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 import io.seats.CommonConfig;
 import io.seats.utils.Function3;
@@ -29,7 +28,7 @@ public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, Seating
     public String workspaceKey;
 
     @Expose
-    public List<PricingForCategory> pricing;
+    public SeatsioPricing pricing;
 
     @Expose
     public Integer numberOfPlacesToSelect;
@@ -139,9 +138,6 @@ public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, Seating
     public Boolean showFloorElevator;
 
     @Expose
-    public Boolean showSectionPricingOverlay;
-
-    @Expose
     public CategoryFilter categoryFilter;
 
     @Expose
@@ -176,7 +172,6 @@ public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, Seating
     public Consumer<List<Category>> onFilteredCategoriesChanged;
     public Consumer<Floor> onFloorChanged;
     public Runnable onHoldTokenExpired;
-    public Function<Float, String> priceFormatter;
     public BiConsumer<PromptsApiParams.OnPlacesPromptParams, Consumer<Integer>> onPlacesPrompt;
     public BiConsumer<PromptsApiParams.OnPlacesWithTicketTypesPromptParams, Consumer<Map<String, Integer>>> onPlacesWithTicketTypesPrompt;
     public BiConsumer<PromptsApiParams.OnTicketTypePromptParams, Consumer<String>> onTicketTypePrompt;
@@ -189,8 +184,8 @@ public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, Seating
         return this;
     }
 
-    public SeatingChartConfig setPricing(PricingForCategory... pricing) {
-        this.pricing = asList(pricing);
+    public SeatingChartConfig setPricing(SeatsioPricing pricing) {
+        this.pricing = pricing;
         return this;
     }
 
@@ -276,11 +271,6 @@ public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, Seating
 
     public SeatingChartConfig setOnFloorChanged(Consumer<Floor> onFloorChanged) {
         this.onFloorChanged = onFloorChanged;
-        return this;
-    }
-
-    public SeatingChartConfig setPriceFormatter(Function<Float, String> priceFormatter) {
-        this.priceFormatter = priceFormatter;
         return this;
     }
 
@@ -502,11 +492,6 @@ public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, Seating
         return this;
     }
 
-    public SeatingChartConfig setShowSectionPricingOverlay(Boolean showSectionPricingOverlay) {
-        this.showSectionPricingOverlay = showSectionPricingOverlay;
-        return this;
-    }
-
     public SeatingChartConfig setCategoryFilter(CategoryFilter categoryFilter) {
         this.categoryFilter = categoryFilter;
         return this;
@@ -610,10 +595,6 @@ public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, Seating
             callbacks.add("onFloorChanged: (floor) => Native.onFloorChanged(JSON.stringify(floor))");
         }
 
-        if (priceFormatter != null) {
-            callbacks.add("priceFormatter: (price) => Native.formatPrice(price)");
-        }
-
         if (objectLabelJavaScriptFunction != null) {
             callbacks.add("objectLabel: " + objectLabelJavaScriptFunction);
         }
@@ -647,5 +628,21 @@ public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, Seating
         }
 
         return callbacks;
+    }
+
+    @Override
+    protected String addAdditionalProperties(String configAsJson) {
+        if (this.pricing == null || this.pricing.priceFormatter == null) {
+            return configAsJson;
+        }
+
+        int insertionPoint = configAsJson.indexOf("\"pricing\":{") + "\"pricing\":{".length();
+        StringBuilder sb = new StringBuilder(configAsJson.substring(0, insertionPoint));
+        sb.append("priceFormatter: (price) => Native.formatPrice(price)");
+        if (configAsJson.charAt(insertionPoint + 1) != '}') {
+            sb.append(",");
+        }
+        sb.append(configAsJson.substring(insertionPoint));
+        return sb.toString();
     }
 }

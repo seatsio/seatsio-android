@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import io.seats.seatingChart.*;
 
 import java.text.DecimalFormat;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
@@ -39,8 +40,8 @@ public class ShowSeatingChartActivity extends AppCompatActivity {
                 .setWorkspaceKey("publicDemoKey")
                 .setEvent("fa78299a-6b61-4bf3-99c8-8434a79be17e")
                 .setSession(START)
-                .setOnObjectSelected((object, ticketType) -> Log.i(LOG_PREFIX, "Selected " + object.id + " TT " + ticketType))
-                .setOnObjectDeselected((object, ticketType) -> Log.i(LOG_PREFIX, "Deselected " + object.id + " TT " + ticketType))
+                .setOnObjectSelected((object, ticketType) -> Log.i(LOG_PREFIX, "Selected " + object.id + " TT " + ticketType.ticketType))
+                .setOnObjectDeselected((object, ticketType) -> Log.i(LOG_PREFIX, "Deselected " + object.id + " TT " + ticketType.ticketType))
                 .setOnChartRendered((chart -> {
                     chart.listSelectedObjects(objects -> Log.i(LOG_PREFIX, objects.toString()));
                     chart.getReportBySelectability(report -> Log.i(LOG_PREFIX, report.toString()));
@@ -49,14 +50,25 @@ public class ShowSeatingChartActivity extends AppCompatActivity {
                             () -> Log.i(LOG_PREFIX, "not found"));
                 }))
                 .setOnChartRerenderingStarted(chart -> Log.i(LOG_PREFIX, "chart re-rendering started"))
-                .setPricing(
-                        new PricingForCategory("10", new TicketTypesPricing(
+                .setPricing(new SeatsioPricing(List.of(
+                        new PricingForCategory("13", new SimplePrice(80f, 120f)),
+                        new PricingForCategory("10", new TicketTypesPrice(
+                                new TicketTypePricing(20.0f, "child").setOriginalPrice(25f),
+                                new TicketTypePricing(30.5f, "adult").setOriginalPrice(35f))),
+                        new PricingForCategory("11", new TicketTypesPrice(
                                 new TicketTypePricing(20.0f, "child"),
-                                new TicketTypePricing(30.5f, "adult"))),
-                        new PricingForCategory("11", new TicketTypesPricing(
+                                new TicketTypePricing(30.5f, "adult"))
+                        ),
+                        new PricingForChart(new ObjectPrice(List.of("VIP SEATS-A-1", "VIP SEATS-A-2", "VIP SEATS-A-3"), 54f, 76f)),
+                        new PricingForChart(new ObjectPrice(List.of("VIP SEATS-B-1", "VIP SEATS-B-2", "VIP SEATS-B-3"), List.of(
                                 new TicketTypePricing(20.0f, "child"),
                                 new TicketTypePricing(30.5f, "adult")
-                        ))
+                        ))),
+                        new PricingForCategory("13", new ChannelPrice(List.of(
+                                new ChannelPricing("d0b3e5e6-5089-1cfa-2e1b-4123a544051e", 55f)
+                        ), 50f, 60f))))
+                        .setPriceFormatter((price) -> "€" + priceFormat.format(price))
+                        .setAllFeesIncluded(true)
                 )
                 .setCategoryFilter(new CategoryFilter().setEnabled(true))
                 .setOnBestAvailableSelected((objects, nextToEachOther) -> Log.i(LOG_PREFIX, "Best available selected " + nextToEachOther))
@@ -73,7 +85,6 @@ public class ShowSeatingChartActivity extends AppCompatActivity {
                 .setOnReleaseHoldFailed((objects, ticketTypes) -> Log.i(LOG_PREFIX, "Release hold failed " + objects))
                 .setObjectLabelJavaScriptFunction("(object, defaultLabel, extraConfig) => object.labels.own")
                 .setObjectIconJavaScriptFunction("(object, defaultIcon, extraConfig) => defaultIcon")
-                .setPriceFormatter(price -> "€" + priceFormat.format(price))
                 .setShowLegend(true)
                 .setShowSeatLabels(true)
                 .setMultiSelectEnabled(true)
