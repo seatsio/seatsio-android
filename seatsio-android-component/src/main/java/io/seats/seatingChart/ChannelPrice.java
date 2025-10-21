@@ -15,6 +15,9 @@ public class ChannelPrice extends Price {
     @Expose
     public Float originalPrice;
 
+    @Expose
+    public Float fee;
+
     public ChannelPrice(List<ChannelPricing> channels, Float price) {
         this(channels, price, null);
     }
@@ -23,5 +26,10 @@ public class ChannelPrice extends Price {
         this.channels = channels;
         this.price = price;
         this.originalPrice = originalPrice;
+    }
+
+    public ChannelPrice setFee(float fee) {
+        this.fee = fee;
+        return this;
     }
 }

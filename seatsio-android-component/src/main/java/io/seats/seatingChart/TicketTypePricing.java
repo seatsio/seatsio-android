@@ -16,6 +16,8 @@ public class TicketTypePricing {
     public Boolean primary;
     @Expose
     public Float originalPrice;
+    @Expose
+    public Float fee;
 
     public TicketTypePricing(float price, String ticketType) {
         this(price, ticketType, null);
@@ -59,6 +61,11 @@ public class TicketTypePricing {
 
     public TicketTypePricing setPrimary(Boolean primary) {
         this.primary = primary;
+        return this;
+    }
+
+    public TicketTypePricing setFee(float fee) {
+        this.fee = fee;
         return this;
     }
 }
