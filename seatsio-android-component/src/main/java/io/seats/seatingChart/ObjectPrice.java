@@ -18,6 +18,9 @@ public class ObjectPrice extends Price {
     @Expose
     public List<TicketTypePricing> ticketTypes;
 
+    @Expose
+    public Float fee;
+
     public ObjectPrice(List<String> objects, Float price) {
         this(objects, price, null);
     }
@@ -31,5 +34,10 @@ public class ObjectPrice extends Price {
     public ObjectPrice(List<String> objects, List<TicketTypePricing> ticketTypes) {
         this.objects = objects;
         this.ticketTypes = ticketTypes;
+    }
+
+    public ObjectPrice setFee(float fee) {
+        this.fee = fee;
+        return this;
     }
 }
