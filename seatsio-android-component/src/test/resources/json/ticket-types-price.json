@@ -1,0 +1,22 @@
+{
+  "ticketTypes": [
+    {
+      "price": 29.5,
+      "ticketType": "student",
+      "label": "Student",
+      "description": "Discounted for card-carrying students",
+      "primary": true,
+      "originalPrice": 30.5,
+      "fee": 0.5
+    },
+    {
+      "price": 25,
+      "ticketType": "duck",
+      "label": "Duck",
+      "description": "Discounted for card-carrying ducks",
+      "primary": false,
+      "originalPrice": 27.8,
+      "fee": 0.8
+    }
+  ]
+}
