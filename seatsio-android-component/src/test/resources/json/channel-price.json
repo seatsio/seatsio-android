@@ -1,0 +1,39 @@
+{
+  "price": 30.5,
+  "originalPrice": 35,
+  "fee": 1.7,
+  "channels": [
+    {
+      "channel": "Channel A",
+      "price": 40.3,
+      "originalPrice": 42,
+      "fee": 2.5
+    },
+    {
+      "channel": "Channel B",
+      "price": 48.1,
+      "originalPrice": 50,
+      "fee": 3,
+      "ticketTypes": [
+        {
+          "price": 29.5,
+          "ticketType": "student",
+          "label": "Student",
+          "description": "Discounted for card-carrying students",
+          "primary": true,
+          "originalPrice": 30.5,
+          "fee": 0.5
+        },
+        {
+          "price": 25,
+          "ticketType": "duck",
+          "label": "Duck",
+          "description": "Discounted for card-carrying ducks",
+          "primary": false,
+          "originalPrice": 27.8,
+          "fee": 0.8
+        }
+      ]
+    }
+  ]
+}
