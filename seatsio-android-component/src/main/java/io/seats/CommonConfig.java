@@ -39,6 +39,9 @@ public class CommonConfig<T extends CommonConfig<?, ?>, U extends SeatsioWebView
     public boolean showFullScreenButton = false;
 
     @Expose
+    public boolean showAccessibilityFilter = true;
+
+    @Expose
     public Map<String, ?> extraConfig;
 
     @Expose
