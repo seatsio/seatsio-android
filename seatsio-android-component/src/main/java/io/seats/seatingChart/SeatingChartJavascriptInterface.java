@@ -95,6 +95,11 @@ public class SeatingChartJavascriptInterface extends SeatsioJavascriptInterface<
     }
 
     @JavascriptInterface
+    public void onSelectedObjectUnavailable(String object) {
+        config.onSelectedObjectUnavailable.accept(toSeatsObject(object));
+    }
+
+    @JavascriptInterface
     public void onObjectStatusChanged(String object) {
         config.onObjectStatusChanged.accept(toSeatsObject(object));
     }

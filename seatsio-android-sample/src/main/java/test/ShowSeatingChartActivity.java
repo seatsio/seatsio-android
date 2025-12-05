@@ -78,6 +78,7 @@ public class ShowSeatingChartActivity extends AppCompatActivity {
                 .setOnHoldCallsInProgress(() -> Log.i(LOG_PREFIX, "Hold calls in progress"))
                 .setOnHoldCallsComplete(() -> Log.i(LOG_PREFIX, "Hold calls complete"))
                 .setOnSelectedObjectBooked(object -> Log.i(LOG_PREFIX, "Booked " + object.id))
+                .setOnSelectedObjectUnavailable(object -> Log.i(LOG_PREFIX, "Unavailable " + object.id))
                 .setOnChartRenderingFailed((chart) -> Log.i(LOG_PREFIX, "nonono"))
                 .setOnHoldSucceeded((objects, ticketTypes) -> Log.i(LOG_PREFIX, "Hold succeeded " + objects))
                 .setOnHoldFailed((objects, ticketTypes) -> Log.i(LOG_PREFIX, "Hold failed " + objects))

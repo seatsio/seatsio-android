@@ -167,6 +167,7 @@ public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, Seating
     public Runnable onHoldCallsInProgress;
     public Runnable onHoldCallsComplete;
     public Consumer<SeatsioObject> onSelectedObjectBooked;
+    public Consumer<SeatsioObject> onSelectedObjectUnavailable;
     public Consumer<SeatsioObject> onObjectStatusChanged;
     public Consumer<HoldToken> onSessionInitialized;
     public Consumer<List<Category>> onFilteredCategoriesChanged;
@@ -244,8 +245,14 @@ public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, Seating
         return this;
     }
 
+    @Deprecated
     public SeatingChartConfig setOnSelectedObjectBooked(Consumer<SeatsioObject> onSelectedObjectBooked) {
         this.onSelectedObjectBooked = onSelectedObjectBooked;
+        return this;
+    }
+
+    public SeatingChartConfig setOnSelectedObjectUnavailable(Consumer<SeatsioObject> onSelectedObjectUnavailable) {
+        this.onSelectedObjectUnavailable = onSelectedObjectUnavailable;
         return this;
     }
 
@@ -581,6 +588,10 @@ public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, Seating
 
         if (onSelectedObjectBooked != null) {
             callbacks.add("onSelectedObjectBooked: (object) => Native.onSelectedObjectBooked(JSON.stringify(object))");
+        }
+
+        if (onSelectedObjectUnavailable != null) {
+            callbacks.add("onSelectedObjectUnavailable: (object) => Native.onSelectedObjectUnavailable(JSON.stringify(object))");
         }
 
         if (onObjectStatusChanged != null) {
