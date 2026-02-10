@@ -27,6 +27,7 @@ public class SeatsioObject {
     public SeatParent parent;
     public String displayObjectType;
     public String resaleListingId;
+    public String floor;
 
     public Integer capacity;
     public Integer numBooked;
