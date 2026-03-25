@@ -20,6 +20,7 @@ public class SeatsioObject {
     public Boolean accessible;
     public Boolean companionSeat;
     public Boolean restrictedView;
+    public WheelchairSpaceType wheelchairSpaceType;
     public Boolean disabledBySocialDistancingRules;
     public String selectedTicketType;
     public String objectType;

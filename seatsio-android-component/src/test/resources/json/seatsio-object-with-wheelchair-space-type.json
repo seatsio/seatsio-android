@@ -1,0 +1,10 @@
+{
+  "id": "A-1",
+  "label": "A-1",
+  "objectType": "seat",
+  "labels": {
+    "own": "1",
+    "parent": "A"
+  },
+  "wheelchairSpaceType": "WHEELCHAIR_ACCESSIBLE_SEAT"
+}
