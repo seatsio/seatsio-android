@@ -18,6 +18,9 @@ public class SeatingChartJavascriptInterface extends SeatsioJavascriptInterface<
     private static final Type CATEGORY_LIST_TYPE = new TypeToken<List<Category>>() {
     }.getType();
 
+    private static final Type STRING_LIST_TYPE = new TypeToken<List<String>>() {
+    }.getType();
+
     public SeatingChartJavascriptInterface(SeatingChartConfig config) {
         super(config);
     }
@@ -33,6 +36,19 @@ public class SeatingChartJavascriptInterface extends SeatsioJavascriptInterface<
     @JavascriptInterface
     public void onBestAvailableSelectionFailed() {
         config.onBestAvailableSelectionFailed.run();
+    }
+
+    @JavascriptInterface
+    public void onBestAvailableHeld(String objects, boolean nextToEachOther) {
+        config.onBestAvailableHeld.accept(
+                GSON.fromJson(objects, STRING_LIST_TYPE),
+                nextToEachOther
+        );
+    }
+
+    @JavascriptInterface
+    public void onBestAvailableHoldFailed(String message) {
+        config.onBestAvailableHoldFailed.accept(message);
     }
 
     @JavascriptInterface

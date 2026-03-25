@@ -162,6 +162,8 @@ public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, Seating
     public BiConsumer<List<SeatsioObject>, List<TicketType>> onReleaseHoldSucceeded;
     public BiConsumer<List<SeatsioObject>, List<TicketType>> onReleaseHoldFailed;
     public Runnable onBestAvailableSelectionFailed;
+    public BiConsumer<List<String>, Boolean> onBestAvailableHeld;
+    public Consumer<String> onBestAvailableHoldFailed;
     public Runnable onSelectionValid;
     public Consumer<List<SelectionValidatorType>> onSelectionInvalid;
     public Runnable onHoldCallsInProgress;
@@ -202,6 +204,16 @@ public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, Seating
 
     public SeatingChartConfig setOnBestAvailableSelectionFailed(Runnable onBestAvailableSelectionFailed) {
         this.onBestAvailableSelectionFailed = onBestAvailableSelectionFailed;
+        return this;
+    }
+
+    public SeatingChartConfig setOnBestAvailableHeld(BiConsumer<List<String>, Boolean> onBestAvailableHeld) {
+        this.onBestAvailableHeld = onBestAvailableHeld;
+        return this;
+    }
+
+    public SeatingChartConfig setOnBestAvailableHoldFailed(Consumer<String> onBestAvailableHoldFailed) {
+        this.onBestAvailableHoldFailed = onBestAvailableHoldFailed;
         return this;
     }
 
@@ -544,6 +556,14 @@ public class SeatingChartConfig extends CommonConfig<SeatingChartConfig, Seating
 
         if (onBestAvailableSelectionFailed != null) {
             callbacks.add("onBestAvailableSelectionFailed: () => Native.onBestAvailableSelectionFailed()");
+        }
+
+        if (onBestAvailableHeld != null) {
+            callbacks.add("onBestAvailableHeld: (result) => Native.onBestAvailableHeld(JSON.stringify(result.objects), result.nextToEachOther)");
+        }
+
+        if (onBestAvailableHoldFailed != null) {
+            callbacks.add("onBestAvailableHoldFailed: (error) => Native.onBestAvailableHoldFailed(error.message)");
         }
 
         if (onSessionInitialized != null) {

@@ -51,6 +51,10 @@ public class SeatingChartView extends SeatsioWebView<SeatingChartView> {
         caller.call("chart.selectBestAvailable(" + new Gson().toJson(bestAvailable) + ")");
     }
 
+    public void holdBestAvailable(BestAvailableForHolding bestAvailableForHolding) {
+        caller.call("chart.holdBestAvailable(" + new Gson().toJson(bestAvailableForHolding) + ")");
+    }
+
     public void selectObjects(SelectedObject... objects) {
         caller.call("chart.selectObjects(" + new Gson().toJson(objects) + ")");
     }
