@@ -73,6 +73,8 @@ public class ShowSeatingChartActivity extends AppCompatActivity {
                 .setCategoryFilter(new CategoryFilter().setEnabled(true))
                 .setOnBestAvailableSelected((objects, nextToEachOther) -> Log.i(LOG_PREFIX, "Best available selected " + nextToEachOther))
                 .setOnBestAvailableSelectionFailed(() -> Log.i(LOG_PREFIX, "Best available failed"))
+                .setOnBestAvailableHeld((objects, nextToEachOther) -> Log.i(LOG_PREFIX, "Best available held " + objects + " nextToEachOther=" + nextToEachOther))
+                .setOnBestAvailableHoldFailed(message -> Log.i(LOG_PREFIX, "Best available hold failed: " + message))
                 .setOnSelectionValid(() -> Log.i(LOG_PREFIX, "Selection valid"))
                 .setOnSelectionInvalid((violations) -> Log.i(LOG_PREFIX, "Selection invalid " + violations))
                 .setOnHoldCallsInProgress(() -> Log.i(LOG_PREFIX, "Hold calls in progress"))
@@ -122,6 +124,13 @@ public class ShowSeatingChartActivity extends AppCompatActivity {
         rerenderButton.setText("Re-render");
         rerenderButton.setOnClickListener(v -> seatingChartView.rerender());
         toolbar.addView(rerenderButton);
+
+        Button holdBestAvailableButton = new Button(getApplicationContext());
+        holdBestAvailableButton.setText("Hold best available");
+        holdBestAvailableButton.setOnClickListener(v -> seatingChartView.holdBestAvailable(
+                new BestAvailableForHolding().setNumber(2)
+        ));
+        toolbar.addView(holdBestAvailableButton);
 
         layout.addView(toolbar, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 100, 0.0f));
         layout.addView(seatingChartView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, 1.0f));
