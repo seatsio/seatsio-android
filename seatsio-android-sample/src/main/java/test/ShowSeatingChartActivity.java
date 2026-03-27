@@ -73,8 +73,6 @@ public class ShowSeatingChartActivity extends AppCompatActivity {
                 .setCategoryFilter(new CategoryFilter().setEnabled(true))
                 .setOnBestAvailableSelected((objects, nextToEachOther) -> Log.i(LOG_PREFIX, "Best available selected " + nextToEachOther))
                 .setOnBestAvailableSelectionFailed(() -> Log.i(LOG_PREFIX, "Best available failed"))
-                .setOnBestAvailableHeld((objects, nextToEachOther) -> Log.i(LOG_PREFIX, "Best available held " + objects + " nextToEachOther=" + nextToEachOther))
-                .setOnBestAvailableHoldFailed(message -> Log.i(LOG_PREFIX, "Best available hold failed: " + message))
                 .setOnSelectionValid(() -> Log.i(LOG_PREFIX, "Selection valid"))
                 .setOnSelectionInvalid((violations) -> Log.i(LOG_PREFIX, "Selection invalid " + violations))
                 .setOnHoldCallsInProgress(() -> Log.i(LOG_PREFIX, "Hold calls in progress"))
