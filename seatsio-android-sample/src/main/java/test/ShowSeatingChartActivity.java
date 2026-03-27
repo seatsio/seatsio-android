@@ -126,7 +126,9 @@ public class ShowSeatingChartActivity extends AppCompatActivity {
         Button holdBestAvailableButton = new Button(getApplicationContext());
         holdBestAvailableButton.setText("Hold best available");
         holdBestAvailableButton.setOnClickListener(v -> seatingChartView.holdBestAvailable(
-                new BestAvailableForHolding().setNumber(2)
+                new BestAvailableForHolding().setNumber(2),
+                result -> Log.i(LOG_PREFIX, "Best available held " + result.objects + " nextToEachOther=" + result.nextToEachOther),
+                () -> Log.e(LOG_PREFIX, "Failed to hold best available")
         ));
         toolbar.addView(holdBestAvailableButton);
 
