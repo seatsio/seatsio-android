@@ -123,6 +123,15 @@ public class ShowSeatingChartActivity extends AppCompatActivity {
         rerenderButton.setOnClickListener(v -> seatingChartView.rerender());
         toolbar.addView(rerenderButton);
 
+        Button holdBestAvailableButton = new Button(getApplicationContext());
+        holdBestAvailableButton.setText("Hold best available");
+        holdBestAvailableButton.setOnClickListener(v -> seatingChartView.holdBestAvailable(
+                new BestAvailableForHolding().setNumber(2),
+                result -> Log.i(LOG_PREFIX, "Best available held " + result.objects + " nextToEachOther=" + result.nextToEachOther),
+                () -> Log.e(LOG_PREFIX, "Failed to hold best available")
+        ));
+        toolbar.addView(holdBestAvailableButton);
+
         layout.addView(toolbar, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 100, 0.0f));
         layout.addView(seatingChartView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, 1.0f));
 
