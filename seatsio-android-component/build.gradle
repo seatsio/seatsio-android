@@ -7,10 +7,10 @@ group = 'io.seats'
 version = '16.7.0'
 
 android {
-    compileSdkVersion 34
+    compileSdkVersion 36
     defaultConfig {
         minSdkVersion 29
-        targetSdkVersion 34
+        targetSdkVersion 36
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         consumerProguardFiles 'proguard-consumer-rules.pro'
     }
